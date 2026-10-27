@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}html{scroll-behavior:smooth}</style>
+</head>
+<body>
+<title>Vista Analytics AI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Vista Analytics AI compare la vidéo de votre match à votre plan de jeu et vous rend un débriefing complet, joueur par joueur.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: bureau d'analyse clair. Grille de terrain en filigrane, rapport "papier" comme preuve, une bande gazon pour l'inscription. Thème clair assumé. */
+:root{
+  --paper:#f6f7f5;
+  --white:#ffffff;
+  --ink:#0f1512;
+  --muted:#5b6660;
+  --line:#dfe4e0;
+  --turf:#0a6b47;        /* vert gazon : couleur de marque */
+  --turf-deep:#064a31;
+  --turf-soft:#e6f1ec;
+  --coral:#ff5a3c;       /* écart / joueur analysé */
+  --ok:#0a8a55;
+  --mid:#c98a00;
+  --bad:#e0442a;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-data:"DM Mono",ui-monospace,Consolas,monospace;
+  --t-h1:clamp(2.6rem,5.8vw,4.6rem);
+  --t-h2:clamp(2.3rem,5vw,3.7rem);
+  --t-sub:clamp(1.1rem,1.7vw,1.3rem);
+  --wrap:1180px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--white)}
+.wrap{max-width:var(--wrap);margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);margin:0;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+h2{font-size:var(--t-h2);font-weight:800}
+h3{font-size:1.15rem;font-weight:700;letter-spacing:-.015em;line-height:1.25}
+.mark{color:var(--turf);position:relative;isolation:isolate}
+.mark::after{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.14em;background:var(--coral);border-radius:2px;opacity:.85;z-index:-1}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px;border-radius:6px}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+section{padding-block:clamp(72px,9vw,120px)}
+.head{display:grid;gap:16px;margin-bottom:52px;max-width:760px}
+.head .sub{font-size:var(--t-sub);color:var(--muted);line-height:1.5;max-width:56ch}
+.kick{font-family:var(--f-data);font-size:.8rem;color:var(--turf);display:flex;align-items:center;gap:10px}
+.kick::before{content:"";width:22px;height:2px;background:var(--coral)}
+
+/* apparition au défilement */
+.js .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+.js .reveal-group>*{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+.js .reveal-group.in>*{opacity:1;transform:none}
+.js .reveal-group.in>*:nth-child(2){transition-delay:.1s}
+.js .reveal-group.in>*:nth-child(3){transition-delay:.2s}
+.js .reveal-group.in>*:nth-child(4){transition-delay:.3s}
+@media (prefers-reduced-motion:reduce){.js .reveal,.js .reveal-group>*{opacity:1;transform:none;transition:none}}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--white) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand svg{width:38px;height:38px;flex:none}
+.brand span{font-family:var(--f-display);font-weight:800;font-size:1.2rem;letter-spacing:-.04em;white-space:nowrap}
+.brand span b{font-weight:500;color:var(--muted);letter-spacing:-.02em}
+.nav ul{display:flex;gap:30px;list-style:none;margin:0;padding:0;font-size:.95rem;font-weight:500;color:var(--muted)}
+.nav ul a{text-decoration:none}
+.nav ul a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;font:600 .98rem/1 var(--f-body);padding:15px 22px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:background .15s,transform .15s}
+.btn-turf{background:var(--turf);color:#fff}
+.btn-turf:hover{background:var(--turf-deep)}
+.btn-coral{background:var(--coral);color:#fff}
+.btn-coral:hover{background:#ec4628}
+.btn:disabled{opacity:.6;cursor:wait}
+.nav .btn{padding:11px 18px;font-size:.9rem}
+@media (max-width:860px){.nav ul{display:none}}
+@media (max-width:420px){.nav .btn{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--white);border-bottom:1px solid var(--line);padding-block:clamp(56px,7vw,88px) clamp(64px,8vw,100px)}
+.hero svg.field{position:absolute;right:-120px;top:-40px;width:760px;max-width:none;height:auto;pointer-events:none}
+.hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+.hero .wrap>*{min-width:0}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--turf-soft);color:var(--turf-deep);font-weight:600;font-size:.82rem}
+.badge i{width:7px;height:7px;border-radius:50%;background:var(--coral)}
+.hero h1{font-size:var(--t-h1);font-weight:800;margin-block:22px 20px}
+.hero .lead{font-size:1.2rem;color:var(--muted);max-width:44ch}
+.pillars{list-style:none;margin:26px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);max-width:560px;border-top:2px solid var(--ink)}
+.pillars li{display:grid;gap:4px;padding:14px 14px 0 0}
+.pillars li+li{padding-left:14px;border-left:1px solid var(--line)}
+.pillars b{font-family:var(--f-display);font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.pillars span{font-size:.86rem;color:var(--muted);line-height:1.35}
+.signup{display:flex;gap:8px;margin-top:32px;max-width:520px;padding:6px;border:1.5px solid var(--line);border-radius:999px;background:var(--white)}
+.signup input{flex:1;min-width:0;padding:10px 16px;border:0;background:transparent;color:var(--ink);font:inherit;font-size:1rem}
+.signup input::placeholder{color:#97a19b}
+.signup input:focus{outline:none}
+.signup:focus-within{border-color:var(--turf)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:.8rem;line-height:1.45;margin-top:12px;max-width:520px;color:var(--muted)}
+.consent input{margin-top:2px;accent-color:var(--turf)}
+.form-msg{font-size:.9rem;margin-top:10px;min-height:1.3em;font-weight:500}
+.form-msg.ok{color:var(--turf)}
+.form-msg.err{color:var(--bad)}
+@media (max-width:480px){.signup{flex-direction:column;border-radius:16px}.signup .btn{width:100%}.pillars{grid-template-columns:1fr}.pillars li+li{padding-left:0;border-left:0;border-top:1px solid var(--line);padding-bottom:12px}}
+
+/* rapport */
+.report{margin:0;background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 1px 0 var(--line),0 30px 60px -28px rgba(10,60,40,.28);overflow:hidden}
+.report-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.match{display:flex;align-items:center;gap:12px;font-weight:600;font-size:.92rem}
+.match b{font-family:var(--f-display);font-size:1.4rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.tag{font-family:var(--f-data);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:var(--paper);color:var(--muted);border:1px solid var(--line)}
+.tabs{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--paper);overflow-x:auto}
+.tabs button{font:600 .86rem/1 var(--f-body);color:var(--muted);background:transparent;border:0;border-radius:999px;padding:10px 15px;cursor:pointer;white-space:nowrap}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-selected="true"]{color:#fff;background:var(--turf)}
+.tpanel{padding:6px 20px 18px;min-height:330px}
+.cmp-head{display:grid;grid-template-columns:1fr 1.15fr auto;gap:14px;padding:14px 0 8px;font-family:var(--f-data);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.cmp-head::after{content:"Statut"}
+.cmp{display:grid;grid-template-columns:1fr 1.15fr auto;gap:14px;align-items:start;padding:13px 0;border-top:1px solid var(--line);font-size:.86rem;line-height:1.4}
+.cmp .ask{font-weight:600}
+.cmp .real{color:var(--muted)}
+.st{font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.st.ok{color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+.st.mid{color:var(--mid);background:color-mix(in srgb,var(--mid) 14%,transparent)}
+.st.bad{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+.vs-head{display:flex;justify-content:space-between;padding:14px 0 6px;font-weight:700;font-size:.85rem}
+.vs-head span:first-child{color:var(--turf)}
+.vs-head span:last-child{color:var(--muted)}
+.vs{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:6px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.vs b{font-family:var(--f-data);font-weight:500;font-size:.95rem;font-variant-numeric:tabular-nums}
+.vs span{text-align:center;font-size:.84rem;color:var(--muted)}
+.vs i{grid-column:1/-1;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--turf) calc(var(--a)*1%),var(--line) calc(var(--a)*1%))}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums;margin-top:8px}
+th{text-align:left;font-family:var(--f-data);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:10px 8px 10px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:11px 8px 11px 0;border-bottom:1px solid var(--line);white-space:nowrap}
+.num{text-align:right}
+td .pos{font-family:var(--f-data);font-size:.72rem;color:var(--muted);margin-right:8px}
+td b{font-family:var(--f-data);font-weight:500;padding:2px 7px;border-radius:6px;background:var(--paper)}
+td b.hi{color:var(--ok);background:color-mix(in srgb,var(--ok) 12%,transparent)}
+td b.lo{color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,transparent)}
+tr.focus td:first-child{box-shadow:inset 3px 0 0 var(--coral);padding-left:8px}
+.pnote{margin-top:14px;padding:13px 14px;border-radius:12px;background:color-mix(in srgb,var(--coral) 8%,var(--white));font-size:.84rem;color:var(--muted);line-height:1.45}
+.pnote b{display:block;color:var(--ink);font-weight:700;margin-bottom:3px}
+@media (max-width:960px){.hero .wrap{grid-template-columns:1fr}.hero svg.field{opacity:.6}}
+@media (max-width:560px){.cmp-head{display:none}.cmp{grid-template-columns:1fr auto}.cmp .real{grid-column:1/-1;grid-row:2}.tpanel{padding-inline:16px}}
+
+/* pourquoi */
+.why .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:end}
+.why .wrap>*{min-width:0}
+.why .text{display:grid;gap:18px;font-size:1.1rem;color:var(--muted);max-width:56ch}
+.why .text strong{color:var(--ink);font-weight:600}
+@media (max-width:860px){.why .wrap{grid-template-columns:1fr;gap:24px}}
+
+/* fonctionnement */
+.how{background:var(--white);border-block:1px solid var(--line)}
+.steps{display:grid;grid-template-columns:1fr 1fr 2fr 1fr;gap:0;list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.step{padding:26px 24px 8px 0;display:grid;gap:10px;align-content:start}
+.step+.step{padding-left:24px;border-left:1px solid var(--line)}
+.step .n{font-family:var(--f-display);font-size:2.6rem;font-weight:800;line-height:1;color:var(--turf);letter-spacing:-.04em}
+.step p{font-size:.94rem;color:var(--muted)}
+.step.wide .n{color:var(--coral)}
+.duo{display:grid;grid-template-columns:1fr 1.3fr;gap:10px;align-items:start;margin-top:6px}
+.duo>*{min-width:0}
+.roster{font-family:var(--f-data);font-size:.8rem;line-height:1.7;padding:12px 14px;border-radius:12px;background:var(--paper);border:1px solid var(--line)}
+.roster span{color:var(--muted)}
+.chat{display:grid;gap:6px}
+.bubble{font-size:.82rem;line-height:1.4;padding:9px 12px;border-radius:14px}
+.bubble.ai{background:var(--turf-soft);color:var(--turf-deep);border-bottom-left-radius:4px}
+.bubble.ai::before{content:"Vista · ";font-weight:700}
+.bubble.me{justify-self:end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+@media (max-width:1080px){.steps{grid-template-columns:1fr 1fr}.step,.step+.step{padding:24px 20px 20px 0;border-left:0}.step:nth-child(even){padding-left:20px;border-left:1px solid var(--line)}}
+@media (max-width:700px){.steps{grid-template-columns:1fr}.step,.step+.step,.step:nth-child(even){padding:22px 0;border-left:0;border-top:1px solid var(--line)}.step:first-child{border-top:0}}
+@media (max-width:420px){.duo{grid-template-columns:1fr}}
+
+/* avantages */
+.values{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.val{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:24px;display:grid;gap:10px;align-content:start}
+.val .ico{width:44px;height:44px;border-radius:12px;background:var(--turf-soft);display:grid;place-items:center}
+.val .ico svg{width:22px;height:22px;stroke:var(--turf);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.val p{font-size:.94rem;color:var(--muted)}
+.objective{margin-top:16px;display:grid;grid-template-columns:1fr auto;gap:28px;align-items:center;padding:26px 28px;border-radius:18px;background:var(--ink);color:#fff}
+.objective>*{min-width:0}
+.objective h3{font-size:clamp(1.3rem,2.2vw,1.6rem)}
+.objective p{color:#b9c3bd;margin-top:6px}
+.switch{display:flex;align-items:center;gap:12px;font-weight:600;font-size:.9rem;white-space:nowrap}
+.switch i{width:48px;height:26px;border-radius:13px;background:var(--coral);position:relative}
+.switch i::after{content:"";position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:#fff}
+@media (max-width:1000px){.values{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.objective{grid-template-columns:1fr;padding:22px 20px}}
+@media (max-width:480px){.values{grid-template-columns:1fr}}
+
+/* liste d'attente */
+.cta{background:var(--turf);color:#fff;position:relative;overflow:hidden}
+.cta svg.field{position:absolute;left:50%;top:50%;width:1100px;max-width:none;transform:translate(-50%,-50%);pointer-events:none;opacity:.5}
+.cta .wrap{position:relative;display:grid;justify-items:center;text-align:center}
+.cta .head{justify-items:center;margin-inline:auto;margin-bottom:28px}
+.cta .kick{color:#c9eadb}
+.cta .head .sub{color:#d3ece0}
+.cta .signup{border-color:transparent;margin-inline:auto;width:100%}
+.cta .consent{margin-inline:auto;color:#d3ece0;text-align:left}
+.cta .consent input{accent-color:var(--coral)}
+.cta .form-msg.ok{color:#fff}
+.cta .form-msg.err{color:#ffd2c9}
+.perks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:16px}
+.perks span{font-size:.82rem;font-weight:600;padding:7px 14px;border-radius:999px;background:color-mix(in srgb,#fff 14%,transparent)}
+
+footer{background:var(--white);border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:26px}
+footer .brand svg{width:30px;height:30px}
+footer .brand span{font-size:1rem}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="vbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0d7f55"/><stop offset="1" stop-color="#075238"/></linearGradient>
+    <symbol id="logo" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="15" fill="url(#vbg)"/>
+      <g fill="none" stroke="#ffffff" stroke-opacity=".32" stroke-width="1.4">
+        <rect x="14" y="9" width="36" height="46" rx="2"/><line x1="14" y1="32" x2="50" y2="32"/><circle cx="32" cy="32" r="6"/>
+        <rect x="23" y="9" width="18" height="7.5"/><rect x="23" y="47.5" width="18" height="7.5"/>
+      </g>
+      <path d="M21.5 42 L43 37 L30 20 Z" fill="#ffffff" fill-opacity=".1" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round"/>
+      <circle cx="21.5" cy="42" r="3.8" fill="#ffffff"/><circle cx="43" cy="37" r="3.8" fill="#ffffff"/>
+      <circle cx="30" cy="20" r="7" fill="none" stroke="#ff5a3c" stroke-width="1.6"/><circle cx="30" cy="20" r="3.8" fill="#ff5a3c"/>
+    </symbol>
+    <symbol id="field" viewBox="0 0 680 440">
+      <g fill="none" stroke-width="1.5">
+        <rect x="10" y="10" width="660" height="420" rx="4"/><line x1="340" y1="10" x2="340" y2="430"/><circle cx="340" cy="220" r="62"/>
+        <rect x="10" y="110" width="110" height="220"/><rect x="10" y="168" width="40" height="104"/>
+        <rect x="560" y="110" width="110" height="220"/><rect x="630" y="168" width="40" height="104"/>
+        <path d="M120 180 A50 50 0 0 1 120 260"/><path d="M560 180 A50 50 0 0 0 560 260"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<nav class="nav" aria-label="Navigation principale">
+  <div class="wrap">
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><span>Vista <b>Analytics AI</b></span></a>
+    <ul>
+      <li><a href="#pourquoi">Pourquoi</a></li>
+      <li><a href="#fonctionnement">Fonctionnement</a></li>
+      <li><a href="#avantages">Avantages</a></li>
+    </ul>
+    <a class="btn btn-turf" href="#inscription">Accès anticipé</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <svg class="field" viewBox="0 0 680 440" aria-hidden="true" style="stroke:#edf1ee"><use href="#field"/></svg>
+  <div class="wrap">
+    <div>
+      <span class="badge"><i></i>Lancement prochain · liste d'attente ouverte</span>
+      <h1>L'analyste vidéo de votre équipe, <span class="mark">propulsé par l'IA.</span></h1>
+      <p class="lead">Votre vidéo et votre plan de jeu en entrée. Un débrief complet en sortie.</p>
+      <ul class="pillars">
+        <li><b>Plan de jeu</b><span>Vos consignes face à la réalité</span></li>
+        <li><b>Collectif</b><span>Toutes les stats du match</span></li>
+        <li><b>Individuel</b><span>Stats, note et avis par joueur</span></li>
+      </ul>
+      <form class="signup" data-form="hero" novalidate>
+        <label for="email-hero" class="sr">Adresse e-mail</label>
+        <input id="email-hero" type="email" name="email" placeholder="coach@monclub.fr" autocomplete="email" required>
+        <button class="btn btn-coral" type="submit">Être prévenu du lancement</button>
+      </form>
+      <label class="consent" for="consent-hero"><input id="consent-hero" type="checkbox" required> J'accepte de recevoir les e-mails d'information sur le lancement, les tarifs et les options. Désinscription en un clic.</label>
+      <p class="form-msg" id="msg-hero" role="status" aria-live="polite"></p>
+    </div>
+
+    <figure class="report" aria-label="Exemple de rapport Vista Analytics AI">
+      <div class="report-top"><span class="match">US Vallée <b>2 – 1</b> FC Rivière</span><span class="tag">Exemple</span></div>
+      <div class="tabs" role="tablist" aria-label="Catégories d'analyse">
+        <button role="tab" id="tab-plan" aria-selected="true" aria-controls="p-plan">Plan de jeu</button>
+        <button role="tab" id="tab-coll" aria-selected="false" aria-controls="p-coll" tabindex="-1">Collectif</button>
+        <button role="tab" id="tab-ind" aria-selected="false" aria-controls="p-ind" tabindex="-1">Individuel</button>
+      </div>
+
+      <div class="tpanel" id="p-plan" role="tabpanel" aria-labelledby="tab-plan">
+        <div class="cmp-head"><span>Vous aviez demandé</span><span>Ce qui s'est passé</span></div>
+        <div class="cmp"><p class="ask">« Pressing haut dans les 5 s après la perte »</p><p class="real">Fait sur 18 pertes de balle sur 29. Intensité en baisse après la 65e.</p><span class="st mid">Partiel</span></div>
+        <div class="cmp"><p class="ask">« Ressortir court depuis le gardien »</p><p class="real">11 relances courtes, puis 18 dégagements longs après deux pertes dangereuses.</p><span class="st bad">Non suivi</span></div>
+        <div class="cmp"><p class="ask">« Bloc compact, 30 m maximum »</p><p class="real">Écart moyen entre les lignes : 28 m. Tenu 81 % du temps.</p><span class="st ok">Respecté</span></div>
+        <div class="cmp"><p class="ask">« Lucas (n°7) plus présent dans la surface »</p><p class="real">4 entrées dans la surface sur 9 attaques placées côté gauche.</p><span class="st mid">Partiel</span></div>
+      </div>
+
+      <div class="tpanel" id="p-coll" role="tabpanel" aria-labelledby="tab-coll" hidden>
+        <div class="vs-head"><span>US Vallée</span><span>FC Rivière</span></div>
+        <div class="vs"><b>54 %</b><span>Possession</span><b>46 %</b><i style="--a:54"></i></div>
+        <div class="vs"><b>13</b><span>Tirs (cadrés : 6 / 3)</span><b>7</b><i style="--a:65"></i></div>
+        <div class="vs"><b>82 %</b><span>Passes réussies</span><b>74 %</b><i style="--a:53"></i></div>
+        <div class="vs"><b>11</b><span>Récupérations camp adverse</span><b>4</b><i style="--a:73"></i></div>
+        <div class="vs"><b>48 %</b><span>Duels gagnés</span><b>52 %</b><i style="--a:48"></i></div>
+      </div>
+
+      <div class="tpanel" id="p-ind" role="tabpanel" aria-labelledby="tab-ind" hidden>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Joueur</th><th class="num">Passes</th><th class="num">Duels</th><th class="num">Pressings</th><th class="num">Note</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pos">n°8</span>Paul</td><td class="num">54/61</td><td class="num">7/10</td><td class="num">14</td><td class="num"><b class="hi">8,0</b></td></tr>
+              <tr><td><span class="pos">n°4</span>Samir</td><td class="num">38/42</td><td class="num">9/12</td><td class="num">6</td><td class="num"><b class="hi">7,5</b></td></tr>
+              <tr class="focus"><td><span class="pos">n°7</span>Lucas</td><td class="num">17/24</td><td class="num">4/11</td><td class="num">12</td><td class="num"><b>6,0</b></td></tr>
+              <tr><td><span class="pos">n°1</span>Nathan</td><td class="num">21/33</td><td class="num">–</td><td class="num">–</td><td class="num"><b class="lo">5,0</b></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pnote"><b>Avis · Lucas (n°7)</b>Gros volume de pressing (12 actions), mais trop de duels perdus dos au but. Séquences : 23:14, 51:02, 67:40.</p>
+      </div>
+    </figure>
+  </div>
+</header>
+
+<main>
+<section class="why" id="pourquoi">
+  <div class="wrap">
+    <div class="head reveal" style="margin-bottom:0">
+      <p class="kick">Pourquoi Vista</p>
+      <h2>Les clubs pros ont leurs analystes. <span class="mark">Pourquoi pas le vôtre ?</span></h2>
+    </div>
+    <div class="text reveal">
+      <p>Dans le football professionnel, chaque match est décortiqué par une cellule vidéo. Dans les clubs amateurs, le coach filme, mais n'a ni le temps ni les outils pour analyser 90 minutes de jeu.</p>
+      <p><strong>Vista Analytics AI met ce niveau d'analyse à la portée de chaque club</strong> : une lecture précise, chiffrée et honnête du match, confrontée à ce que vous aviez prévu.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how" id="fonctionnement">
+  <div class="wrap">
+    <div class="head reveal">
+      <h2>Fonctionnement</h2>
+      <p class="sub">Votre plan d'un côté, la vidéo de l'autre. L'IA compare, et vérifie avec vous ce dont elle n'est pas sûre.</p>
+    </div>
+    <ol class="steps reveal-group">
+      <li class="step"><span class="n">01</span><h3>Déposez le match entier</h3><p>Caméra en tribune ou smartphone sur trépied. Aucun découpage nécessaire.</p></li>
+      <li class="step"><span class="n">02</span><h3>Décrivez vos intentions</h3><p>Système, style de jeu, consignes particulières : écrit librement, comme dans le vestiaire.</p></li>
+      <li class="step wide"><span class="n">03</span><h3>Identifiez vos joueurs, l'IA vérifie avec vous</h3>
+        <p>Indiquez la couleur de votre équipe et le prénom derrière chaque numéro, remplaçants compris. L'IA suit ensuite chaque joueur pendant tout le match.</p>
+        <p>Un numéro illisible, une entrée en jeu, un joueur qui change de poste ? Plutôt que de deviner, elle vous pose la question. Chaque statistique est ainsi attribuée au bon joueur.</p>
+        <div class="duo">
+          <p class="roster"><span>Équipe rouge</span><br>n°7 : Lucas<br>n°8 : Paul<br>n°14 : Karim <span>(remp.)</span></p>
+          <div class="chat"><p class="bubble ai">Le n°14 entré à la 63e est-il bien Karim ?</p><p class="bubble me">Oui, à la place de Paul.</p></div>
+        </div></li>
+      <li class="step"><span class="n">04</span><h3>Recevez votre rapport</h3><p>Plan de jeu, collectif, individuel, avec les séquences vidéo clés horodatées.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="avantages">
+  <div class="wrap">
+    <div class="head reveal">
+      <h2>Ce que vous y gagnez</h2>
+    </div>
+    <div class="values reveal-group">
+      <div class="val"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/></svg></span><h3>Du temps rendu</h3><p>Plus besoin de revoir 90 minutes.</p></div>
+      <div class="val"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20h18M6 16l4-5 4 3 5-7"/></svg></span><h3>Une analyse de pro</h3><p>Le niveau d'une cellule vidéo, pour votre club.</p></div>
+      <div class="val"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></span><h3>Des choix confirmés</h3><p>Vos ressentis validés ou nuancés par les faits.</p></div>
+      <div class="val"><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.5 6 .8-4.4 4.2 1.1 6L12 16.6 6.7 19.5l1.1-6L3.4 9.3l6-.8z"/></svg></span><h3>Une équipe qui progresse</h3><p>Des séances ciblées, des joueurs qui savent quoi travailler.</p></div>
+    </div>
+    <div class="objective reveal">
+      <div>
+        <h3>Option analyse objective</h3>
+        <p>L'IA ignore vos consignes et décrit le match tel qu'il s'est réellement passé.</p>
+      </div>
+      <span class="switch" aria-hidden="true"><i></i>Objectif</span>
+    </div>
+  </div>
+</section>
+
+<section class="cta" id="inscription">
+  <svg class="field" viewBox="0 0 680 440" aria-hidden="true" style="stroke:#1a7d58"><use href="#field"/></svg>
+  <div class="wrap">
+    <div class="head reveal">
+      <p class="kick">Accès anticipé</p>
+      <h2>Liste d'attente</h2>
+      <p class="sub">Laissez votre adresse e-mail : vous serez prévenu du lancement et recevrez les tarifs et les options en avant-première.</p>
+    </div>
+    <div class="reveal" style="width:100%;max-width:520px">
+      <form class="signup" data-form="final" novalidate>
+        <label for="email-final" class="sr">Adresse e-mail</label>
+        <input id="email-final" type="email" name="email" placeholder="coach@monclub.fr" autocomplete="email" required>
+        <button class="btn btn-coral" type="submit">Rejoindre la liste</button>
+      </form>
+      <label class="consent" for="consent-final"><input id="consent-final" type="checkbox" required> J'accepte de recevoir les e-mails d'information sur le lancement, les tarifs et les options. Désinscription en un clic.</label>
+      <p class="form-msg" id="msg-final" role="status" aria-live="polite"></p>
+      <div class="perks"><span>Accès anticipé</span><span>Tarif fondateur</span><span>Sans engagement</span></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><span>Vista <b>Analytics AI</b></span></span>
+    <span>L'analyse vidéo par IA pour les coachs de football · © 2026</span>
+  </div>
+</footer>
+
+<script>
+/* Onglets de l'exemple de rapport */
+(function () {
+  const tabs = [...document.querySelectorAll('.tabs [role="tab"]')];
+  const select = t => tabs.forEach(b => {
+    const on = b === t;
+    b.setAttribute("aria-selected", on);
+    b.tabIndex = on ? 0 : -1;
+    document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
+  });
+  tabs.forEach((b, i) => {
+    b.addEventListener("click", () => select(b));
+    b.addEventListener("keydown", e => {
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); }
+    });
+  });
+})();
+
+/* Apparition des sections au défilement */
+(function () {
+  if (!("IntersectionObserver" in window)) return;
+  document.documentElement.classList.add("js");
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: .15, rootMargin: "0px 0px -40px 0px" });
+  document.querySelectorAll(".reveal, .reveal-group").forEach(el => io.observe(el));
+})();
+
+/* Adresse du service qui reçoit les inscriptions (Brevo, Formspree...).
+   Exemple : "https://formspree.io/f/xxxxxxx". Laisser vide = mode aperçu. */
+const FORM_ENDPOINT = "";
+
+document.querySelectorAll("form[data-form]").forEach(form => {
+  const key = form.dataset.form;
+  const input = form.querySelector("input[type=email]");
+  const consent = document.getElementById("consent-" + key);
+  const msg = document.getElementById("msg-" + key);
+  const btn = form.querySelector("button");
+  const say = (text, cls) => { msg.textContent = text; msg.className = "form-msg " + (cls || ""); };
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const email = input.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say("Saisissez une adresse e-mail valide, par exemple coach@monclub.fr.", "err"); input.focus(); return; }
+    if (!consent.checked) { say("Cochez la case pour accepter de recevoir nos e-mails d'information.", "err"); consent.focus(); return; }
+
+    if (!FORM_ENDPOINT) {
+      say("Aperçu : aucune adresse d'envoi n'est encore configurée, cette inscription n'a pas été enregistrée.", "ok");
+      return;
+    }
+    btn.disabled = true;
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, source: key, consent: true })
+      });
+      if (!res.ok) throw new Error(res.status);
+      say("C'est noté. Vous serez parmi les premiers prévenus du lancement.", "ok");
+      form.reset(); consent.checked = false;
+    } catch {
+      say("L'inscription n'a pas pu être envoyée. Vérifiez votre connexion et réessayez.", "err");
+    } finally { btn.disabled = false; }
+  });
+});
+</script>
+
+</body>
+</html>
