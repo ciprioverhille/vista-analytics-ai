@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-BASE="https://ciprio.vercel.app"
+BASE="https://ciprio.ai"
 
 for src in src/pages/*.html src/pages/blog/*.html; do
   [ -f "$src" ] || continue

@@ -15,7 +15,7 @@ Site de Ciprio (en anglais) : analyse vidéo pour les staffs de football.
 
 ## Hébergement
 
-Site statique déployé par Vercel (projet `ciprio`, https://ciprio.vercel.app) à chaque push sur `main`.
+Site statique déployé par Vercel (projet `ciprio`, https://ciprio.ai) à chaque push sur `main`.
 `vercel.json` active les adresses sans `.html` (`/about`, `/blog/...`).
 
 ## Données (Supabase, projet `vista-analytics-ai`, région Paris)
