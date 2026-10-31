@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>ciprio</title>
-<meta name="description" content="ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.">
+<title>Ciprio</title>
+<meta name="description" content="Ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -114,6 +114,18 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 .rule .bar i.mid{background:var(--mid)}
 .rule .bar i.bad{background:var(--bad)}
 .rule .note{font-size:.76rem;color:var(--dark-muted);line-height:1.4}
+.rule .bar i{transition:width .4s ease,background .4s ease}
+.st-txt.ok{color:var(--ok)}.st-txt.mid{color:var(--mid)}.st-txt.bad{color:var(--bad)}
+.board-bar #clock{color:#e9eeeb;font-variant-numeric:tabular-nums}
+.feed-title{margin-top:18px!important;padding-top:16px;border-top:1px solid var(--dark-line)}
+.feed{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:0;height:132px;overflow:hidden}
+.feed li{display:grid;grid-template-columns:34px 10px 1fr;gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--dark-line);font-size:.78rem;line-height:1.35;color:#c9d0cc}
+.feed li .m{font-family:var(--f-mono);color:var(--dark-muted);font-variant-numeric:tabular-nums}
+.feed li .d{width:7px;height:7px;border-radius:50%;background:var(--dark-muted);align-self:center}
+.feed li .d.ok{background:var(--ok)}.feed li .d.mid{background:var(--mid)}.feed li .d.bad{background:var(--bad)}.feed li .d.goal{background:#fff}
+.feed li.new{animation:feedIn .45s ease}
+@keyframes feedIn{from{opacity:0;transform:translateY(-8px);background:rgba(18,161,80,.12)}to{opacity:1;transform:none;background:transparent}}
+@media (prefers-reduced-motion:reduce){.feed li.new{animation:none}}
 @media (max-width:900px){.board-grid{grid-template-columns:1fr}.pitch{border-right:0;border-bottom:1px solid var(--dark-line)}}
 
 /* bande capacités */
@@ -233,17 +245,18 @@ footer .brand{color:#e9eeeb}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="logo" viewBox="0 0 64 64">
     <rect width="64" height="64" rx="12" fill="#0b0d0c"/>
-    <g fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="1.5">
-      <rect x="11" y="9" width="42" height="46" rx="1.5"/><line x1="11" y1="32" x2="53" y2="32"/>
+    <path d="M45 14 H23 A9 9 0 0 0 14 23 V41 A9 9 0 0 0 23 50 H45" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="square"/>
+    <g fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="1.3">
+      <rect x="27" y="24" width="23" height="16" rx="1.5"/><line x1="38.5" y1="24" x2="38.5" y2="40"/><circle cx="38.5" cy="32" r="2.6"/>
     </g>
-    <path d="M39.78 24.22 A11 11 0 1 0 39.78 39.78" fill="none" stroke="#ffffff" stroke-width="4.6" stroke-linecap="round"/>
-    <circle cx="44" cy="32" r="3.6" fill="#12a150"/>
+    <path d="M32 36 L44 28" stroke="#12a150" stroke-width="1.3" stroke-dasharray="1.6 1.4" fill="none"/>
+    <circle cx="32" cy="36" r="2" fill="#ffffff"/><circle cx="44.5" cy="27.7" r="2.2" fill="#12a150"/>
   </symbol>
 </svg>
 
 <nav class="nav" aria-label="Main navigation">
   <div class="wrap">
-    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><b>ciprio</b></a>
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><b>Ciprio</b></a>
     <ul>
       <li><a href="#method">Method</a></li>
       <li><a href="#report">Report</a></li>
@@ -261,7 +274,7 @@ footer .brand{color:#e9eeeb}
         <h1>Your game plan, <span>measured on the pitch.</span></h1>
       </div>
       <div class="side">
-        <p class="lead">ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.</p>
+        <p class="lead">Ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.</p>
         <div class="ctas">
           <a class="btn btn-ink" href="#access">Request access <span class="arrow">→</span></a>
           <a class="btn btn-line" href="#report">See a report</a>
@@ -269,15 +282,15 @@ footer .brand{color:#e9eeeb}
       </div>
     </div>
 
-    <figure class="board" style="margin:0" aria-label="Sample analysis: counter-press and game plan compliance">
+    <figure class="board" id="board" style="margin:0" aria-label="Live sample analysis: match simulation with game plan tracking">
       <div class="board-bar">
-        <span><b>MD12 · Northfield FC 2–1 Riverside United</b></span>
-        <span class="live"><i></i>Sequence 63:12 · Counter-press</span>
+        <span><b>MD12 · Northfield FC <span id="score-h">0</span>–<span id="score-a">0</span> Riverside United</b></span>
+        <span class="live"><i></i><span id="clock">00:00</span> · <span id="period">1st half</span></span>
         <span>Illustrative data</span>
       </div>
       <div class="board-grid">
         <div class="pitch">
-          <svg viewBox="-2 -2 109 72" role="img" aria-label="Top-down pitch with player positions and pressing zone">
+          <svg id="pitch-svg" viewBox="-2 -2 109 72" role="img" aria-label="Top-down pitch with moving players, ball and pressing zone">
             <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".35">
               <rect x="0" y="0" width="105" height="68"/>
               <line x1="52.5" y1="0" x2="52.5" y2="68"/>
@@ -286,45 +299,30 @@ footer .brand{color:#e9eeeb}
               <rect x="88.5" y="13.84" width="16.5" height="40.32"/><rect x="99.5" y="24.84" width="5.5" height="18.32"/>
               <path d="M16.5 26.7 A9.15 9.15 0 0 1 16.5 41.3"/><path d="M88.5 26.7 A9.15 9.15 0 0 0 88.5 41.3"/>
             </g>
-            <!-- zone de pressing -->
-            <rect x="70" y="14" width="22" height="34" rx="2" fill="#12a150" fill-opacity=".14" stroke="#12a150" stroke-opacity=".7" stroke-width=".35" stroke-dasharray="1.2 1"/>
-            <!-- courses de pressing -->
-            <g stroke="#12a150" stroke-width=".55" fill="none" stroke-linecap="round">
-              <path d="M70 34 L80.5 30.5"/><path d="M68 18 L79 16.5"/><path d="M66 50 L79 51"/><path d="M58 30 L71 26"/>
-            </g>
-            <g fill="#12a150"><circle cx="80.5" cy="30.5" r=".9"/><circle cx="79" cy="16.5" r=".9"/><circle cx="79" cy="51" r=".9"/><circle cx="71" cy="26" r=".9"/></g>
-            <!-- adversaires -->
-            <g fill="#6c7570">
-              <circle cx="100" cy="34" r="1.6"/>
-              <circle cx="82" cy="15" r="1.6"/><circle cx="84" cy="29" r="1.6"/><circle cx="85" cy="41" r="1.6"/><circle cx="81" cy="54" r="1.6"/>
-              <circle cx="73" cy="24" r="1.6"/><circle cx="74" cy="44" r="1.6"/><circle cx="66" cy="35" r="1.6"/>
-              <circle cx="56" cy="14" r="1.6"/><circle cx="54" cy="36" r="1.6"/><circle cx="57" cy="56" r="1.6"/>
-            </g>
-            <!-- équipe analysée -->
-            <g fill="#e9eeeb">
-              <circle cx="8" cy="34" r="1.7"/>
-              <circle cx="40" cy="12" r="1.7"/><circle cx="36" cy="28" r="1.7"/><circle cx="36" cy="41" r="1.7"/><circle cx="40" cy="57" r="1.7"/>
-              <circle cx="50" cy="24" r="1.7"/><circle cx="58" cy="30" r="1.7"/><circle cx="52" cy="46" r="1.7"/>
-              <circle cx="68" cy="18" r="1.7"/><circle cx="70" cy="34" r="1.7"/><circle cx="66" cy="50" r="1.7"/>
-            </g>
-            <!-- ballon + n°7 -->
-            <circle cx="82.6" cy="29.6" r=".8" fill="#fff" stroke="#0c100e" stroke-width=".25"/>
-            <circle cx="68" cy="18" r="3.2" fill="none" stroke="#e9eeeb" stroke-width=".3" stroke-dasharray=".8 .6"/>
-            <text x="64.4" y="13" text-anchor="end" font-family="Geist Mono, monospace" font-size="2.2" fill="#e9eeeb">#7 Lucas</text>
-            <text x="92" y="12" text-anchor="end" font-family="Geist Mono, monospace" font-size="2" fill="#12a150">ball won in 4.2 s</text>
+            <rect id="press-zone" x="0" y="0" width="22" height="26" rx="2" fill="#12a150" fill-opacity=".14" stroke="#12a150" stroke-opacity=".7" stroke-width=".35" stroke-dasharray="1.2 1" opacity="0"/>
+            <g id="press-lines" stroke="#12a150" stroke-width=".5" stroke-linecap="round" opacity="0"></g>
+            <line id="pass-line" stroke="rgba(255,255,255,.35)" stroke-width=".3" stroke-dasharray=".8 .8" x1="0" y1="0" x2="0" y2="0"/>
+            <g id="away" fill="#6c7570"></g>
+            <g id="home" fill="#e9eeeb"></g>
+            <circle id="focus-ring" r="3.2" fill="none" stroke="#e9eeeb" stroke-width=".3" stroke-dasharray=".8 .6"/>
+            <text id="focus-label" text-anchor="middle" font-family="Geist Mono, monospace" font-size="2.2" fill="#e9eeeb">#7 Lucas</text>
+            <text id="press-label" text-anchor="middle" font-family="Geist Mono, monospace" font-size="2" fill="#12a150" opacity="0"></text>
+            <circle id="ball" r=".85" fill="#fff" stroke="#0c100e" stroke-width=".25"/>
           </svg>
           <div class="legend">
             <span><i style="background:#e9eeeb"></i>Northfield FC</span>
             <span><i style="background:#6c7570"></i>Riverside United</span>
-            <span><i style="background:#12a150"></i>Pressing runs</span>
+            <span><i style="background:#12a150"></i>Counter-press</span>
           </div>
         </div>
         <div class="plan">
-          <h4>Game plan · instructions vs reality</h4>
-          <div class="rule"><div class="top"><span>Press within 5 s of losing the ball</span><b>18/29</b></div><div class="bar"><i class="mid" style="width:62%"></i></div><p class="note">Partial · intensity dropped after 65'</p></div>
-          <div class="rule"><div class="top"><span>Play out short from the goalkeeper</span><b>11/29</b></div><div class="bar"><i class="bad" style="width:38%"></i></div><p class="note">Not followed · 18 long clearances</p></div>
-          <div class="rule"><div class="top"><span>Compact block, 30 m max</span><b>81%</b></div><div class="bar"><i style="width:81%"></i></div><p class="note">Followed · 28 m average distance</p></div>
-          <div class="rule"><div class="top"><span>#7 present in the box</span><b>4/9</b></div><div class="bar"><i class="mid" style="width:44%"></i></div><p class="note">Partial · set attacks down the left</p></div>
+          <h4>Game plan · live tracking</h4>
+          <div class="rule" data-rule="press"><div class="top"><span>Press within 5 s of losing the ball</span><b>0/0</b></div><div class="bar"><i></i></div><p class="note"><span class="st-txt"></span> · after each turnover</p></div>
+          <div class="rule" data-rule="build"><div class="top"><span>Play out short from the goalkeeper</span><b>0/0</b></div><div class="bar"><i></i></div><p class="note"><span class="st-txt"></span> · goal-kick build-ups</p></div>
+          <div class="rule" data-rule="block"><div class="top"><span>Compact block, 30 m max</span><b>0%</b></div><div class="bar"><i></i></div><p class="note"><span class="st-txt"></span> · distance between lines</p></div>
+          <div class="rule" data-rule="box"><div class="top"><span>#7 present in the box</span><b>0/0</b></div><div class="bar"><i></i></div><p class="note"><span class="st-txt"></span> · set attacks down the left</p></div>
+          <h4 class="feed-title">Live events</h4>
+          <ol class="feed" id="feed" aria-live="off"></ol>
         </div>
       </div>
     </figure>
@@ -345,7 +343,7 @@ footer .brand{color:#e9eeeb}
       <p class="label">01 — Context</p>
       <div class="body">
         <h2>Pro-level video analysis. For every coaching staff.</h2>
-        <p class="lead">In professional football, every match is broken down by a team of analysts. Elsewhere, staff film their games but lack the time and tools to make use of 90 minutes of play. ciprio brings that precise, data-driven reading to every club.</p>
+        <p class="lead">In professional football, every match is broken down by a team of analysts. Elsewhere, staff film their games but lack the time and tools to make use of 90 minutes of play. Ciprio brings that precise, data-driven reading to every club.</p>
       </div>
     </div>
   </div>
@@ -469,7 +467,7 @@ footer .brand{color:#e9eeeb}
           </select>
         </div>
       </div>
-      <label class="consent" for="consent"><input id="consent" type="checkbox" required> I agree to receive updates about ciprio's launch, pricing and plans. Unsubscribe at any time.</label>
+      <label class="consent" for="consent"><input id="consent" type="checkbox" required> I agree to receive updates about Ciprio's launch, pricing and plans. Unsubscribe at any time.</label>
       <button class="btn" type="submit">Request access <span class="arrow">→</span></button>
       <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
     </form>
@@ -479,12 +477,219 @@ footer .brand{color:#e9eeeb}
 
 <footer>
   <div class="wrap">
-    <span class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><b>ciprio</b></span>
-    <span>Video analysis for football · © 2026 ciprio</span>
+    <span class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><b>Ciprio</b></span>
+    <span>Video analysis for football · © 2026 Ciprio</span>
   </div>
 </footer>
 
 <script>
+/* Planche tactique animée : match simulé (illustratif), chrono, score, consignes et événements en direct */
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("pitch-svg");
+  if (!svg) return;
+  const $ = id => document.getElementById(id);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const SPEED = 75;                // secondes de match par seconde réelle (90 min ≈ 72 s)
+  const HOME_BASE = [[6,34],[28,12],[25,27],[25,41],[28,56],[44,22],[40,34],[44,46],[60,14],[62,34],[60,54]];
+  const AWAY_BASE = HOME_BASE.map(([x, y]) => [105 - x, 68 - y]);
+  const FOCUS = 8;                 // #7 Lucas, ailier de l'équipe analysée
+
+  const mk = (g, r) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("r", r); g.appendChild(c); return c; };
+  const team = (base, g, r) => base.map(([x, y], i) => ({ x, y, bx: x, by: y, ph: i * 1.7, el: mk(g, r) }));
+  const home = team(HOME_BASE, $("home"), 1.7);
+  const away = team(AWAY_BASE, $("away"), 1.6);
+  const pressLines = [0, 1, 2].map(() => { const l = document.createElementNS(NS, "line"); $("press-lines").appendChild(l); return l; });
+
+  const EVENTS = [
+    [6,  "ok",   "Ball won high · #9 Tom · 3.1 s"],
+    [14, "ok",   "Short build-up from goal kick completed"],
+    [23, "goal", "Goal · Northfield FC", "h"],
+    [30, "bad",  "#7 Lucas did not press after the loss", "focus"],
+    [37, "bad",  "Long clearance instead of short build-up · #1 Nathan"],
+    [44, "mid",  "Block stretched to 36 m"],
+    [51, "goal", "Goal · Riverside United", "a"],
+    [58, "ok",   "#7 Lucas enters the box", "focus"],
+    [66, "mid",  "Pressing intensity dropping"],
+    [71, "bad",  "#8 Paul did not press after the loss"],
+    [78, "goal", "Goal · Northfield FC", "h"],
+    [86, "ok",   "Ball won high · #7 Lucas · 2.8 s", "focus"]
+  ];
+
+  let t = 0, last = 0, running = false, visible = true, evIdx = 0, ftHold = 0;
+  let score = { h: 0, a: 0 }, focusFlash = null;
+  const ball = { x: 52.5, y: 34, fx: 52.5, fy: 34, tx: 52.5, ty: 34, k: 1, dur: .6, hold: .4, team: "h", idx: 6, left: 4 };
+  let press = null;                // { since, x, y } quand l'équipe analysée vient de perdre le ballon
+
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const players = s => s === "h" ? home : away;
+  const nearest = (list, x, y, n, skip) => list.map((p, i) => ({ p, i, d: Math.hypot(p.x - x, p.y - y) }))
+    .filter(o => o.i !== skip).sort((a, b) => a.d - b.d).slice(0, n);
+
+  function nextAction(now) {
+    const own = players(ball.team);
+    ball.left--;
+    if (ball.left <= 0) {
+      // perte de balle : l'adversaire le plus proche récupère
+      const lost = ball.team === "h";
+      ball.team = lost ? "a" : "h";
+      const n = nearest(players(ball.team), ball.x, ball.y, 1)[0];
+      ball.idx = n.i;
+      ball.left = lost ? Math.round(rnd(1, 3)) : Math.round(rnd(3, 7));
+      if (lost) press = { since: now, x: ball.x, y: ball.y };
+      else if (press) { press.won = clamp((now - press.since) * 1.6, 1.8, 4.9).toFixed(1); press.wonAt = now; }
+      startPass(n.p.x, n.p.y, .3);
+      return;
+    }
+    // passe vers un partenaire, de préférence vers l'avant
+    const dir = ball.team === "h" ? 1 : -1;
+    const opts = nearest(own, ball.x, ball.y, 6, ball.idx).filter(o => o.i !== 0 || Math.random() < .15);
+    opts.forEach(o => o.s = dir * (o.p.x - ball.x) + rnd(-14, 14));
+    opts.sort((a, b) => b.s - a.s);
+    const pick = opts[Math.floor(Math.random() * Math.min(3, opts.length))];
+    ball.idx = pick.i;
+    const lead = dir * rnd(1, 4);
+    startPass(clamp(pick.p.x + lead, 1, 104), clamp(pick.p.y + rnd(-2, 2), 1, 67), clamp(pick.d / 28 + .3, .45, 1.3));
+  }
+  function startPass(x, y, dur) {
+    ball.fx = ball.x; ball.fy = ball.y; ball.tx = x; ball.ty = y; ball.k = 0; ball.dur = dur; ball.hold = rnd(.25, .6);
+    const pl = $("pass-line");
+    pl.setAttribute("x1", ball.fx); pl.setAttribute("y1", ball.fy); pl.setAttribute("x2", x); pl.setAttribute("y2", y);
+  }
+
+  function step(dt, now) {
+    // ballon
+    if (ball.k < 1) {
+      ball.k = Math.min(1, ball.k + dt / ball.dur);
+      const e = 1 - Math.pow(1 - ball.k, 2);
+      ball.x = ball.fx + (ball.tx - ball.fx) * e; ball.y = ball.fy + (ball.ty - ball.fy) * e;
+    } else {
+      const o = players(ball.team)[ball.idx];
+      ball.x += (o.x - ball.x) * Math.min(1, dt * 6); ball.y += (o.y - ball.y) * Math.min(1, dt * 6);
+      ball.hold -= dt;
+      if (ball.hold <= 0) nextAction(now);
+    }
+    if (press && now - press.since > 2.6 && !press.wonAt) press = null;
+    if (press && press.wonAt && now - press.wonAt > 1.4) press = null;
+
+    // blocs d'équipe qui coulissent avec le ballon
+    const hp = ball.team === "h";
+    const hs = clamp((ball.x - 52.5) * .42 + (hp ? 7 : -5), -12, 22);
+    const as = clamp((ball.x - 52.5) * .42 + (hp ? 5 : -7), -22, 12);
+    const ys = (ball.y - 34) * .28;
+    const pressers = press && !press.wonAt ? nearest(home, ball.x, ball.y, 3).map(o => o.i) : [];
+    const move = (list, shift, side) => list.forEach((p, i) => {
+      let tx = p.bx + (i === 0 ? shift * .12 : shift) + Math.sin(now * .9 + p.ph) * 1.2;
+      let ty = p.by + (i === 0 ? ys * .3 : ys) + Math.cos(now * .7 + p.ph) * 1.2;
+      if (side === ball.team && i === ball.idx) { tx = ball.k < 1 ? ball.tx : p.x; ty = ball.k < 1 ? ball.ty : p.y; }
+      if (side === "h" && pressers.includes(i)) { tx = ball.x - 1.8; ty = ball.y + (i % 2 ? 1.5 : -1.5); }
+      if (side !== ball.team && !pressers.length) {
+        const n = nearest(list, ball.x, ball.y, 1)[0];
+        if (n && n.i === i) { tx = (tx + ball.x) / 2; ty = (ty + ball.y) / 2; }
+      }
+      const s = Math.min(1, dt * (pressers.includes(i) && side === "h" ? 3.2 : 1.8));
+      p.x = clamp(p.x + (tx - p.x) * s, 1, 104); p.y = clamp(p.y + (ty - p.y) * s, 1, 67);
+    });
+    move(home, hs, "h"); move(away, as, "a");
+  }
+
+  function draw(now) {
+    home.concat(away).forEach(p => { p.el.setAttribute("cx", p.x.toFixed(2)); p.el.setAttribute("cy", p.y.toFixed(2)); });
+    const b = $("ball"); b.setAttribute("cx", ball.x.toFixed(2)); b.setAttribute("cy", ball.y.toFixed(2));
+    $("pass-line").setAttribute("opacity", ball.k < 1 ? 1 : 0);
+    const f = home[FOCUS], ring = $("focus-ring"), lab = $("focus-label");
+    ring.setAttribute("cx", f.x.toFixed(2)); ring.setAttribute("cy", f.y.toFixed(2));
+    lab.setAttribute("x", f.x.toFixed(2)); lab.setAttribute("y", (f.y - 4.6).toFixed(2));
+    const flash = focusFlash && now - focusFlash.at < 2.4 ? focusFlash.color : "#e9eeeb";
+    ring.setAttribute("stroke", flash); lab.setAttribute("fill", flash);
+
+    const zone = $("press-zone"), lines = $("press-lines"), pl = $("press-label");
+    if (press) {
+      zone.setAttribute("x", (clamp(ball.x, 11, 94) - 11).toFixed(2)); zone.setAttribute("y", (clamp(ball.y, 13, 55) - 13).toFixed(2));
+      zone.setAttribute("opacity", 1); lines.setAttribute("opacity", press.wonAt ? 0 : 1);
+      nearest(home, ball.x, ball.y, 3).forEach((o, i) => {
+        const l = pressLines[i]; l.setAttribute("x1", o.p.x.toFixed(2)); l.setAttribute("y1", o.p.y.toFixed(2)); l.setAttribute("x2", ball.x.toFixed(2)); l.setAttribute("y2", ball.y.toFixed(2));
+      });
+      pl.textContent = press.wonAt ? "ball won in " + press.won + " s" : "counter-press";
+      pl.setAttribute("x", clamp(ball.x, 12, 93).toFixed(2)); pl.setAttribute("y", (clamp(ball.y, 13, 55) - 14.6).toFixed(2)); pl.setAttribute("opacity", 1);
+    } else { zone.setAttribute("opacity", 0); lines.setAttribute("opacity", 0); pl.setAttribute("opacity", 0); }
+  }
+
+  // consignes : valeurs cumulées selon la minute de jeu
+  const rules = {};
+  document.querySelectorAll("[data-rule]").forEach(r => rules[r.dataset.rule] = { v: r.querySelector(".top b"), bar: r.querySelector(".bar i"), st: r.querySelector(".st-txt") });
+  function status(ratio, good) { return ratio >= good ? ["ok", "Followed"] : ratio >= .5 ? ["mid", "Partial"] : ["bad", "Not followed"]; }
+  function setRule(key, text, ratio, good) {
+    const r = rules[key], [cls, label] = status(ratio, good);
+    r.v.textContent = text; r.bar.style.width = Math.round(ratio * 100) + "%";
+    r.bar.className = cls === "ok" ? "" : cls; r.st.textContent = label; r.st.className = "st-txt " + cls;
+  }
+  function updateRules(m) {
+    const tot = Math.round(29 * m / 90), pr = m <= 65 ? .72 : .72 - (m - 65) / 25 * .1;
+    const ok = Math.round(tot * pr);
+    setRule("press", ok + "/" + tot, tot ? ok / tot : 0, .75);
+    const bt = Math.round(29 * m / 90), br = m < 35 ? .78 : Math.max(.38, .78 - (m - 35) / 55 * .4), bo = Math.round(bt * br);
+    setRule("build", bo + "/" + bt, bt ? bo / bt : 0, .75);
+    const blk = m < 1 ? 0 : clamp(Math.round(81 + 7 * Math.sin(m / 9) - (m > 40 && m < 48 ? 9 : 0)), 60, 95);
+    setRule("block", blk + "%", blk / 100, .75);
+    const at = Math.round(9 * m / 90), en = Math.round(at * (.44 + .12 * Math.sin(m / 14)));
+    setRule("box", en + "/" + at, at ? en / at : 0, .75);
+  }
+
+  function addEvent([m, kind, text, extra], animate) {
+    const li = document.createElement("li");
+    if (animate) li.className = "new";
+    li.innerHTML = '<span class="m"></span><span class="d ' + kind + '"></span><span class="x"></span>';
+    li.querySelector(".m").textContent = m + "'";
+    li.querySelector(".x").textContent = kind === "goal" ? text + " · " : text;
+    const feed = $("feed");
+    if (kind === "goal") { score[extra]++; $("score-h").textContent = score.h; $("score-a").textContent = score.a; li.querySelector(".x").textContent += score.h + "–" + score.a; }
+    if (extra === "focus") focusFlash = { at: performance.now() / 1000, color: kind === "bad" ? "#e5484d" : "#12a150" };
+    feed.prepend(li);
+    while (feed.children.length > 4) feed.lastElementChild.remove();
+  }
+
+  function reset() {
+    t = 0; evIdx = 0; score = { h: 0, a: 0 }; press = null; ftHold = 0;
+    $("score-h").textContent = 0; $("score-a").textContent = 0; $("feed").innerHTML = "";
+  }
+
+  function hud() {
+    const m = Math.min(90, t / 60);
+    const s = Math.floor(Math.min(t, 5400));
+    $("clock").textContent = String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+    $("period").textContent = t >= 5400 ? "Full time" : t >= 2700 ? "2nd half" : "1st half";
+    while (evIdx < EVENTS.length && EVENTS[evIdx][0] <= m) addEvent(EVENTS[evIdx++], true);
+    updateRules(m);
+  }
+
+  function frame(ms) {
+    if (!running) return;
+    const now = ms / 1000, dt = Math.min(.05, now - (last || now)); last = now;
+    if (t >= 5400) { ftHold += dt; if (ftHold > 3.5) reset(); }
+    else t += dt * SPEED;
+    step(dt, now); draw(now); hud();
+    requestAnimationFrame(frame);
+  }
+  function setRunning() {
+    const should = visible && !document.hidden && !reduce;
+    if (should && !running) { running = true; last = 0; requestAnimationFrame(frame); }
+    else if (!should) running = false;
+  }
+
+  if (reduce) {
+    // état figé à la 63e minute, sans animation
+    t = 63 * 60; hud(); draw(0);
+    return;
+  }
+  hud(); draw(0);
+  if ("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; setRunning(); }).observe($("board"));
+  document.addEventListener("visibilitychange", setRunning);
+  setRunning();
+})();
+
 /* Niveaux d'analyse du rapport */
 (function () {
   const tabs = [...document.querySelectorAll('.cats [role="tab"]')];
