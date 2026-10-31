@@ -184,59 +184,120 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 @media (max-width:640px){.step,.step+.step{grid-template-columns:1fr}.step-top{grid-row:auto;flex-direction:row;align-items:center}.step h3,.step p,.spec{grid-column:1;grid-row:auto}.spec{border-top:1px solid var(--line);padding-top:12px}}
 
 /* rapport */
-.report-wrap{display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start}
-.report-wrap>*{min-width:0}
-.cats{display:grid;border-top:1px solid var(--ink)}
-.cat{all:unset;box-sizing:border-box;display:grid;gap:6px;padding:20px 0;border-bottom:1px solid var(--line);cursor:pointer}
-.cat .t{display:flex;justify-content:space-between;align-items:baseline;font-weight:600;font-size:1.05rem;letter-spacing:-.01em}
-.cat .t .label{color:var(--muted)}
-.cat p{font-size:.9rem;color:var(--muted)}
-.cat[aria-selected="true"] .t{color:var(--ink)}
-.cat[aria-selected="true"]{box-shadow:inset 3px 0 0 var(--accent);padding-left:16px}
-.cat:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.sheet{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.sheet-top{display:flex;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:.86rem}
-.sheet-top b{font-weight:600}
-.tpanel{padding:4px 20px 16px;min-height:340px}
-.cmp-head,.cmp{display:grid;grid-template-columns:1fr 1.2fr 100px;gap:16px}
-.cmp-head{padding:14px 0 8px}
-.cmp{padding:13px 0;border-top:1px solid var(--line);font-size:.86rem;line-height:1.4;align-items:start}
-.cmp .ask{font-weight:500}
-.cmp .real{color:var(--muted)}
+#report .sec-head .lead{font-size:1.05rem}
+.rapp{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 40px 70px -50px rgba(0,0,0,.35)}
+.rapp-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rapp-title{display:grid;gap:3px}
+.rapp-title b{font-weight:600;letter-spacing:-.01em}
+.rtabs{display:flex;gap:3px;padding:3px;background:var(--bg);border:1px solid var(--line);border-radius:8px}
+.rtabs button{font:500 .86rem/1 var(--f-sans);border:0;background:transparent;color:var(--muted);padding:9px 14px;border-radius:6px;cursor:pointer}
+.rtabs button:hover{color:var(--ink)}
+.rtabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.rapp-body{position:relative;height:540px;overflow-y:auto;padding:0 26px 26px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.rh{margin:26px 0 8px;font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:500;color:var(--muted);display:flex;justify-content:space-between;gap:12px}
+.rh span{text-transform:none;letter-spacing:0;font-family:var(--f-sans);font-size:.78rem}
+.rh.ok{color:var(--ok)}.rh.bad{color:var(--bad)}
+.rsum{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:24px 0 22px;border-bottom:1px solid var(--line)}
+.rsum .big{display:block;font-size:clamp(2.6rem,5vw,3.4rem);font-weight:600;letter-spacing:-.045em;line-height:1;margin-top:8px}
+.split{display:flex;gap:18px;flex-wrap:wrap;font-size:.86rem;color:var(--ink-2)}
+.split span{display:inline-flex;align-items:center;gap:7px}
+.split i{width:8px;height:8px;border-radius:50%}
+.split i.ok{background:var(--ok)}.split i.mid{background:var(--mid)}.split i.bad{background:var(--bad)}
+.finds{list-style:none;margin:0;padding:0}
+.finds li{position:relative;display:grid;gap:4px;padding:14px 0 14px 26px;border-top:1px solid var(--line)}
+.finds li::before{position:absolute;left:0;top:14px;font-family:var(--f-mono);font-size:.85rem}
+.finds.ok li::before{content:"✓";color:var(--ok)}
+.finds.bad li::before{content:"✕";color:var(--bad)}
+.finds b{font-weight:600;letter-spacing:-.01em}
+.finds p{font-size:.9rem;color:var(--ink-2)}
+.clips{font-family:var(--f-mono);font-size:.7rem;color:var(--muted)}
+.takeaway{margin-top:22px;padding:16px 18px;background:var(--bg);border-left:2px solid var(--ink);display:grid;gap:6px}
+.gauge{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.g-top{display:contents}
+.g-top span{font-size:.88rem}
+.g-top em{font-style:normal;font-family:var(--f-mono);font-size:.68rem;color:var(--mid);margin-left:6px}
+.g-top b{font-family:var(--f-mono);font-weight:500;font-size:.86rem;font-variant-numeric:tabular-nums;text-align:right}
+.g-bar{height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.g-bar i{display:block;height:100%;background:var(--ok)}
+.g-bar i.mid{background:var(--mid)}.g-bar i.bad{background:var(--bad)}
+.gauge .st{justify-self:end}
 .st{font-family:var(--f-mono);font-size:.72rem;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .st::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
 .st.ok{color:var(--ok)}.st.mid{color:var(--mid)}.st.bad{color:var(--bad)}
-.vs-head{display:flex;justify-content:space-between;padding:14px 0 6px;font-size:.84rem;font-weight:600}
-.vs-head span:last-child{color:var(--muted)}
-.vs{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:6px 12px;padding:12px 0;border-top:1px solid var(--line)}
-.vs b{font-family:var(--f-mono);font-weight:500;font-size:.92rem;font-variant-numeric:tabular-nums}
-.vs span{text-align:center;font-size:.84rem;color:var(--muted)}
-.vs i{grid-column:1/-1;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--ink) calc(var(--a)*1%),var(--line) calc(var(--a)*1%))}
-.tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.86rem;font-variant-numeric:tabular-nums;margin-top:6px}
-th{text-align:left;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;padding:12px 8px 10px 0;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:11px 8px 11px 0;border-bottom:1px solid var(--line);white-space:nowrap}
-.num{text-align:right}
-td .pos{font-family:var(--f-mono);font-size:.74rem;color:var(--muted);margin-right:10px}
-td b{font-family:var(--f-mono);font-weight:500}
-td b.hi{color:var(--ok)}td b.lo{color:var(--bad)}
-tr.focus td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
-.pnote{margin-top:14px;padding:12px 14px;border-left:2px solid var(--accent);background:var(--bg);font-size:.84rem;color:var(--ink-2);line-height:1.45}
-.pnote b{display:block;font-family:var(--f-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:400;margin-bottom:4px}
-@media (max-width:980px){.report-wrap{grid-template-columns:1fr;gap:28px}}
-@media (max-width:560px){.cmp-head{display:none}.cmp{grid-template-columns:1fr auto}.cmp .real{grid-column:1/-1;grid-row:2}.tpanel{padding-inline:16px}}
+.tstats-head,.tstat-row{display:grid;grid-template-columns:minmax(0,1.4fr) 56px minmax(60px,1fr) 56px 20px;gap:14px;align-items:center}
+.tstats-head{padding:2px 0 8px;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.tstats-head span:nth-child(2){text-align:right}
+.tstat{border-top:1px solid var(--line)}
+.tstat-row{width:100%;background:transparent;border:0;padding:13px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.tstat-row:hover .ts-k{text-decoration:underline;text-underline-offset:3px}
+.tstat-row b{font-family:var(--f-mono);font-weight:500;font-size:.9rem;text-align:right;font-variant-numeric:tabular-nums}
+.tstat-row b.away{text-align:left;color:var(--muted)}
+.ts-k{font-size:.9rem}
+.ts-bar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.ts-bar i{display:block;height:100%;background:var(--ink)}
+.chev{font-family:var(--f-mono);color:var(--muted);transition:transform .2s}
+.tstat-row[aria-expanded="true"] .chev{transform:rotate(45deg);color:var(--ink)}
+.tdetail{padding:6px 0 18px;display:grid;gap:14px}
+.chart{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:end;height:130px;padding-top:8px}
+.chart div{height:100%;display:grid;grid-template-rows:auto 1fr auto;gap:5px;text-align:center}
+.chart div span{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-2)}
+.chart div i{align-self:end;justify-self:center;display:block;width:60%;max-width:34px;background:var(--ink-2);border-radius:3px 3px 0 0;min-height:4px}
+.chart div em{font-style:normal;font-family:var(--f-mono);font-size:.62rem;color:var(--muted)}
+.thirds{display:flex;gap:2px;border-radius:6px;overflow:hidden}
+.thirds div{background:var(--bg);border:1px solid var(--line);padding:8px 10px;display:grid;gap:2px;min-width:0}
+.thirds b{font-family:var(--f-mono);font-weight:500;font-size:.88rem}
+.thirds span{font-size:.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tnote{font-size:.86rem;color:var(--ink-2);padding-left:12px;border-left:2px solid var(--accent)}
+.plist-head,.prow{display:grid;grid-template-columns:40px minmax(0,1fr) 90px minmax(110px,160px);gap:14px;align-items:center}
+.plist-head{padding:20px 0 8px;font-family:var(--f-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.plist-head span:first-child{grid-column:1 / span 2}
+.prow{width:100%;background:transparent;border:0;border-top:1px solid var(--line);padding:11px 0;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.prow:hover{background:var(--bg)}
+.pn{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--f-mono);font-size:.8rem}
+.pn.big{width:44px;height:44px;font-size:1rem}
+.pnm{display:grid;min-width:0}
+.pnm b{font-weight:600;font-size:.92rem}
+.pnm em,.dhead em{font-style:normal;font-size:.76rem;color:var(--muted)}
+.pr{font-family:var(--f-mono);font-weight:500;font-size:1rem}
+.pr.ok,.scores b.ok{color:var(--ok)}.pr.mid,.scores b.mid{color:var(--mid)}.pr.bad,.scores b.bad{color:var(--bad)}
+.pi{display:grid;grid-template-columns:1fr 38px;gap:10px;align-items:center}
+.pi::before{content:"";grid-column:1;grid-row:1;height:4px;border-radius:2px;background:var(--line)}
+.pi i{grid-column:1;grid-row:1;height:4px;border-radius:2px;background:var(--ok)}
+.pi i.mid{background:var(--mid)}.pi i.bad{background:var(--bad)}
+.pi b{font-family:var(--f-mono);font-weight:500;font-size:.84rem;text-align:right}
+.back{margin-top:18px;background:transparent;border:1px solid var(--line);border-radius:6px;height:32px;padding:0 12px;font:500 .82rem/1 var(--f-sans);color:var(--ink-2);cursor:pointer}
+.back:hover{border-color:var(--ink);color:var(--ink)}
+.dhead{display:flex;align-items:center;gap:14px;margin-top:18px}
+.dhead div{display:grid}
+.dhead b{font-size:1.25rem;font-weight:600;letter-spacing:-.02em}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.scores>div{border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:6px}
+.scores b{font-size:2.2rem;font-weight:600;letter-spacing:-.04em;line-height:1}
+.scores small{font-size:.9rem;color:var(--muted);font-weight:500;margin-left:2px}
+.scores p{font-size:.8rem;color:var(--muted)}
+.label.sub{margin:22px 0 8px}
+.dstats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.dstats div{background:var(--surface);padding:10px 12px;display:grid;gap:3px}
+.dstats span{font-size:.72rem;color:var(--muted)}
+.dstats b{font-family:var(--f-mono);font-weight:500;font-size:.95rem}
+.pinstr{border-top:1px solid var(--line)}
+.pinstr .gauge{border-top:0}
+.pnotes{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 0 14px}
+.pnotes p{font-size:.82rem;color:var(--ink-2);padding:10px 12px;background:var(--bg);border-radius:6px;display:grid;gap:3px}
+.pnotes b{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.pnotes .good b{color:var(--ok)}.pnotes .miss b{color:var(--bad)}
+.pnotes span{font-family:var(--f-mono);font-size:.68rem;color:var(--muted)}
+.rc.cursor{filter:drop-shadow(0 2px 3px rgba(0,0,0,.25));transition:opacity .3s,transform .85s cubic-bezier(.45,0,.25,1)}
+@media (max-width:700px){.rapp-body{height:500px;padding:0 16px 20px}.scores,.pnotes{grid-template-columns:1fr}.plist-head,.prow{grid-template-columns:34px minmax(0,1fr) 44px 90px;gap:10px}.tstats-head,.tstat-row{grid-template-columns:minmax(0,1fr) 44px 40px 44px 16px;gap:8px}.dstats{grid-template-columns:1fr 1fr}}
 
 /* bénéfices */
 .gains{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
 .gain{padding:24px 24px 0 0;display:grid;gap:8px;align-content:start}
 .gain+.gain{padding-left:24px;border-left:1px solid var(--line)}
 .gain p{font-size:.92rem;color:var(--muted)}
-.objective{margin-top:56px;display:grid;grid-template-columns:220px 1fr auto;gap:32px;align-items:center;padding:28px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.objective>*{min-width:0}
-.objective p{color:var(--ink-2);max-width:60ch}
-.toggle{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-mono);font-size:.74rem;color:var(--muted)}
-.toggle i{width:34px;height:20px;border-radius:10px;background:var(--ink);position:relative}
-.toggle i::after{content:"";position:absolute;top:3px;right:3px;width:14px;height:14px;border-radius:50%;background:#fff}
+.statement{margin-top:96px;padding-top:56px;border-top:1px solid var(--line)}
+.statement p{font-size:clamp(2.2rem,5.4vw,4.4rem);font-weight:600;letter-spacing:-.045em;line-height:1.02;max-width:16ch;text-wrap:balance}
+.statement span{color:var(--muted)}
 @media (max-width:980px){.gains{grid-template-columns:1fr 1fr}.gain,.gain+.gain{padding:24px 20px 24px 0;border-left:0}.gain:nth-child(even){padding-left:20px;border-left:1px solid var(--line)}.gain:nth-child(n+3){border-top:1px solid var(--line)}.objective{grid-template-columns:1fr;gap:12px}}
 @media (max-width:560px){.gains{grid-template-columns:1fr}.gain,.gain+.gain,.gain:nth-child(even){padding:20px 0;border-left:0;border-top:1px solid var(--line)}.gain:first-child{border-top:0}}
 
@@ -280,9 +341,13 @@ footer .brand{color:#e9eeeb}
     <rect width="64" height="64" rx="12" fill="#0b0d0c"/>
     <g fill="none" stroke="#ffffff" stroke-opacity=".3" stroke-width="1.3">
       <rect x="5" y="13" width="54" height="38" rx="1.5"/><rect x="5" y="23" width="8" height="18"/><rect x="51" y="23" width="8" height="18"/>
-      <line x1="32" y1="13" x2="32" y2="20.5"/><line x1="32" y1="43.5" x2="32" y2="51"/><circle cx="32" cy="32" r="11.5"/>
+      <line x1="32" y1="13" x2="32" y2="22.5"/><line x1="32" y1="41.5" x2="32" y2="51"/><circle cx="32" cy="32" r="9.5"/>
     </g>
-    <path d="M39.7 23.45 A11.5 11.5 0 1 0 39.7 40.55" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round"/>
+    <g stroke="#ffffff" stroke-opacity=".28" stroke-width="1.1" fill="none" stroke-linecap="round">
+      <path d="M17.5 21 L17.5 43" stroke-dasharray="1.4 1.8"/><path d="M45.4 19.6 L47.8 22 M47.8 19.6 L45.4 22"/><path d="M45.4 42 L47.8 44.4 M47.8 42 L45.4 44.4"/>
+    </g>
+    <g fill="#ffffff" fill-opacity=".38"><circle cx="17.5" cy="19" r="1.5"/><circle cx="17.5" cy="45" r="1.5"/></g>
+    <path d="M38.35 24.94 A9.5 9.5 0 1 0 38.35 39.06" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linecap="round"/>
   </symbol>
 </svg>
 
@@ -444,46 +509,51 @@ footer .brand{color:#e9eeeb}
       <p class="label">03 — Report</p>
       <div class="body">
         <h2>Three levels of analysis, one report.</h2>
+        <p class="lead">The game plan, the team and every player. Here is a sample report, as your staff would browse it.</p>
       </div>
     </div>
-    <div class="report-wrap reveal">
-      <div class="cats" role="tablist" aria-label="Analysis levels">
-        <button class="cat" role="tab" id="tab-plan" aria-selected="true" aria-controls="p-plan"><span class="t">Game plan <span class="label">A</span></span><p>Every pre-match instruction checked against what actually happened.</p></button>
-        <button class="cat" role="tab" id="tab-team" aria-selected="false" aria-controls="p-team" tabindex="-1"><span class="t">Team <span class="label">B</span></span><p>Possession, shots, passing, recoveries and duels, against the opponent.</p></button>
-        <button class="cat" role="tab" id="tab-ind" aria-selected="false" aria-controls="p-ind" tabindex="-1"><span class="t">Individual <span class="label">C</span></span><p>Stats, a rating and a reasoned review for every player.</p></button>
+    <div class="rapp reveal" id="rapp">
+      <div class="rapp-top">
+        <div class="rapp-title"><b>Northfield FC 2–1 Riverside United</b><span class="label">MD12 · Match report · Sample</span></div>
+        <div class="rtabs" role="tablist" aria-label="Report sections">
+          <button type="button" role="tab" data-tab="plan" aria-selected="true">Game plan</button>
+          <button type="button" role="tab" data-tab="team" aria-selected="false" tabindex="-1">Team</button>
+          <button type="button" role="tab" data-tab="ind" aria-selected="false" tabindex="-1">Individual</button>
+        </div>
       </div>
-      <div class="sheet">
-        <div class="sheet-top"><b>Northfield FC 2–1 Riverside United</b><span class="label">Sample</span></div>
-        <div class="tpanel" id="p-plan" role="tabpanel" aria-labelledby="tab-plan">
-          <div class="cmp-head"><span class="label">Instruction</span><span class="label">Finding</span><span class="label">Status</span></div>
-          <div class="cmp"><p class="ask">High press within 5 s of losing the ball</p><p class="real">Applied on 18 of 29 turnovers. Intensity dropped after 65'.</p><span class="st mid">Partial</span></div>
-          <div class="cmp"><p class="ask">Play out short from the goalkeeper</p><p class="real">11 short build-ups, then 18 long clearances after two dangerous turnovers.</p><span class="st bad">Not followed</span></div>
-          <div class="cmp"><p class="ask">Compact block, 30 m max</p><p class="real">Average distance between lines: 28 m. Held 81% of the time.</p><span class="st ok">Followed</span></div>
-          <div class="cmp"><p class="ask">Lucas (7) more present in the box</p><p class="real">4 box entries out of 9 set attacks down the left.</p><span class="st mid">Partial</span></div>
-        </div>
-        <div class="tpanel" id="p-team" role="tabpanel" aria-labelledby="tab-team" hidden>
-          <div class="vs-head"><span>Northfield FC</span><span>Riverside United</span></div>
-          <div class="vs"><b>54%</b><span>Possession</span><b>46%</b><i style="--a:54"></i></div>
-          <div class="vs"><b>13</b><span>Shots (on target: 6 / 3)</span><b>7</b><i style="--a:65"></i></div>
-          <div class="vs"><b>82%</b><span>Pass accuracy</span><b>74%</b><i style="--a:53"></i></div>
-          <div class="vs"><b>11</b><span>Recoveries in opposition half</span><b>4</b><i style="--a:73"></i></div>
-          <div class="vs"><b>48%</b><span>Duels won</span><b>52%</b><i style="--a:48"></i></div>
-        </div>
-        <div class="tpanel" id="p-ind" role="tabpanel" aria-labelledby="tab-ind" hidden>
-          <div class="tbl-wrap">
-            <table>
-              <thead><tr><th>Player</th><th class="num">Passes</th><th class="num">Duels</th><th class="num">Pressures</th><th class="num">Rating</th></tr></thead>
-              <tbody>
-                <tr><td><span class="pos">8</span>Paul</td><td class="num">54/61</td><td class="num">7/10</td><td class="num">14</td><td class="num"><b class="hi">8.0</b></td></tr>
-                <tr><td><span class="pos">4</span>Samir</td><td class="num">38/42</td><td class="num">9/12</td><td class="num">6</td><td class="num"><b class="hi">7.5</b></td></tr>
-                <tr class="focus"><td><span class="pos">7</span>Lucas</td><td class="num">17/24</td><td class="num">4/11</td><td class="num">12</td><td class="num"><b>6.0</b></td></tr>
-                <tr><td><span class="pos">1</span>Nathan</td><td class="num">21/33</td><td class="num">–</td><td class="num">–</td><td class="num"><b class="lo">5.0</b></td></tr>
-              </tbody>
-            </table>
+      <div class="rapp-body" id="rapp-body">
+        <div class="rpane" data-pane="plan" role="tabpanel" aria-label="Game plan">
+          <div class="rsum">
+            <div><span class="label">Game plan compliance</span><b class="big">58%</b></div>
+            <div class="split"><span><i class="ok"></i>2 followed</span><span><i class="mid"></i>3 partial</span><span><i class="bad"></i>3 not followed</span></div>
           </div>
-          <p class="pnote"><b>Review · Lucas (7)</b>High pressing volume (12 actions), but too many duels lost with his back to goal. Clips: 23:14, 51:02, 67:40.</p>
+          <h4 class="rh ok">What worked</h4>
+          <ol class="finds ok">
+            <li><b>Compact block, 30 m max</b><p>Held 81% of the time. Only 2 shots conceded from central areas.</p><span class="clips">Clips · 12:40 · 33:05 · 61:18</span></li>
+            <li><b>High press in the first hour</b><p>11 recoveries in the opposition half, including the one that led to the opening goal.</p><span class="clips">Clips · 22:51 · 38:12 · 47:30</span></li>
+            <li><b>Overlaps on the left after 50'</b><p>Moussa (3) delivered 4 crosses. The winning goal came from one of them.</p><span class="clips">Clips · 55:02 · 71:44 · 77:58</span></li>
+          </ol>
+          <h4 class="rh bad">What didn't work</h4>
+          <ol class="finds bad">
+            <li><b>Short build-up from the goalkeeper</b><p>Abandoned after 30'. 18 long clearances, 14 of them lost.</p><span class="clips">Clips · 31:10 · 44:26 · 58:03</span></li>
+            <li><b>Switching play to the weak side</b><p>5 switches out of 22 opportunities. Play stayed on the right.</p><span class="clips">Clips · 36:48 · 52:15 · 66:40</span></li>
+            <li><b>Pressing after 65'</b><p>Only 3 of 9 turnovers pressed within 5 s. The mid-block was never set.</p><span class="clips">Clips · 67:21 · 73:09 · 84:37</span></li>
+          </ol>
+          <div class="takeaway"><span class="label">Priority for training</span><p>Build-up under pressure from goal kicks, and faster switches to the weak side.</p></div>
+        </div>
+        <div class="rpane" data-pane="team" role="tabpanel" aria-label="Team" hidden>
+          <h4 class="rh">Instructions · team compliance</h4>
+          <div id="team-rules"></div>
+          <h4 class="rh">Team stats <span>Click a stat for detail</span></h4>
+          <div class="tstats-head"><span></span><span>Northfield</span><span></span><span>Riverside</span><span></span></div>
+          <div id="team-stats"></div>
+        </div>
+        <div class="rpane" data-pane="ind" role="tabpanel" aria-label="Individual" hidden>
+          <div id="ind-list"></div>
+          <div id="ind-detail" hidden></div>
         </div>
       </div>
+      <div class="cursor rc" id="rcursor" aria-hidden="true"><svg viewBox="0 0 16 20" width="16" height="20"><path d="M1 1 L1 15.5 L4.8 12 L7.4 18.2 L9.8 17.2 L7.3 11.2 L12.6 11.2 Z" fill="#0b0d0c" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round"/></svg></div>
     </div>
   </div>
 </section>
@@ -502,10 +572,8 @@ footer .brand{color:#e9eeeb}
       <div class="gain"><h3>Decisions</h3><p>Your instincts confirmed or challenged by the facts.</p></div>
       <div class="gain"><h3>Progress</h3><p>Targeted sessions, and players who know what to work on.</p></div>
     </div>
-    <div class="objective reveal">
-      <p class="label">Objective mode</p>
-      <p>A reading of the match without your instructions or expectations, to test your own analysis against a neutral view.</p>
-      <span class="toggle" aria-hidden="true"><i></i>On</span>
+    <div class="statement reveal">
+      <p>Every pro club has a video analyst. <span>Why shouldn't yours?</span></p>
     </div>
   </div>
 </section>
@@ -917,22 +985,229 @@ footer .brand{color:#e9eeeb}
   setRunning();
 })();
 
-/* Niveaux d'analyse du rapport */
+/* Rapport de match interactif (exemple) + curseur de démonstration qui le parcourt */
 (function () {
-  const tabs = [...document.querySelectorAll('.cats [role="tab"]')];
-  const select = t => tabs.forEach(b => {
-    const on = b === t;
-    b.setAttribute("aria-selected", on);
-    b.tabIndex = on ? 0 : -1;
-    document.getElementById(b.getAttribute("aria-controls")).hidden = !on;
-  });
+  const $ = id => document.getElementById(id);
+  const app = $("rapp");
+  if (!app) return;
+  const body = $("rapp-body"), cur = $("rcursor");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const status = r => r >= .75 ? ["ok", "Followed"] : r >= .5 ? ["mid", "Partial"] : ["bad", "Not followed"];
+  const pct = r => Math.round(r * 100);
+
+  // --- Équipe : consignes et statistiques -------------------------------------------------
+  const TEAM_RULES = [
+    ["Press within 5 s of losing the ball", 17, 29],
+    ["Play out short from the goalkeeper", 11, 29],
+    ["Compact block, 30 m max", .81],
+    ["Wingers attack the box", 7, 14],
+    ["Switch play to the weak side", 5, 22, "from 30'"],
+    ["Full-backs overlap on the left", 9, 16, "from 50'"],
+    ["Drop into a mid-block", .42, null, "from 65'"],
+    ["Keep the ball, slow the tempo", .79, null, "from 80'"]
+  ];
+  const PERIODS = ["0–15", "15–30", "30–45", "45–60", "60–75", "75–90"];
+  const STATS = [
+    { k: "Possession", h: "54%", a: "46%", share: 54, unit: "%", series: [58, 61, 55, 49, 47, 52],
+      extra: [["Own third", 22], ["Middle third", 46], ["Final third", 32]],
+      note: "Possession fell after half-time, once the short build-up from the goalkeeper was abandoned." },
+    { k: "Shots", h: "13", a: "7", share: 65, unit: "", series: [3, 2, 2, 1, 2, 3],
+      note: "6 on target. Both goals came from crosses after overlaps on the left." },
+    { k: "Pass accuracy", h: "82%", a: "74%", share: 53, unit: "%", series: [86, 85, 84, 79, 78, 80],
+      note: "Accuracy dropped by 7 points in the second half, mostly on long balls." },
+    { k: "Recoveries in opposition half", h: "11", a: "4", share: 73, unit: "", series: [3, 3, 2, 1, 0, 2],
+      note: "8 of 11 recoveries came before the 65th minute, when pressing intensity dropped." },
+    { k: "Duels won", h: "48%", a: "52%", share: 48, unit: "%", series: [51, 50, 49, 44, 46, 47],
+      note: "Aerial duels lost against the target man explain most of the gap." }
+  ];
+
+  const ruleRow = (label, valueText, r, detail) => {
+    const [cls, st] = status(r);
+    return '<div class="gauge"><div class="g-top"><span>' + esc(label) + (detail ? ' <em>' + esc(detail) + '</em>' : '') + '</span><b>' + valueText +
+      '</b></div><div class="g-bar"><i class="' + cls + '" style="width:' + pct(r) + '%"></i></div><span class="st ' + cls + '">' + st + '</span></div>';
+  };
+
+  $("team-rules").innerHTML = TEAM_RULES.map(([l, a, b, d]) => b ? ruleRow(l, a + "/" + b, a / b, d) : ruleRow(l, pct(a) + "%", a, d)).join("");
+  $("team-stats").innerHTML = STATS.map((s, i) =>
+    '<div class="tstat"><button type="button" class="tstat-row" data-stat="' + i + '" aria-expanded="false"><span class="ts-k">' + esc(s.k) +
+    '</span><b>' + s.h + '</b><span class="ts-bar"><i style="width:' + s.share + '%"></i></span><b class="away">' + s.a + '</b><span class="chev" aria-hidden="true">+</span></button>' +
+    '<div class="tdetail" hidden><p class="label">Northfield FC by period</p><div class="chart">' +
+    s.series.map((v, j) => {
+      const max = Math.max.apply(null, s.series), min = Math.min.apply(null, s.series);
+      return '<div><span>' + v + s.unit + '</span><i style="height:' + Math.round(25 + (max > min ? (v - min) / (max - min) : 1) * 75) + '%"></i><em>' + PERIODS[j] + '</em></div>';
+    }).join("") +
+    '</div>' + (s.extra ? '<div class="thirds">' + s.extra.map(([l, v]) => '<div style="flex:' + v + '"><b>' + v + '%</b><span>' + l + '</span></div>').join("") + '</div>' : "") +
+    '<p class="tnote">' + esc(s.note) + '</p></div></div>').join("");
+  app.querySelectorAll(".tstat-row").forEach(btn => btn.addEventListener("click", () => {
+    const open = btn.getAttribute("aria-expanded") === "true";
+    btn.setAttribute("aria-expanded", !open);
+    btn.nextElementSibling.hidden = open;
+  }));
+  const collapseStats = () => app.querySelectorAll(".tstat-row").forEach(b => { b.setAttribute("aria-expanded", "false"); b.nextElementSibling.hidden = true; });
+
+  // --- Individuel : note du match et respect des consignes, séparés ---------------------
+  const ROLE_RULES = {
+    gk:  [["Play out short from the goalkeeper", 29], ["Sweep behind a high line", 6]],
+    def: [["Press within 5 s of losing the ball", 9], ["Hold the line at 30 m", 14]],
+    mid: [["Press within 5 s of losing the ball", 12], ["Switch play to the weak side", 10]],
+    fw:  [["Press the centre-back", 12], ["Attack the box", 9]]
+  };
+  const NOTES = {
+    "Play out short from the goalkeeper": ["Clean short distribution in the first 30 minutes", "Switched to long kicks after two turnovers"],
+    "Sweep behind a high line": ["Came off his line well behind the defence", "Late off his line on one through ball"],
+    "Press within 5 s of losing the ball": ["Immediate reaction after turnovers in the first hour", "Stayed in position after losses late in the game"],
+    "Hold the line at 30 m": ["Kept the distance to midfield in the first half", "Dropped too deep under long balls"],
+    "Overlap on the left": ["Timed his overlaps and delivered 4 crosses", "Stayed back on two transitions"],
+    "Switch play to the weak side": ["Found the far side with diagonal passes", "Kept the ball on the strong side under pressure"],
+    "Press the centre-back": ["Curved runs cut the passing lane", "Walked back instead of pressing on goal kicks"],
+    "Attack the box": ["Arrived in the box on crosses from the left", "Stayed wide when the ball was on the far side"],
+    "Hold the ball up for runners": ["Won flick-ons and laid off to midfield", "Lost duels with his back to goal"]
+  };
+  // [numéro, prénom, poste, rôle, note du match, taux par consigne, consigne en plus]
+  const PLAYERS = [
+    [1, "Nathan", "Goalkeeper", "gk", 6.4, [.38, .83]],
+    [3, "Moussa", "Left back", "def", 7.3, [.67, .79, .75], ["Overlap on the left", 8]],
+    [4, "Samir", "Centre back", "def", 7.5, [.78, .86]],
+    [5, "Harry", "Centre back", "def", 6.9, [.56, .71]],
+    [2, "Mateo", "Right back", "def", 6.6, [.67, .64]],
+    [6, "Oliver", "Central midfielder", "mid", 7.2, [.75, .4]],
+    [8, "Ethan", "Defensive midfielder", "mid", 6.3, [.42, .3]],
+    [10, "Yassine", "Central midfielder", "mid", 7.0, [.58, .5]],
+    [7, "Lucas", "Left winger", "fw", 6.8, [.67, .44]],
+    [9, "Jack", "Striker", "fw", 6.1, [.42, .56, .63], ["Hold the ball up for runners", 8]],
+    [11, "Diego", "Right winger", "fw", 5.9, [.33, .44]]
+  ];
+  const BASE = {
+    gk:  [["Passes", 21, 33], ["Saves", 3], ["Long balls", 18], ["Claims", 4], ["Distance", "5.3 km"], ["Errors", 0]],
+    def: [["Passes", 41, 47], ["Duels won", 7, 11], ["Interceptions", 4], ["Recoveries", 6], ["Distance", "10.1 km"], ["Clearances", 5]],
+    mid: [["Passes", 52, 61], ["Duels won", 6, 11], ["Pressures", 14], ["Recoveries", 7], ["Distance", "11.4 km"], ["Key passes", 2]],
+    fw:  [["Passes", 19, 26], ["Duels won", 5, 12], ["Pressures", 11], ["Shots", 3], ["Distance", "10.6 km"], ["Box entries", 5]]
+  };
+  const clip = (i, j) => { const m = (i * 17 + j * 29) % 88 + 1, s = (i * 23 + j * 41) % 60; return m + ":" + String(s).padStart(2, "0"); };
+  const playerRules = p => ROLE_RULES[p[3]].concat(p[6] ? [p[6]] : []).map(([l, tot], j) => { const ok = Math.round(tot * p[5][j]); return [l, ok, tot]; });
+  const instrScore = p => { const r = playerRules(p); return r.reduce((s, x) => s + x[1] / x[2], 0) / r.length; };
+  const tone = (v, hi, lo) => v >= hi ? "ok" : v >= lo ? "mid" : "bad";
+
+  $("ind-list").innerHTML = '<div class="plist-head"><span>Player</span><span>Match rating</span><span>Instructions</span></div>' + PLAYERS.map((p, i) => {
+    const sc = instrScore(p);
+    return '<button type="button" class="prow" data-p="' + i + '"><span class="pn">' + p[0] + '</span><span class="pnm"><b>' + p[1] + '</b><em>' + p[2] + '</em></span>' +
+      '<b class="pr ' + tone(p[4], 7, 6) + '">' + p[4].toFixed(1) + '</b><span class="pi"><i class="' + status(sc)[0] + '" style="width:' + pct(sc) + '%"></i><b>' + pct(sc) + '%</b></span></button>';
+  }).join("");
+
+  function openPlayer(i) {
+    const p = PLAYERS[i], sc = instrScore(p), rules = playerRules(p);
+    $("ind-detail").innerHTML =
+      '<button type="button" class="back" id="ind-back">← All players</button>' +
+      '<div class="dhead"><span class="pn big">' + p[0] + '</span><div><b>' + p[1] + '</b><em>' + p[2] + '</em></div></div>' +
+      '<div class="scores"><div><span class="label">Match rating</span><b class="' + tone(p[4], 7, 6) + '">' + p[4].toFixed(1) + '<small>/10</small></b><p>Overall performance: passing, duels, actions on and off the ball.</p></div>' +
+      '<div><span class="label">Instruction score</span><b class="' + status(sc)[0] + '">' + pct(sc) + '<small>%</small></b><p>How closely he followed the instructions you gave him.</p></div></div>' +
+      '<p class="label sub">Match stats</p><div class="dstats">' + BASE[p[3]].map(([k, a, b]) => '<div><span>' + k + '</span><b>' + (b ? a + "/" + b : a) + '</b></div>').join("") + '</div>' +
+      '<p class="label sub">Individual instructions</p>' + rules.map(([l, ok, tot], j) => {
+        const r = ok / tot, [cls, st] = status(r), n = NOTES[l];
+        return '<div class="pinstr">' + ruleRow(l, ok + "/" + tot, r).replace('<span class="st ' + cls + '">' + st + '</span>', "") +
+          '<div class="pnotes"><p class="good"><b>Succeeded</b>' + esc(n[0]) + ' <span>' + clip(i, j) + ' · ' + clip(i, j + 3) + '</span></p>' +
+          '<p class="miss"><b>Fell short</b>' + esc(n[1]) + ' <span>' + clip(i, j + 5) + ' · ' + clip(i, j + 7) + '</span></p></div></div>';
+      }).join("");
+    $("ind-list").hidden = true; $("ind-detail").hidden = false; body.scrollTop = 0;
+    $("ind-back").addEventListener("click", closePlayer);
+  }
+  function closePlayer() { $("ind-detail").hidden = true; $("ind-list").hidden = false; body.scrollTop = 0; }
+  app.querySelectorAll(".prow").forEach(b => b.addEventListener("click", () => openPlayer(+b.dataset.p)));
+
+  // --- Onglets ---------------------------------------------------------------------------
+  const tabs = [...app.querySelectorAll(".rtabs [role=tab]")], panes = [...app.querySelectorAll(".rpane")];
+  function showTab(id) {
+    tabs.forEach(b => { const on = b.dataset.tab === id; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; });
+    panes.forEach(p => p.hidden = p.dataset.pane !== id);
+    if (id === "team") collapseStats();
+    if (id === "ind") closePlayer();
+    body.scrollTop = 0;
+  }
   tabs.forEach((b, i) => {
-    b.addEventListener("click", () => select(b));
+    b.addEventListener("click", () => showTab(b.dataset.tab));
     b.addEventListener("keydown", e => {
-      const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
-      if (d) { e.preventDefault(); const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); }
+      const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+      if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; showTab(n.dataset.tab); n.focus(); }
     });
   });
+
+  // --- Curseur de démonstration ------------------------------------------------------------
+  if (reduce) return;
+  let token = 0, pausedUntil = 0, visible = false, resumeTimer = 0;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  async function gate(tk) {
+    while (!visible || document.hidden || Date.now() < pausedUntil) { if (tk !== token) throw 0; await sleep(250); }
+    if (tk !== token) throw 0;
+  }
+  const at = (el, fx, fy) => { const a = app.getBoundingClientRect(), r = el.getBoundingClientRect(); return { x: r.left - a.left + Math.min(r.width * (fx || .5), 90), y: r.top - a.top + r.height * (fy || .55) }; };
+  let cx = 0, cy = 0;
+  const place = (x, y) => { cx = x; cy = y; cur.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)"; };
+  async function moveTo(el, tk) {
+    await gate(tk);
+    const p = at(el);
+    cur.classList.add("show"); place(p.x, p.y);
+    await sleep(900); await gate(tk);
+  }
+  async function click(el, tk) {
+    await moveTo(el, tk);
+    cur.classList.remove("click"); void cur.offsetWidth; cur.classList.add("click");
+    el.click();
+    await sleep(450); await gate(tk);
+  }
+  async function scroll(to, ms, tk) {
+    await gate(tk);
+    const r = body.getBoundingClientRect(), a = app.getBoundingClientRect();
+    cur.classList.add("show"); place(r.left - a.left + r.width * .62, r.top - a.top + r.height * .55);
+    await sleep(500);
+    const from = body.scrollTop, end = to === "bottom" ? body.scrollHeight - body.clientHeight : to, t0 = performance.now();
+    await new Promise((res, rej) => {
+      (function f(now) {
+        if (tk !== token) return rej(0);
+        const k = Math.min(1, (now - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+        body.scrollTop = from + (end - from) * e;
+        k < 1 ? requestAnimationFrame(f) : res();
+      })(t0);
+    });
+    await gate(tk);
+  }
+  const wait = async (ms, tk) => { await gate(tk); await sleep(ms); await gate(tk); };
+  const tab = id => app.querySelector('.rtabs [data-tab="' + id + '"]');
+  const ORDER = [9, 1, 7, 10, 2, 6];
+
+  async function run() {
+    const tk = ++token;
+    let k = 0;
+    try {
+      for (;;) {
+        await click(tab("plan"), tk); await wait(1400, tk);
+        await scroll("bottom", 3200, tk); await wait(1200, tk); await scroll(0, 1600, tk);
+        await click(tab("team"), tk); await wait(1000, tk);
+        const statsTop = $("team-stats").getBoundingClientRect().top - body.getBoundingClientRect().top + body.scrollTop - 50;
+        await scroll(statsTop, 1800, tk);
+        await click(app.querySelector('.tstat-row[data-stat="0"]'), tk); await wait(2600, tk);
+        await scroll("bottom", 1400, tk); await wait(900, tk); await scroll(0, 1400, tk);
+        await click(tab("ind"), tk); await wait(1100, tk);
+        await click(app.querySelector('.prow[data-p="' + ORDER[k % ORDER.length] + '"]'), tk); await wait(2200, tk);
+        await scroll("bottom", 2600, tk); await wait(1400, tk); await scroll(0, 1400, tk);
+        await click($("ind-back"), tk); await wait(900, tk);
+        k++;
+      }
+    } catch (e) { /* démo interrompue par le visiteur */ }
+  }
+  // un vrai visiteur reprend la main : la démo s'arrête, puis reprend après 15 s sans interaction
+  const takeOver = e => {
+    if (!e.isTrusted) return;
+    pausedUntil = Date.now() + 15000; token++; cur.classList.remove("show");
+    clearTimeout(resumeTimer); resumeTimer = setTimeout(run, 15100);
+  };
+  app.addEventListener("pointerdown", takeOver);
+  body.addEventListener("wheel", takeOver, { passive: true });
+  body.addEventListener("touchstart", takeOver, { passive: true });
+  if ("IntersectionObserver" in window) new IntersectionObserver(es => { visible = es[0].isIntersecting; }, { threshold: .35 }).observe(app);
+  else visible = true;
+  const a0 = app.getBoundingClientRect(); place(a0.width * .5, a0.height * .9);
+  run();
 })();
 
 /* Apparition des sections au défilement */
