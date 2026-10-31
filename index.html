@@ -82,7 +82,8 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 .brand b{font-weight:600;font-size:1.12rem;letter-spacing:-.035em}
 .nav ul{display:flex;gap:32px;list-style:none;margin:0;padding:0;font-size:.9rem;color:var(--ink-2)}
 .nav ul a{text-decoration:none}
-.nav ul a:hover{color:var(--ink)}
+.nav ul a:hover,.nav ul a[aria-current="page"]{color:var(--ink)}
+.nav ul a[aria-current="page"]{text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:1px}
 .nav .btn{height:36px;padding:0 14px;font-size:.86rem}
 @media (max-width:900px){.nav .wrap{flex-wrap:wrap;height:auto;padding-block:10px;row-gap:6px}.nav ul{order:3;width:100%;gap:22px;overflow-x:auto;padding:4px 0 2px;scrollbar-width:none;white-space:nowrap}.nav ul::-webkit-scrollbar{display:none}}
 
@@ -496,11 +497,10 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
   <div class="wrap">
     <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><b>Ciprio</b></a>
     <ul>
-      <li><a href="#method">Method</a></li>
-      <li><a href="#report">Report</a></li>
+      <li><a href="/" aria-current="page">Home</a></li>
       <li><a href="/blog">Blog</a></li>
-      <li><a href="/about">About</a></li>
       <li><a href="/contact">Contact</a></li>
+      <li><a href="/about">About us</a></li>
     </ul>
     <a class="btn btn-ink" href="#access">Request access</a>
   </div>
@@ -877,12 +877,12 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
         <p>Video analysis for football staffs. Your game plan, measured on the pitch.</p>
       </div>
       <div>
-        <h4>Product</h4>
-        <ul><li><a href="/#method">Method</a></li><li><a href="/#report">Report</a></li><li><a href="/#benefits">Benefits</a></li><li><a href="/#access">Request access</a></li></ul>
+        <h4>Pages</h4>
+        <ul><li><a href="/">Home</a></li><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li><li><a href="/about">About us</a></li></ul>
       </div>
       <div>
-        <h4>Company</h4>
-        <ul><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/contact">Contact</a></li></ul>
+        <h4>Product</h4>
+        <ul><li><a href="/#method">Method</a></li><li><a href="/#report">Report</a></li><li><a href="/#access">Request access</a></li></ul>
       </div>
       <div>
         <h4>Legal</h4>
