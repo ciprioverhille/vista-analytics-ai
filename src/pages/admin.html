@@ -1,0 +1,285 @@
+OUT=admin.html
+TITLE=Admin · Ciprio
+DESC=Private area.
+PATH=/admin
+NAV=none
+EXTRA=<meta name="robots" content="noindex,nofollow">
+---
+<header class="page-head">
+  <div class="wrap">
+    <p class="label">Admin</p>
+    <h1>Dépenses <span>à venir.</span></h1>
+    <p class="lead" id="lead">Espace privé, réservé à Ciprio Verhille.</p>
+  </div>
+</header>
+
+<main class="section">
+  <div class="wrap">
+
+    <!-- Connexion -->
+    <form id="login" class="adm-card adm-login" hidden novalidate>
+      <h2>Connexion</h2>
+      <p class="muted">Entre ton adresse e-mail : tu reçois un lien de connexion, sans mot de passe.</p>
+      <div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="email" required></div>
+      <div class="send"><button class="btn btn-ink" type="submit">Recevoir le lien →</button><p class="form-msg" id="l-msg" role="status" aria-live="polite"></p></div>
+    </form>
+
+    <!-- Tableau de bord -->
+    <div id="dash" hidden>
+      <div class="adm-bar">
+        <span class="muted" id="who"></span>
+        <span class="adm-actions"><button class="btn btn-line" id="add" type="button">+ Ajouter une dépense</button><button class="btn btn-line" id="logout" type="button">Se déconnecter</button></span>
+      </div>
+
+      <div class="adm-sim adm-card">
+        <label for="n">Matchs analysés par mois : <b id="n-val">80</b></label>
+        <input id="n" type="range" min="0" max="500" step="5" value="80">
+        <p class="muted">Exemple : 20 clubs × 4 matchs = 80. Les dépenses « optionnelles » et les montants inconnus ne sont pas comptés.</p>
+      </div>
+
+      <div class="adm-kpis">
+        <div class="adm-card"><span class="k">Déjà payé</span><b id="k-paid">–</b><small id="k-paid-n"></small></div>
+        <div class="adm-card"><span class="k">À payer une fois (lancement)</span><b id="k-once">–</b><small>création, juriste…</small></div>
+        <div class="adm-card"><span class="k">Fixe par mois au lancement</span><b id="k-fixed">–</b><small>abonnements + annuels ÷ 12</small></div>
+        <div class="adm-card"><span class="k">Coût par match</span><b id="k-match">–</b><small>calcul, stockage, rapport IA</small></div>
+        <div class="adm-card adm-dark"><span class="k">Total par mois</span><b id="k-month">–</b><small id="k-month-d"></small></div>
+        <div class="adm-card adm-dark"><span class="k">Sur 12 mois</span><b id="k-year">–</b><small>hors « déjà payé »</small></div>
+      </div>
+
+      <div id="groups"></div>
+      <p class="muted adm-foot">Montants en euros, estimations à vérifier sur le site de chaque service avant de payer. Les prix en dollars ont été convertis approximativement.</p>
+    </div>
+  </div>
+</main>
+
+<dialog id="dlg" class="adm-dlg">
+  <form id="edit" method="dialog" novalidate>
+    <h2 id="dlg-title">Dépense</h2>
+    <div class="field"><label for="e-name">Nom</label><input id="e-name" required maxlength="160"></div>
+    <div class="row2">
+      <div class="field"><label for="e-provider">Fournisseur</label><input id="e-provider" maxlength="120"></div>
+      <div class="field"><label for="e-category">Catégorie</label><input id="e-category" maxlength="60" list="cats"></div>
+    </div>
+    <datalist id="cats"><option>Site</option><option>Données</option><option>Analyse</option><option>Outils</option><option>Société</option><option>Juridique</option><option>Marketing</option><option>Autre</option></datalist>
+    <div class="row2">
+      <div class="field"><label for="e-phase">Quand</label><select id="e-phase"><option value="now">Maintenant</option><option value="launch">Au lancement commercial</option><option value="later">Plus tard</option></select></div>
+      <div class="field"><label for="e-billing">Facturation</label><select id="e-billing"><option value="once">Une fois</option><option value="monthly">Par mois</option><option value="yearly">Par an</option><option value="per_match">Par match</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="e-min">Montant min (€)</label><input id="e-min" type="number" step="0.01" min="0" inputmode="decimal"></div>
+      <div class="field"><label for="e-max">Montant max (€)</label><input id="e-max" type="number" step="0.01" min="0" inputmode="decimal"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="e-status">Statut</label><select id="e-status"><option value="planned">Prévu</option><option value="active">En cours</option><option value="paid">Payé</option><option value="optional">Optionnel</option></select></div>
+      <div class="field"><label for="e-url">Lien</label><input id="e-url" type="url" maxlength="300"></div>
+    </div>
+    <div class="field"><label for="e-note">Note</label><textarea id="e-note" maxlength="1000"></textarea></div>
+    <div class="adm-dlg-btns">
+      <button class="btn btn-line adm-del" id="e-del" type="button">Supprimer</button>
+      <span><button class="btn btn-line" value="cancel" formnovalidate>Annuler</button><button class="btn btn-ink" id="e-save" type="button">Enregistrer</button></span>
+    </div>
+    <p class="form-msg" id="e-msg" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
+
+<style>
+.adm-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+.adm-login{max-width:460px;display:grid;gap:14px}
+.adm-login h2{font-size:1.3rem}
+.adm-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.adm-actions{display:flex;gap:8px;flex-wrap:wrap}
+.adm-sim{display:grid;gap:8px;margin-bottom:16px}
+.adm-sim input{width:100%;accent-color:var(--accent)}
+.adm-sim p{font-size:.85rem;margin:0}
+.adm-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:40px}
+.adm-kpis .adm-card{display:grid;gap:4px;align-content:start}
+.adm-kpis .k{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.adm-kpis b{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.adm-kpis small{color:var(--muted);font-size:.8rem}
+.adm-dark{background:var(--dark);border-color:var(--dark);color:#fff}
+.adm-dark .k,.adm-dark small{color:var(--dark-muted)}
+.adm-group{margin-bottom:36px}
+.adm-group h2{font-size:1.15rem;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.adm-group h2 small{font-weight:400;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.adm-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.92rem}
+.adm-table th{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:500;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.adm-table td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+.adm-table tr:first-child td{border-top:0}
+.adm-table tbody tr{cursor:pointer}
+.adm-table tbody tr:hover{background:var(--bg)}
+.adm-table td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adm-table .nm b{font-weight:500}
+.adm-table .nm small{display:block;color:var(--muted);font-size:.8rem;line-height:1.45;margin-top:2px}
+.adm-table tr.opt{opacity:.55}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.68rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.pill.paid{background:#e8f6ee;border-color:#bfe5cf;color:#0b7a3b}
+.pill.active{background:#eef3ff;border-color:#cfdcff;color:#2a4fb8}
+.pill.optional{color:var(--muted)}
+.unk{color:#a37400}
+.adm-foot{font-size:.82rem}
+.adm-dlg{border:1px solid var(--line);border-radius:14px;padding:24px;width:min(640px,calc(100vw - 32px));background:var(--surface);color:var(--ink)}
+.adm-dlg::backdrop{background:rgba(12,16,14,.45)}
+.adm-dlg form{display:grid;gap:12px}
+.adm-dlg h2{font-size:1.2rem}
+.adm-dlg-btns{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
+.adm-dlg-btns span{display:flex;gap:8px}
+.adm-del{color:var(--bad)}
+@media (max-width:860px){.adm-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .adm-kpis b{font-size:1.25rem}
+  .adm-table thead{display:none}
+  .adm-table,.adm-table tbody,.adm-table tr,.adm-table td{display:block;width:100%}
+  .adm-table tr{padding:12px 14px;border-top:1px solid var(--line)}
+  .adm-table tr:first-child{border-top:0}
+  .adm-table td{border:0;padding:2px 0;text-align:left}
+  .adm-table td.num{text-align:left}
+  .adm-table td[data-l]::before{content:attr(data-l) " : ";color:var(--muted);font-size:.8rem}
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+(() => {
+  /* Espace admin : connexion par lien e-mail (Supabase Auth), puis lecture et modification de la table "expenses",
+     protégée côté base : seul l'e-mail admin peut la lire ou l'écrire (RLS). */
+  const SUPABASE_URL = "https://pazzrgvkgmdgqmtscspl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
+  const ADMIN_EMAIL = "verhille.ciprio@gmail.com";
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: "implicit", persistSession: true, detectSessionInUrl: true } });
+
+  const $ = (id) => document.getElementById(id);
+  const eur = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
+  const eur0 = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+  const PHASES = { now: "Maintenant", launch: "Au lancement commercial", later: "Plus tard" };
+  const BILLING = { once: "une fois", monthly: "/ mois", yearly: "/ an", per_match: "/ match" };
+  const STATUS = { planned: "Prévu", active: "En cours", paid: "Payé", optional: "Optionnel" };
+  let rows = [], editing = null;
+
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const num = (v) => (v === null || v === undefined || v === "" ? null : Number(v));
+  const range = (a, b, f = eur) => (a === null && b === null ? '<span class="unk">à compléter</span>' : a === b || b === null ? f.format(a ?? b) : f.format(a ?? 0) + " – " + f.format(b));
+  const rng = (lo, hi, f = eur0) => (Math.round(lo * 100) === Math.round(hi * 100) ? f.format(lo) : f.format(lo) + " – " + f.format(hi));
+
+  async function show() {
+    const { data: { session } } = await sb.auth.getSession();
+    const email = session?.user?.email || "";
+    if (!session) { $("login").hidden = false; $("dash").hidden = true; return; }
+    if (email.toLowerCase() !== ADMIN_EMAIL) {
+      await sb.auth.signOut();
+      $("login").hidden = false; $("dash").hidden = true;
+      $("l-msg").textContent = "Accès réservé."; $("l-msg").className = "form-msg err";
+      return;
+    }
+    if (location.hash.includes("access_token")) history.replaceState(null, "", location.pathname);
+    $("login").hidden = true; $("dash").hidden = false;
+    $("who").textContent = "Connecté : " + email;
+    await load();
+  }
+
+  async function load() {
+    const { data, error } = await sb.from("expenses").select("*").order("sort").order("created_at");
+    if (error) { $("groups").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc(error.message) + "</p>"; return; }
+    rows = data; render();
+  }
+
+  function totals() {
+    const n = Number($("n").value);
+    const t = { paid: 0, paidUnknown: 0, once: [0, 0], fixed: [0, 0], match: [0, 0] };
+    for (const r of rows) {
+      const lo = num(r.amount_min), hi = num(r.amount_max) ?? lo;
+      if (r.status === "paid") { if (lo === null) t.paidUnknown++; else t.paid += hi; continue; }
+      if (r.status === "optional" || lo === null) continue;
+      if (r.phase === "now" && r.billing !== "per_match" && lo === 0 && hi === 0) continue;
+      const k = r.billing === "once" ? "once" : r.billing === "per_match" ? "match" : "fixed";
+      const div = r.billing === "yearly" ? 12 : 1;
+      t[k][0] += lo / div; t[k][1] += hi / div;
+    }
+    t.month = [t.fixed[0] + t.match[0] * n, t.fixed[1] + t.match[1] * n];
+    t.year = [t.once[0] + t.month[0] * 12, t.once[1] + t.month[1] * 12];
+    t.n = n;
+    return t;
+  }
+
+  function render() {
+    const t = totals();
+    $("n-val").textContent = t.n;
+    $("k-paid").textContent = eur0.format(t.paid);
+    $("k-paid-n").textContent = t.paidUnknown ? t.paidUnknown + " montant(s) à compléter" : "factures réglées";
+    $("k-once").textContent = rng(...t.once);
+    $("k-fixed").textContent = rng(...t.fixed);
+    $("k-match").textContent = rng(...t.match, eur);
+    $("k-month").textContent = rng(...t.month);
+    $("k-month-d").textContent = "avec " + t.n + " matchs par mois";
+    $("k-year").textContent = rng(...t.year);
+
+    $("groups").innerHTML = Object.entries(PHASES).map(([ph, label]) => {
+      const list = rows.filter((r) => r.phase === ph);
+      if (!list.length) return "";
+      const body = list.map((r) => `
+        <tr data-id="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
+          <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.provider)}${r.note ? " · " + esc(r.note) : ""}</small></td>
+          <td data-l="Catégorie">${esc(r.category)}</td>
+          <td class="num" data-l="Montant">${range(num(r.amount_min), num(r.amount_max))} <span class="muted">${BILLING[r.billing]}</span></td>
+          <td data-l="Statut"><span class="pill ${r.status}">${STATUS[r.status]}</span></td>
+        </tr>`).join("");
+      return `<section class="adm-group"><h2>${label} <small>${list.length} ligne(s)</small></h2>
+        <table class="adm-table"><thead><tr><th>Dépense</th><th>Catégorie</th><th style="text-align:right">Montant</th><th>Statut</th></tr></thead><tbody>${body}</tbody></table></section>`;
+    }).join("");
+  }
+
+  function openEdit(r) {
+    editing = r || null;
+    $("dlg-title").textContent = r ? "Modifier la dépense" : "Nouvelle dépense";
+    $("e-name").value = r?.name || ""; $("e-provider").value = r?.provider || ""; $("e-category").value = r?.category || "Autre";
+    $("e-phase").value = r?.phase || "launch"; $("e-billing").value = r?.billing || "monthly";
+    $("e-min").value = r?.amount_min ?? ""; $("e-max").value = r?.amount_max ?? "";
+    $("e-status").value = r?.status || "planned"; $("e-url").value = r?.url || ""; $("e-note").value = r?.note || "";
+    $("e-del").hidden = !r; $("e-msg").textContent = "";
+    $("dlg").showModal();
+  }
+
+  async function save() {
+    const name = $("e-name").value.trim();
+    if (!name) { $("e-msg").textContent = "Le nom est obligatoire."; $("e-msg").className = "form-msg err"; return; }
+    const min = num($("e-min").value), max = num($("e-max").value);
+    const rec = {
+      name, provider: $("e-provider").value.trim() || null, category: $("e-category").value.trim() || "Autre",
+      phase: $("e-phase").value, billing: $("e-billing").value,
+      amount_min: min ?? max, amount_max: max ?? min,
+      status: $("e-status").value, url: $("e-url").value.trim() || null, note: $("e-note").value.trim() || null,
+      updated_at: new Date().toISOString(),
+    };
+    $("e-save").disabled = true;
+    const q = editing ? sb.from("expenses").update(rec).eq("id", editing.id) : sb.from("expenses").insert({ ...rec, sort: 500 });
+    const { error } = await q;
+    $("e-save").disabled = false;
+    if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
+    $("dlg").close(); await load();
+  }
+
+  async function del() {
+    if (!editing || !confirm("Supprimer « " + editing.name + " » ?")) return;
+    const { error } = await sb.from("expenses").delete().eq("id", editing.id);
+    if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
+    $("dlg").close(); await load();
+  }
+
+  $("login").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = $("l-email").value.trim().toLowerCase(), msg = $("l-msg");
+    if (email !== ADMIN_EMAIL) { msg.textContent = "Accès réservé."; msg.className = "form-msg err"; return; }
+    msg.textContent = "Envoi…"; msg.className = "form-msg";
+    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + "/admin" } });
+    if (error) { msg.textContent = "Erreur : " + error.message; msg.className = "form-msg err"; return; }
+    msg.textContent = "Lien envoyé. Ouvre l'e-mail « Magic Link » et clique sur le lien."; msg.className = "form-msg ok";
+  });
+  $("logout").addEventListener("click", async () => { await sb.auth.signOut(); show(); });
+  $("add").addEventListener("click", () => openEdit(null));
+  $("e-save").addEventListener("click", save);
+  $("e-del").addEventListener("click", del);
+  $("n").addEventListener("input", render);
+  $("groups").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-id]"); if (tr) openEdit(rows.find((r) => r.id === tr.dataset.id)); });
+  sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT") show(); });
+  show();
+})();
+</script>
