@@ -1,4 +1,8 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/:path*", "has": [{ "type": "host", "value": "ciprio.vercel.app" }], "destination": "https://ciprio.ai/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "vista-analytics-ai.vercel.app" }], "destination": "https://ciprio.ai/:path*", "permanent": true }
+  ]
 }
