@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" preserveAspectRatio="xMidYMid slice">
+  <rect width="160" height="80" fill="#0c100e"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".14" stroke-width=".6">
+    <rect x="8" y="6" width="144" height="68"/><line x1="80" y1="6" x2="80" y2="74"/><circle cx="80" cy="40" r="10"/>
+    <rect x="8" y="22" width="18" height="36"/><rect x="134" y="22" width="18" height="36"/>
+  </g>
+  <g fill="none" stroke-width=".8" stroke-linecap="round">
+    <path d="M30 40 L52 26" stroke="#12a150"/><path d="M52 26 L78 22" stroke="#12a150"/>
+    <path d="M30 40 L50 56" stroke="#e5484d" stroke-dasharray="1.4 1.4"/>
+  </g>
+  <g fill="#e9eeeb"><circle cx="30" cy="40" r="2.2"/><circle cx="52" cy="26" r="2.2"/><circle cx="78" cy="22" r="2.2"/><circle cx="50" cy="56" r="2.2"/></g>
+  <g transform="translate(98 16)">
+    <rect width="48" height="48" rx="3" fill="#141a17" stroke="#ffffff" stroke-opacity=".1"/>
+    <g font-family="monospace" font-size="4" fill="#8b948f"><text x="6" y="11">PLAN VS REALITY</text></g>
+    <rect x="6" y="17" width="36" height="1.6" rx=".8" fill="#ffffff" fill-opacity=".1"/><rect x="6" y="17" width="30" height="1.6" rx=".8" fill="#12a150"/>
+    <rect x="6" y="26" width="36" height="1.6" rx=".8" fill="#ffffff" fill-opacity=".1"/><rect x="6" y="26" width="21" height="1.6" rx=".8" fill="#d49a00"/>
+    <rect x="6" y="35" width="36" height="1.6" rx=".8" fill="#ffffff" fill-opacity=".1"/><rect x="6" y="35" width="13" height="1.6" rx=".8" fill="#e5484d"/>
+  </g>
+</svg>

@@ -1,0 +1,114 @@
+OUT=contact.html
+TITLE=Contact · Ciprio
+DESC=Get in touch with Ciprio: questions about the product, partnerships, press or early access for your club.
+PATH=/contact
+NAV=contact
+---
+<header class="page-head">
+  <div class="wrap">
+    <p class="label">Contact</p>
+    <h1>Let's talk <span>football.</span></h1>
+    <p class="lead">A question about the product, a club that wants to try it early, a partnership idea? Send a message and I'll get back to you personally.</p>
+  </div>
+</header>
+
+<main class="section">
+  <div class="wrap contact-grid">
+    <aside class="contact-side">
+      <div class="cbox">
+        <span class="label">Email</span>
+        <div class="mail"><a href="mailto:verhille.ciprio@gmail.com" id="mail">verhille.ciprio@gmail.com</a><button type="button" class="copy" id="copy" aria-label="Copy email address">Copy</button></div>
+      </div>
+      <div class="cbox">
+        <span class="label">Based in</span>
+        <p>Toulouse, France</p>
+      </div>
+      <div class="cbox">
+        <span class="label">Good reasons to write</span>
+        <ul>
+          <li>Early access for your club or academy</li>
+          <li>Questions about how the analysis works</li>
+          <li>Partnerships, press and events</li>
+          <li>Your personal data (access, correction, deletion)</li>
+        </ul>
+      </div>
+    </aside>
+
+    <form class="cform" id="contact-form" novalidate>
+      <div class="row2">
+        <div class="field"><label for="c-name">Name</label><input id="c-name" name="name" autocomplete="name" maxlength="120" required></div>
+        <div class="field"><label for="c-email">Email</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="c-club">Club (optional)</label><input id="c-club" name="club" autocomplete="organization" maxlength="120"></div>
+        <div class="field"><label for="c-topic">Topic</label>
+          <select id="c-topic" name="topic">
+            <option>Early access</option>
+            <option>Product question</option>
+            <option>Partnership</option>
+            <option>Press</option>
+            <option>Personal data</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label for="c-message">Message</label><textarea id="c-message" name="message" maxlength="4000" required></textarea></div>
+      <label class="consent" for="c-consent"><input id="c-consent" type="checkbox" required> I agree that Ciprio stores this message to reply to me, as described in the <a href="/privacy">privacy policy</a>.</label>
+      <div class="send"><button class="btn btn-ink" type="submit">Send message →</button><p class="form-msg" id="c-msg" role="status" aria-live="polite"></p></div>
+    </form>
+  </div>
+</main>
+
+<style>
+.contact-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:start}
+.contact-side{display:grid;gap:14px}
+.cbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px 20px;display:grid;gap:8px}
+.cbox p{font-weight:500}
+.cbox ul{margin:0;padding-left:1.1em;color:var(--ink-2);font-size:.92rem;display:grid;gap:4px}
+.mail{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mail a{font-weight:500;text-decoration:none;word-break:break-all}
+.copy{font:500 .78rem/1 var(--f-sans);border:1px solid var(--line);background:var(--bg);border-radius:6px;height:30px;padding:0 12px;cursor:pointer}
+.copy:hover{border-color:var(--ink)}
+.cform{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:28px;display:grid;gap:16px}
+.send{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr;gap:28px}.cform{padding:20px}}
+</style>
+<script>
+(function () {
+  // Copier l'adresse e-mail
+  const copy = document.getElementById("copy"), mail = document.getElementById("mail");
+  copy.addEventListener("click", async () => {
+    try { await navigator.clipboard.writeText(mail.textContent); copy.textContent = "Copied"; }
+    catch { const r = document.createRange(); r.selectNodeContents(mail); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copy.textContent = "Selected"; }
+    setTimeout(() => copy.textContent = "Copy", 1800);
+  });
+
+  // Messages enregistrés dans la table Supabase "contact_messages" (insertion seule, aucune lecture publique)
+  const SUPABASE_URL = "https://pazzrgvkgmdgqmtscspl.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
+  const form = document.getElementById("contact-form"), msg = document.getElementById("c-msg"), btn = form.querySelector("button[type=submit]");
+  const $ = id => document.getElementById(id);
+  const say = (t, c) => { msg.textContent = t; msg.className = "form-msg " + (c || ""); };
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = $("c-name").value.trim(), email = $("c-email").value.trim(), message = $("c-message").value.trim();
+    if (!name) { say("Please enter your name.", "err"); $("c-name").focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { say("Enter a valid email address, e.g. name@club.com.", "err"); $("c-email").focus(); return; }
+    if (!message) { say("Please write a message.", "err"); $("c-message").focus(); return; }
+    if (!$("c-consent").checked) { say("Tick the box so we can store your message and reply.", "err"); $("c-consent").focus(); return; }
+    btn.disabled = true;
+    try {
+      const res = await fetch(SUPABASE_URL + "/rest/v1/contact_messages", {
+        method: "POST",
+        headers: { "apikey": SUPABASE_KEY, "Content-Type": "application/json", "Prefer": "return=minimal" },
+        body: JSON.stringify({ name, email, club: $("c-club").value.trim() || null, topic: $("c-topic").value, message, consent: true })
+      });
+      if (!res.ok) throw new Error(res.status);
+      say("Message sent. You'll get a reply by email.", "ok");
+      form.reset();
+    } catch {
+      say("Your message couldn't be sent. Try again, or write directly to verhille.ciprio@gmail.com.", "err");
+    } finally { btn.disabled = false; }
+  });
+})();
+</script>
