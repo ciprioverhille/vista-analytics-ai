@@ -23,45 +23,28 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
   </form>
 </main>
 
-<!-- Espace admin : une seule page, lue de haut en bas -->
+<!-- Espace admin : trois onglets -->
 <main class="adm-wrap adm-page" id="dash" hidden>
-  <h1 class="adm-title">L'argent de Ciprio</h1>
-  <p class="adm-intro">Cette page montre <b>ce qui sort</b> (les dépenses), <b>ce qui rentre</b> (les recettes) et <b>ce que ça donnera</b> selon le nombre de matchs analysés. Clique sur une ligne pour la modifier.</p>
+  <div class="adm-tabs" role="tablist" aria-label="Rubriques">
+    <button role="tab" id="tab-depenses" aria-controls="p-depenses" data-tab="depenses">Dépenses</button>
+    <button role="tab" id="tab-recettes" aria-controls="p-recettes" data-tab="recettes">Recettes</button>
+    <button role="tab" id="tab-taches" aria-controls="p-taches" data-tab="taches">Tâches <span class="tab-count" id="todo-count"></span></button>
+  </div>
 
-  <nav class="adm-toc" aria-label="Sommaire">
-    <a href="#bref">En bref</a><a href="#depenses">1. Dépenses</a><a href="#recettes">2. Recettes</a><a href="#previsions">3. Prévisions</a><a href="#historique">4. Historique</a>
-  </nav>
-
-  <!-- En bref -->
-  <section id="bref" class="adm-sec">
-    <div class="adm-kpis">
-      <div class="adm-card"><span class="k">Dépensé à ce jour</span><b id="k-spent">–</b><small id="k-spent-d"></small></div>
-      <div class="adm-card"><span class="k">Gagné à ce jour</span><b id="k-earned">–</b><small id="k-earned-d"></small></div>
-      <div class="adm-card adm-dark"><span class="k">Résultat</span><b id="k-result">–</b><small>gagné − dépensé</small></div>
-    </div>
-  </section>
-
-  <!-- 1. Dépenses -->
-  <section id="depenses" class="adm-sec">
+  <!-- Onglet Dépenses -->
+  <section class="adm-panel" role="tabpanel" id="p-depenses" aria-labelledby="tab-depenses">
     <div class="adm-sec-head">
-      <div><h2>1. Dépenses : où va l'argent</h2><p class="muted">Rangées selon <b>quand</b> je les paie.</p></div>
+      <div><h1>Dépenses</h1><p class="muted">Ce que Ciprio coûte, rangé selon <b>quand</b> je le paie. Clique sur une ligne pour la modifier.</p></div>
       <button class="btn btn-ink" id="add-exp" type="button">+ Ajouter une dépense</button>
     </div>
-    <div id="exp-blocks"></div>
-  </section>
-
-  <!-- 2. Recettes -->
-  <section id="recettes" class="adm-sec">
-    <div class="adm-sec-head">
-      <div><h2>2. Recettes : d'où vient l'argent</h2><p class="muted">L'argent payé par les clubs pour l'analyse de leurs vidéos.</p></div>
-      <button class="btn btn-ink" id="add-rev" type="button">+ Ajouter une recette</button>
+    <div class="adm-kpis">
+      <div class="adm-card"><span class="k">Dépensé à ce jour</span><b id="k-spent">–</b><small id="k-spent-d"></small></div>
+      <div class="adm-card"><span class="k">Chaque mois, quand Ciprio vendra</span><b id="k-fixed">–</b><small>abonnements obligatoires</small></div>
+      <div class="adm-card"><span class="k">Par match analysé</span><b id="k-match">–</b><small>calcul, stockage, rapport</small></div>
     </div>
-    <div id="rev-blocks"></div>
-  </section>
+    <div id="exp-blocks"></div>
 
-  <!-- 3. Prévisions -->
-  <section id="previsions" class="adm-sec">
-    <div class="adm-sec-head"><div><h2>3. Prévisions</h2><p class="muted">Ce que coûtera Ciprio une fois lancé, selon le nombre de matchs analysés chaque mois.</p></div></div>
+    <h2 class="adm-h2">Prévisions</h2>
     <div class="adm-card adm-sim">
       <label for="n">Si Ciprio analyse <b id="n-val">80</b> matchs par mois</label>
       <input id="n" type="range" min="0" max="500" step="5" value="80">
@@ -71,16 +54,53 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
     <div class="adm-scroll">
       <table class="adm-table"><thead><tr><th>Matchs par mois</th><th class="num">Dépenses par mois</th><th class="num">Dépenses par an</th><th class="num">Chaque match doit rapporter au moins</th></tr></thead><tbody id="fore"></tbody></table>
     </div>
-  </section>
 
-  <!-- 4. Historique -->
-  <section id="historique" class="adm-sec">
-    <div class="adm-sec-head"><div><h2>4. Historique des changements</h2><p class="muted">Chaque modification est notée ici, la plus récente en haut.</p></div></div>
+    <h2 class="adm-h2">Historique des changements</h2>
     <ol class="adm-log" id="log"></ol>
+    <p class="muted adm-small adm-note">Montants en euros. Ce sont des estimations, à vérifier sur le site de chaque service avant de payer ; les prix en dollars sont convertis approximativement.</p>
   </section>
 
-  <p class="muted adm-small">Montants en euros. Ce sont des estimations, à vérifier sur le site de chaque service avant de payer ; les prix en dollars sont convertis approximativement.</p>
+  <!-- Onglet Recettes -->
+  <section class="adm-panel" role="tabpanel" id="p-recettes" aria-labelledby="tab-recettes" hidden>
+    <div class="adm-sec-head">
+      <div><h1>Recettes</h1><p class="muted">L'argent payé par les clubs pour l'analyse de leurs vidéos.</p></div>
+      <button class="btn btn-ink" id="add-rev" type="button">+ Ajouter une recette</button>
+    </div>
+    <div class="adm-kpis">
+      <div class="adm-card"><span class="k">Gagné à ce jour</span><b id="k-earned">–</b><small id="k-earned-d"></small></div>
+      <div class="adm-card"><span class="k">Dépensé à ce jour</span><b id="k-spent2">–</b><small>voir l'onglet Dépenses</small></div>
+      <div class="adm-card adm-dark"><span class="k">Résultat</span><b id="k-result">–</b><small>gagné − dépensé</small></div>
+    </div>
+    <div id="rev-blocks"></div>
+  </section>
+
+  <!-- Onglet Tâches -->
+  <section class="adm-panel" role="tabpanel" id="p-taches" aria-labelledby="tab-taches" hidden>
+    <div class="adm-sec-head">
+      <div><h1>Tâches</h1><p class="muted">Où en est la détection : terrain, joueurs, arbitre, chrono. Mis à jour au fil du travail.</p></div>
+      <button class="btn btn-ink" id="add-task" type="button">+ Ajouter une tâche</button>
+    </div>
+    <div id="task-blocks"></div>
+  </section>
 </main>
+
+<!-- Fenêtre : tâche -->
+<dialog id="tdlg" class="adm-dlg">
+  <form method="dialog" novalidate>
+    <h2 id="tdlg-title">Tâche</h2>
+    <div class="field"><label for="t-title">Tâche</label><input id="t-title" required maxlength="200"></div>
+    <div class="field"><label for="t-detail">Détail</label><textarea id="t-detail" maxlength="1000"></textarea></div>
+    <div class="row2">
+      <div class="field"><label for="t-status">État</label><select id="t-status"><option value="waiting">En attente</option><option value="doing">En cours</option><option value="todo">À faire</option><option value="done">Fait</option></select></div>
+      <div class="field"><label for="t-owner">Qui</label><select id="t-owner"><option value="moi">Moi</option><option value="claude">Claude</option></select></div>
+    </div>
+    <div class="adm-dlg-btns">
+      <button class="btn btn-line adm-del" id="t-del" type="button">Supprimer</button>
+      <span><button class="btn btn-line" value="cancel" formnovalidate>Annuler</button><button class="btn btn-ink" id="t-save" type="button">Enregistrer</button></span>
+    </div>
+    <p class="form-msg" id="t-msg" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
 
 <!-- Fenêtre : dépense -->
 <dialog id="dlg" class="adm-dlg">
@@ -151,12 +171,21 @@ body{background:var(--bg)}
 .adm-login{max-width:440px;margin-inline:auto;display:grid;gap:14px}
 .adm-login h1{font-size:1.5rem;letter-spacing:-.02em}
 .adm-page{padding-block:36px 72px}
-.adm-title{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.035em}
-.adm-intro{max-width:680px;color:var(--ink-2);margin:10px 0 22px}
-.adm-toc{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:60px;z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
-.adm-toc a{font-size:.86rem;text-decoration:none;color:var(--ink-2);padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
-.adm-toc a:hover{color:var(--ink);border-color:#cfd3cf}
-.adm-sec{padding-top:36px;scroll-margin-top:110px}
+.adm-tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:28px;position:sticky;top:60px;z-index:10;background:var(--bg);overflow-x:auto;scrollbar-width:none}
+.adm-tabs::-webkit-scrollbar{display:none}
+.adm-tabs button{font:inherit;font-size:.95rem;font-weight:500;padding:12px 18px;border:0;border-bottom:2px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.adm-tabs button:hover{color:var(--ink)}
+.adm-tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.tab-count{font-family:var(--f-mono);font-size:.7rem;padding:1px 7px;border-radius:99px;background:var(--line);color:var(--ink-2);margin-left:4px}
+.adm-panel h1{font-size:clamp(1.6rem,3.5vw,2.2rem);letter-spacing:-.03em}
+.adm-panel .adm-kpis{margin-bottom:24px}
+.adm-h2{font-size:1.2rem;letter-spacing:-.02em;margin:40px 0 12px}
+.adm-note{margin-top:28px}
+.task-blk li{cursor:pointer}
+.who{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:99px;border:1px solid var(--line);white-space:nowrap;align-self:flex-start}
+.who.moi{background:#fff4dc;border-color:#f1d79a;color:#7a5600}
+.who.claude{background:#eef3ff;border-color:#cfdcff;color:#2a4fb8}
+.task-blk.done li .nm b{text-decoration:line-through;text-decoration-color:#9aa19d;color:var(--muted)}
 .adm-sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 .adm-sec-head h2{font-size:1.35rem;letter-spacing:-.025em}
 .adm-sec-head p{margin:2px 0 0;font-size:.9rem}
@@ -203,7 +232,6 @@ body{background:var(--bg)}
 .adm-log time{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
 .adm-log b{display:block;font-weight:500}
 .adm-log p{margin:2px 0 0;font-size:.86rem;color:var(--muted)}
-#historique + .adm-small{margin-top:28px}
 .adm-dlg{border:1px solid var(--line);border-radius:14px;padding:24px;width:min(640px,calc(100vw - 32px));background:var(--surface);color:var(--ink)}
 .adm-dlg::backdrop{background:rgba(12,16,14,.45)}
 .adm-dlg form{display:grid;gap:12px}
@@ -256,7 +284,14 @@ body{background:var(--bg)}
   ];
   const ORDER = ["paid", "now", "launch_month", "launch_once", "match", "extra"];
 
-  let rows = [], revenues = [], changes = [], editing = null, editingRev = null;
+  let rows = [], revenues = [], changes = [], tasks = [], editing = null, editingRev = null, editingTask = null;
+  const TASK_GROUPS = [
+    { key: "waiting", title: "En attente", sub: "Bloqué tant que ce n'est pas fait." },
+    { key: "doing", title: "En cours", sub: "Ce qui avance en ce moment." },
+    { key: "todo", title: "À faire", sub: "Prochaines étapes, dans l'ordre." },
+    { key: "done", title: "Fait", sub: "Déjà réalisé." },
+  ];
+  const WHO = { moi: "Moi", claude: "Claude" };
 
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v) => (v === null || v === undefined || v === "" ? null : Number(v));
@@ -286,14 +321,15 @@ body{background:var(--bg)}
   }
 
   async function load() {
-    const [e, r, c] = await Promise.all([
+    const [e, r, c, k] = await Promise.all([
       sb.from("expenses").select("*").order("sort").order("created_at"),
       sb.from("revenues").select("*").order("received_on", { ascending: false }),
       sb.from("expense_changes").select("*").order("created_at", { ascending: false }).limit(100),
+      sb.from("tasks").select("*").order("sort").order("created_at"),
     ]);
-    const err = e.error || r.error || c.error;
+    const err = e.error || r.error || c.error || k.error;
     if (err) { $("exp-blocks").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc(err.message) + "</p>"; return; }
-    rows = e.data; revenues = r.data; changes = c.data; render();
+    rows = e.data; revenues = r.data; changes = c.data; tasks = k.data; render();
   }
 
   // Sommes min/max des dépenses à venir (optionnelles et montants inconnus exclus)
@@ -334,6 +370,20 @@ body{background:var(--bg)}
     $("k-earned").textContent = eur0.format(earned);
     $("k-earned-d").textContent = revenues.length ? revenues.length + " paiement(s) reçu(s)" : "aucun client payant pour l'instant";
     const res = earned - t.paid;
+    $("k-spent2").textContent = eur0.format(t.paid);
+    $("k-fixed").textContent = rng(...t.fixed);
+    $("k-match").textContent = rng(...t.match, eur);
+
+    // Tâches
+    const open = tasks.filter((x) => x.status !== "done").length;
+    $("todo-count").textContent = open || "";
+    $("task-blocks").innerHTML = TASK_GROUPS.map((g) => {
+      const list = tasks.filter((x) => x.status === g.key);
+      if (!list.length) return "";
+      return `<div class="blk task-blk ${g.key}"><div class="blk-head"><h3>${g.title}<small>${g.sub}</small></h3><span class="blk-total">${list.length}</span></div>
+        <ul>${list.map((x) => `<li data-task="${x.id}"><span class="nm"><b>${esc(x.title)}</b>${x.detail ? `<small>${esc(x.detail)}</small>` : ""}</span><span class="who ${x.owner}">${WHO[x.owner]}</span></li>`).join("")}</ul></div>`;
+    }).join("") || '<p class="blk-empty">Aucune tâche.</p>';
+
     $("k-result").innerHTML = `<span class="${res > 0 ? "pos" : res < 0 ? "neg" : ""}">${res > 0 ? "+" : ""}${eur0.format(res)}</span>`;
 
     // 1. Dépenses
@@ -419,6 +469,44 @@ body{background:var(--bg)}
     $("dlg").close(); await load();
   }
 
+  // ----- Tâches -----
+  function openTask(x) {
+    editingTask = x || null;
+    $("tdlg-title").textContent = x ? "Modifier la tâche" : "Nouvelle tâche";
+    $("t-title").value = x?.title || ""; $("t-detail").value = x?.detail || "";
+    $("t-status").value = x?.status || "todo"; $("t-owner").value = x?.owner || "moi";
+    $("t-del").hidden = !x; $("t-msg").textContent = "";
+    $("tdlg").showModal();
+  }
+  async function saveTask() {
+    const title = $("t-title").value.trim();
+    if (!title) { $("t-msg").textContent = "Le titre est obligatoire."; $("t-msg").className = "form-msg err"; return; }
+    const rec = { title, detail: $("t-detail").value.trim() || null, status: $("t-status").value, owner: $("t-owner").value, updated_at: new Date().toISOString() };
+    $("t-save").disabled = true;
+    const { error } = editingTask ? await sb.from("tasks").update(rec).eq("id", editingTask.id) : await sb.from("tasks").insert({ ...rec, sort: 150 });
+    $("t-save").disabled = false;
+    if (error) return fail("t-msg", error);
+    $("tdlg").close(); await load();
+  }
+  async function delTask() {
+    if (!editingTask || !confirm("Supprimer cette tâche ?")) return;
+    const { error } = await sb.from("tasks").delete().eq("id", editingTask.id);
+    if (error) return fail("t-msg", error);
+    $("tdlg").close(); await load();
+  }
+
+  // ----- Onglets (mémorisés dans l'adresse : #depenses, #recettes, #taches) -----
+  const TABS = ["depenses", "recettes", "taches"];
+  function showTab(name) {
+    if (!TABS.includes(name)) name = "depenses";
+    for (const t of TABS) {
+      $("tab-" + t).setAttribute("aria-selected", t === name);
+      $("p-" + t).hidden = t !== name;
+    }
+  }
+  document.querySelectorAll(".adm-tabs [data-tab]").forEach((b) => b.addEventListener("click", () => { history.replaceState(null, "", "#" + b.dataset.tab); showTab(b.dataset.tab); }));
+  showTab(location.hash.slice(1));
+
   // ----- Recettes -----
   function openRev(r) {
     editingRev = r || null;
@@ -467,6 +555,10 @@ body{background:var(--bg)}
   $("r-del").addEventListener("click", delRev);
   $("n").addEventListener("input", render);
   $("exp-blocks").addEventListener("click", (e) => { const li = e.target.closest("[data-exp]"); if (li) openExp(rows.find((r) => r.id === li.dataset.exp)); });
+  $("add-task").addEventListener("click", () => openTask(null));
+  $("t-save").addEventListener("click", saveTask);
+  $("t-del").addEventListener("click", delTask);
+  $("task-blocks").addEventListener("click", (e) => { const li = e.target.closest("[data-task]"); if (li) openTask(tasks.find((x) => x.id === li.dataset.task)); });
   $("rev-blocks").addEventListener("click", (e) => { const li = e.target.closest("[data-rev]"); if (li) openRev(revenues.find((r) => r.id === li.dataset.rev)); });
   sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT") show(); });
   show();
