@@ -37,61 +37,68 @@
   </form>
 </main>
 
-<!-- Espace admin -->
-<div class="adm-wrap adm-shell" id="dash" hidden>
-  <nav class="adm-side" aria-label="Rubriques">
-    <a href="#depenses" aria-current="page">Dépenses à venir</a>
+<!-- Espace admin : une seule page, lue de haut en bas -->
+<main class="adm-wrap adm-page" id="dash" hidden>
+  <h1 class="adm-title">L'argent de Ciprio</h1>
+  <p class="adm-intro">Cette page montre <b>ce qui sort</b> (les dépenses), <b>ce qui rentre</b> (les recettes) et <b>ce que ça donnera</b> selon le nombre de matchs analysés. Clique sur une ligne pour la modifier.</p>
+
+  <nav class="adm-toc" aria-label="Sommaire">
+    <a href="#bref">En bref</a><a href="#depenses">1. Dépenses</a><a href="#recettes">2. Recettes</a><a href="#previsions">3. Prévisions</a><a href="#historique">4. Historique</a>
   </nav>
 
-  <main id="depenses">
-    <div class="adm-head">
-      <h1>Dépenses à venir</h1>
-      <button class="btn btn-ink" id="add" type="button">+ Ajouter une dépense</button>
-    </div>
-
-    <div class="adm-sim adm-card">
-      <label for="n">Matchs analysés par mois : <b id="n-val">80</b></label>
-      <input id="n" type="range" min="0" max="500" step="5" value="80">
-      <p class="muted">Exemple : 20 clubs × 4 matchs = 80. Les dépenses « optionnelles » et les montants inconnus ne sont pas comptés.</p>
-    </div>
-
+  <!-- En bref -->
+  <section id="bref" class="adm-sec">
     <div class="adm-kpis">
-      <div class="adm-card"><span class="k">Déjà payé</span><b id="k-paid">–</b><small id="k-paid-n"></small></div>
-      <div class="adm-card"><span class="k">À payer une fois</span><b id="k-once">–</b><small>au lancement</small></div>
-      <div class="adm-card"><span class="k">Fixe par mois</span><b id="k-fixed">–</b><small>abonnements + annuels ÷ 12</small></div>
-      <div class="adm-card"><span class="k">Coût par match</span><b id="k-match">–</b><small>calcul, stockage, rapport IA</small></div>
-      <div class="adm-card adm-dark"><span class="k">Total par mois</span><b id="k-month">–</b><small id="k-month-d"></small></div>
-      <div class="adm-card adm-dark"><span class="k">Sur 12 mois</span><b id="k-year">–</b><small>hors « déjà payé »</small></div>
+      <div class="adm-card"><span class="k">Dépensé à ce jour</span><b id="k-spent">–</b><small id="k-spent-d"></small></div>
+      <div class="adm-card"><span class="k">Gagné à ce jour</span><b id="k-earned">–</b><small id="k-earned-d"></small></div>
+      <div class="adm-card adm-dark"><span class="k">Résultat</span><b id="k-result">–</b><small>gagné − dépensé</small></div>
     </div>
+  </section>
 
-    <div class="adm-split">
-      <section>
-        <h2 class="adm-h2">Tableau</h2>
-        <div id="groups"></div>
-      </section>
-      <aside>
-        <h2 class="adm-h2">Ce que je paie, et pourquoi</h2>
-        <ol class="adm-detail" id="detail"></ol>
-      </aside>
+  <!-- 1. Dépenses -->
+  <section id="depenses" class="adm-sec">
+    <div class="adm-sec-head">
+      <div><h2>1. Dépenses : où va l'argent</h2><p class="muted">Rangées selon <b>quand</b> je les paie.</p></div>
+      <button class="btn btn-ink" id="add-exp" type="button">+ Ajouter une dépense</button>
     </div>
+    <div id="exp-blocks"></div>
+  </section>
 
-    <section class="adm-block">
-      <h2 class="adm-h2">Prévisions selon le nombre de matchs</h2>
-      <div class="adm-scroll"><table class="adm-table adm-fore"><thead><tr><th>Matchs / mois</th><th class="num">Par mois</th><th class="num">Sur 12 mois</th><th class="num">Coût moyen par match</th></tr></thead><tbody id="fore"></tbody></table></div>
-      <p class="muted adm-foot">Comprend le fixe mensuel, les annuels ÷ 12 et le coût par match. Ne comprend pas les dépenses « une fois » ni « optionnelles ».</p>
-    </section>
+  <!-- 2. Recettes -->
+  <section id="recettes" class="adm-sec">
+    <div class="adm-sec-head">
+      <div><h2>2. Recettes : d'où vient l'argent</h2><p class="muted">L'argent payé par les clubs pour l'analyse de leurs vidéos.</p></div>
+      <button class="btn btn-ink" id="add-rev" type="button">+ Ajouter une recette</button>
+    </div>
+    <div id="rev-blocks"></div>
+  </section>
 
-    <section class="adm-block">
-      <h2 class="adm-h2">Historique des mises à jour</h2>
-      <ol class="adm-log" id="log"></ol>
-    </section>
+  <!-- 3. Prévisions -->
+  <section id="previsions" class="adm-sec">
+    <div class="adm-sec-head"><div><h2>3. Prévisions</h2><p class="muted">Ce que coûtera Ciprio une fois lancé, selon le nombre de matchs analysés chaque mois.</p></div></div>
+    <div class="adm-card adm-sim">
+      <label for="n">Si Ciprio analyse <b id="n-val">80</b> matchs par mois</label>
+      <input id="n" type="range" min="0" max="500" step="5" value="80">
+      <p class="adm-sentence" id="sentence"></p>
+      <p class="muted adm-small">Exemple : 20 clubs × 4 matchs = 80 matchs. Ne compte ni les dépenses « une seule fois », ni les dépenses optionnelles, ni les montants encore inconnus.</p>
+    </div>
+    <div class="adm-scroll">
+      <table class="adm-table"><thead><tr><th>Matchs par mois</th><th class="num">Dépenses par mois</th><th class="num">Dépenses par an</th><th class="num">Chaque match doit rapporter au moins</th></tr></thead><tbody id="fore"></tbody></table>
+    </div>
+  </section>
 
-    <p class="muted adm-foot">Montants en euros, estimations à vérifier sur le site de chaque service avant de payer. Les prix en dollars sont convertis approximativement.</p>
-  </main>
-</div>
+  <!-- 4. Historique -->
+  <section id="historique" class="adm-sec">
+    <div class="adm-sec-head"><div><h2>4. Historique des changements</h2><p class="muted">Chaque modification est notée ici, la plus récente en haut.</p></div></div>
+    <ol class="adm-log" id="log"></ol>
+  </section>
 
+  <p class="muted adm-small">Montants en euros. Ce sont des estimations, à vérifier sur le site de chaque service avant de payer ; les prix en dollars sont convertis approximativement.</p>
+</main>
+
+<!-- Fenêtre : dépense -->
 <dialog id="dlg" class="adm-dlg">
-  <form id="edit" method="dialog" novalidate>
+  <form method="dialog" novalidate>
     <h2 id="dlg-title">Dépense</h2>
     <div class="field"><label for="e-name">Nom</label><input id="e-name" required maxlength="160"></div>
     <div class="row2">
@@ -100,18 +107,18 @@
     </div>
     <datalist id="cats"><option>Site</option><option>Données</option><option>Analyse</option><option>Outils</option><option>Société</option><option>Juridique</option><option>Marketing</option><option>Autre</option></datalist>
     <div class="row2">
-      <div class="field"><label for="e-phase">Quand</label><select id="e-phase"><option value="now">Maintenant</option><option value="launch">Au lancement commercial</option><option value="later">Plus tard</option></select></div>
-      <div class="field"><label for="e-billing">Facturation</label><select id="e-billing"><option value="once">Une fois</option><option value="monthly">Par mois</option><option value="yearly">Par an</option><option value="per_match">Par match</option></select></div>
+      <div class="field"><label for="e-phase">Quand</label><select id="e-phase"><option value="now">Aujourd'hui</option><option value="launch">Quand Ciprio vendra</option><option value="later">Plus tard</option></select></div>
+      <div class="field"><label for="e-billing">Facturation</label><select id="e-billing"><option value="once">Une seule fois</option><option value="monthly">Par mois</option><option value="yearly">Par an</option><option value="per_match">Par match analysé</option></select></div>
     </div>
     <div class="row2">
       <div class="field"><label for="e-min">Montant min (€)</label><input id="e-min" type="number" step="0.01" min="0" inputmode="decimal"></div>
       <div class="field"><label for="e-max">Montant max (€)</label><input id="e-max" type="number" step="0.01" min="0" inputmode="decimal"></div>
     </div>
     <div class="row2">
-      <div class="field"><label for="e-status">Statut</label><select id="e-status"><option value="planned">Prévu</option><option value="active">En cours</option><option value="paid">Payé</option><option value="optional">Optionnel</option></select></div>
+      <div class="field"><label for="e-status">Statut</label><select id="e-status"><option value="planned">Prévu</option><option value="active">En cours</option><option value="paid">Déjà payé</option><option value="optional">Optionnel</option></select></div>
       <div class="field"><label for="e-url">Lien</label><input id="e-url" type="url" maxlength="300"></div>
     </div>
-    <div class="field"><label for="e-expl">Explication (pourquoi cette dépense)</label><textarea id="e-expl" maxlength="1000"></textarea></div>
+    <div class="field"><label for="e-expl">Explication (à quoi ça sert)</label><textarea id="e-expl" maxlength="1000"></textarea></div>
     <div class="field"><label for="e-note">Note (prix, conditions)</label><textarea id="e-note" maxlength="1000"></textarea></div>
     <div class="adm-dlg-btns">
       <button class="btn btn-line adm-del" id="e-del" type="button">Supprimer</button>
@@ -121,9 +128,33 @@
   </form>
 </dialog>
 
+<!-- Fenêtre : recette -->
+<dialog id="rdlg" class="adm-dlg">
+  <form method="dialog" novalidate>
+    <h2 id="rdlg-title">Recette</h2>
+    <div class="row2">
+      <div class="field"><label for="r-date">Date</label><input id="r-date" type="date" required></div>
+      <div class="field"><label for="r-source">Type</label><select id="r-source"><option value="subscription">Abonnement</option><option value="match">Analyse d'un match</option><option value="other">Autre</option></select></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="r-client">Club / client</label><input id="r-client" maxlength="120"></div>
+      <div class="field"><label for="r-amount">Montant reçu (€)</label><input id="r-amount" type="number" step="0.01" min="0" inputmode="decimal" required></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label for="r-matches">Matchs analysés (facultatif)</label><input id="r-matches" type="number" step="1" min="0"></div>
+      <div class="field"><label for="r-desc">Description</label><input id="r-desc" maxlength="200"></div>
+    </div>
+    <div class="adm-dlg-btns">
+      <button class="btn btn-line adm-del" id="r-del" type="button">Supprimer</button>
+      <span><button class="btn btn-line" value="cancel" formnovalidate>Annuler</button><button class="btn btn-ink" id="r-save" type="button">Enregistrer</button></span>
+    </div>
+    <p class="form-msg" id="r-msg" role="status" aria-live="polite"></p>
+  </form>
+</dialog>
+
 <style>
 body{background:var(--bg)}
-.adm-wrap{max-width:1320px;margin-inline:auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.adm-wrap{max-width:1000px;margin-inline:auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
 .adm-top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
 .adm-top .adm-wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;height:60px}
 .adm-top .brand{display:flex;align-items:center;gap:10px}
@@ -133,59 +164,60 @@ body{background:var(--bg)}
 .adm-login-wrap{padding-block:12vh}
 .adm-login{max-width:440px;margin-inline:auto;display:grid;gap:14px}
 .adm-login h1{font-size:1.5rem;letter-spacing:-.02em}
-.adm-shell{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:32px 64px}
-.adm-side{position:sticky;top:92px;align-self:start;display:grid;gap:4px}
-.adm-side a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-size:.92rem}
-.adm-side a[aria-current="page"]{background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:500}
-.adm-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-.adm-head h1{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.03em}
+.adm-page{padding-block:36px 72px}
+.adm-title{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.035em}
+.adm-intro{max-width:680px;color:var(--ink-2);margin:10px 0 22px}
+.adm-toc{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:60px;z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:8px}
+.adm-toc a{font-size:.86rem;text-decoration:none;color:var(--ink-2);padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface);white-space:nowrap}
+.adm-toc a:hover{color:var(--ink);border-color:#cfd3cf}
+.adm-sec{padding-top:36px;scroll-margin-top:110px}
+.adm-sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.adm-sec-head h2{font-size:1.35rem;letter-spacing:-.025em}
+.adm-sec-head p{margin:2px 0 0;font-size:.9rem}
 .adm-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-.adm-sim{display:grid;gap:8px;margin-bottom:14px}
-.adm-sim input{width:100%;accent-color:var(--accent)}
-.adm-sim p{font-size:.85rem;margin:0}
-.adm-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:36px}
-.adm-kpis .adm-card{display:grid;gap:4px;align-content:start;padding:16px}
-.adm-kpis .k{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-.adm-kpis b{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.adm-kpis small{color:var(--muted);font-size:.78rem}
+.adm-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.adm-kpis .adm-card{display:grid;gap:4px}
+.adm-kpis .k{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.adm-kpis b{font-size:1.9rem;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.adm-kpis small{color:var(--muted);font-size:.8rem}
 .adm-dark{background:var(--dark);border-color:var(--dark);color:#fff}
 .adm-dark .k,.adm-dark small{color:var(--dark-muted)}
-.adm-h2{font-size:1.1rem;letter-spacing:-.015em;margin-bottom:12px}
-.adm-split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
-.adm-block{margin-top:44px}
-.adm-group{margin-bottom:24px}
-.adm-group h3{font-size:.8rem;font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;margin-bottom:8px}
+.pos{color:#3ddc84}.neg{color:#ff7a7e}
+.blk{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;overflow:hidden}
+.blk-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:14px 18px;background:#f4f5f3;border-bottom:1px solid var(--line)}
+.blk-head h3{font-size:1rem;letter-spacing:-.01em}
+.blk-head h3 small{display:block;font-weight:400;font-size:.82rem;color:var(--muted);margin-top:2px}
+.blk-total{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
+.blk ul{list-style:none;margin:0;padding:0}
+.blk li{display:flex;justify-content:space-between;gap:16px;padding:12px 18px;border-top:1px solid var(--line);cursor:pointer}
+.blk li:first-child{border-top:0}
+.blk li:hover{background:var(--bg)}
+.blk li.opt{opacity:.6}
+.blk .nm b{font-weight:500}
+.blk .nm small{display:block;font-size:.84rem;color:var(--muted);line-height:1.45;margin-top:2px}
+.blk .amt{white-space:nowrap;font-variant-numeric:tabular-nums;text-align:right;font-weight:500}
+.blk .amt small{display:block;font-weight:400;color:var(--muted);font-size:.78rem}
+.blk-empty{padding:16px 18px;color:var(--muted);font-size:.9rem}
+.unk{color:#a37400}
+.adm-sim{display:grid;gap:8px;margin-bottom:14px}
+.adm-sim label{font-size:1rem}
+.adm-sim input{width:100%;accent-color:var(--accent)}
+.adm-sentence{font-size:1.15rem;letter-spacing:-.01em;margin:4px 0 0}
+.adm-small{font-size:.8rem;margin:0}
+.adm-scroll{overflow-x:auto}
 .adm-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.9rem}
 .adm-table th{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:500;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
-.adm-table td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+.adm-table td{padding:11px 14px;border-top:1px solid var(--line)}
 .adm-table tbody tr:first-child td{border-top:0}
-.adm-table .num,.adm-table th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-#groups tbody tr{cursor:pointer}
-#groups tbody tr:hover{background:var(--bg)}
-.adm-table .nm b{font-weight:500}
-.adm-table .nm small{display:block;color:var(--muted);font-size:.8rem}
-.adm-table tr.opt{opacity:.55}
-.adm-fore tr.cur td{background:#eef8f2;font-weight:600}
-.pill{display:inline-block;font-family:var(--f-mono);font-size:.66rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
-.pill.paid{background:#e8f6ee;border-color:#bfe5cf;color:#0b7a3b}
-.pill.active{background:#eef3ff;border-color:#cfdcff;color:#2a4fb8}
-.pill.optional{color:var(--muted)}
-.unk{color:#a37400}
-.adm-detail{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.adm-detail li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
-.adm-detail li:hover{border-color:#cfd3cf}
-.adm-detail li.opt{opacity:.6}
-.adm-detail .amt{display:block;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.adm-detail .who{display:block;font-size:.88rem;color:var(--ink-2)}
-.adm-detail p{margin:6px 0 0;font-size:.85rem;color:var(--muted);line-height:1.5}
+.adm-table .num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adm-table tr.cur td{background:#eef8f2;font-weight:600}
 .adm-log{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);display:grid;gap:14px}
 .adm-log li{padding-left:16px;position:relative}
 .adm-log li::before{content:"";position:absolute;left:-6px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--bg)}
 .adm-log time{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
 .adm-log b{display:block;font-weight:500}
 .adm-log p{margin:2px 0 0;font-size:.86rem;color:var(--muted)}
-.adm-scroll{overflow-x:auto}
-.adm-foot{font-size:.8rem;margin-top:10px}
+#historique + .adm-small{margin-top:28px}
 .adm-dlg{border:1px solid var(--line);border-radius:14px;padding:24px;width:min(640px,calc(100vw - 32px));background:var(--surface);color:var(--ink)}
 .adm-dlg::backdrop{background:rgba(12,16,14,.45)}
 .adm-dlg form{display:grid;gap:12px}
@@ -194,20 +226,16 @@ body{background:var(--bg)}
 .adm-dlg-btns{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
 .adm-dlg-btns span{display:flex;gap:8px}
 .adm-del{color:var(--bad)}
-@media (max-width:1180px){.adm-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.adm-split{grid-template-columns:1fr}}
-@media (max-width:860px){.adm-shell{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:16px}.adm-side{position:static;display:flex;overflow-x:auto}.adm-side a{white-space:nowrap}}
 @media (max-width:640px){
   .adm-user .muted{display:none}
-  .adm-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .adm-kpis b{font-size:1.1rem}
-  #groups thead{display:none}
-  #groups table,#groups tbody,#groups tr,#groups td{display:block;width:100%}
-  #groups tr{padding:10px 14px;border-top:1px solid var(--line)}
-  #groups tr:first-child{border-top:0}
-  #groups td{border:0;padding:2px 0;text-align:left}
-  #groups td[data-l]::before{content:attr(data-l) " : ";color:var(--muted);font-size:.8rem}
-  .adm-fore{font-size:.8rem}
-  .adm-fore td,.adm-fore th{padding:9px 8px}
+  .adm-kpis{grid-template-columns:1fr}
+  .adm-kpis b{font-size:1.5rem}
+  .adm-toc{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .adm-toc::-webkit-scrollbar{display:none}
+  .blk li{flex-direction:column;gap:4px}
+  .blk .amt{text-align:left}
+  .adm-table{font-size:.8rem}
+  .adm-table td,.adm-table th{padding:9px 8px}
 }
 </style>
 
@@ -215,7 +243,7 @@ body{background:var(--bg)}
 <script>
 (() => {
   /* Espace admin : connexion par lien e-mail (Supabase Auth), puis lecture et modification des tables
-     "expenses" et "expense_changes", protégées côté base : seul l'e-mail admin peut les lire ou les écrire (RLS). */
+     "expenses", "revenues" et "expense_changes", protégées côté base : seul l'e-mail admin y a accès (RLS). */
   const SUPABASE_URL = "https://pazzrgvkgmdgqmtscspl.supabase.co";
   const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   const ADMIN_EMAIL = "verhille.ciprio@gmail.com";
@@ -225,43 +253,64 @@ body{background:var(--bg)}
   const eur = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
   const eur0 = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
-  const PHASES = { now: "Maintenant", launch: "Au lancement commercial", later: "Plus tard" };
-  const BILLING = { once: "une fois", monthly: "/ mois", yearly: "/ an", per_match: "/ match" };
-  const STATUS = { planned: "Prévu", active: "En cours", paid: "Payé", optional: "Optionnel" };
+  const dayFmt = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+  const BILLING = { once: "une seule fois", monthly: "par mois", yearly: "par an", per_match: "par match" };
+  const STATUS = { planned: "Prévu", active: "En cours", paid: "Déjà payé", optional: "Optionnel" };
+  const SOURCES = { subscription: "Abonnements", match: "Analyses de matchs à l'unité", other: "Autres recettes" };
   const SCENARIOS = [0, 20, 50, 100, 250, 500];
-  let rows = [], changes = [], editing = null;
+
+  // Les 6 blocs de dépenses, dans l'ordre de lecture ; chaque dépense tombe dans le premier bloc qui la prend
+  const BLOCKS = [
+    { key: "paid", title: "Déjà payé", sub: "Ce que j'ai déjà réglé.", unit: "", test: (r) => r.status === "paid" },
+    { key: "extra", title: "Plus tard, ou optionnel", sub: "Pas obligatoire tout de suite, ou à décider.", unit: "", test: (r) => r.status === "optional" || r.phase === "later" },
+    { key: "match", title: "Pour chaque match analysé", sub: "Coûte un peu à chaque vidéo traitée.", unit: "par match", test: (r) => r.billing === "per_match" },
+    { key: "now", title: "Aujourd'hui, chaque mois", sub: "Ce que coûte Ciprio en ce moment.", unit: "par mois", test: (r) => r.phase === "now" },
+    { key: "launch_once", title: "Quand Ciprio vendra : une seule fois", sub: "À payer une fois, au moment du lancement.", unit: "", test: (r) => r.billing === "once" },
+    { key: "launch_month", title: "Quand Ciprio vendra : chaque mois", sub: "Abonnements obligatoires dès le premier client payant.", unit: "par mois", test: () => true },
+  ];
+  const ORDER = ["paid", "now", "launch_month", "launch_once", "match", "extra"];
+
+  let rows = [], revenues = [], changes = [], editing = null, editingRev = null;
 
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v) => (v === null || v === undefined || v === "" ? null : Number(v));
-  const amount = (r) => {
+  const rng = (lo, hi, f = eur0) => (Math.round(lo * 100) === Math.round(hi * 100) ? f.format(lo) : f.format(lo) + " – " + f.format(hi));
+  const amountText = (r) => {
     const a = num(r.amount_min), b = num(r.amount_max);
     if (a === null && b === null) return '<span class="unk">à compléter</span>';
-    return (a === b || b === null ? eur.format(a ?? b) : eur.format(a ?? 0) + " – " + eur.format(b));
+    return a === b || b === null ? eur.format(a ?? b) : eur.format(a ?? 0) + " – " + eur.format(b);
   };
-  const rng = (lo, hi, f = eur0) => (Math.round(lo * 100) === Math.round(hi * 100) ? f.format(lo) : f.format(lo) + " – " + f.format(hi));
+  const plain = (r) => {
+    const a = num(r.amount_min), b = num(r.amount_max);
+    const v = a === null && b === null ? "à compléter" : a === b || b === null ? eur.format(a ?? b) : eur.format(a ?? 0) + " – " + eur.format(b);
+    return v + " " + BILLING[r.billing];
+  };
+  const blockOf = (r) => BLOCKS.find((b) => b.test(r)).key;
 
   async function show() {
     const { data: { session } } = await sb.auth.getSession();
     const email = session?.user?.email || "";
-    const loggedIn = session && email.toLowerCase() === ADMIN_EMAIL;
-    if (session && !loggedIn) { await sb.auth.signOut(); $("l-msg").textContent = "Accès réservé."; $("l-msg").className = "form-msg err"; }
-    $("login-view").hidden = !!loggedIn; $("dash").hidden = !loggedIn; $("userbox").hidden = !loggedIn;
-    if (!loggedIn) return;
+    const ok = session && email.toLowerCase() === ADMIN_EMAIL;
+    if (session && !ok) { await sb.auth.signOut(); $("l-msg").textContent = "Accès réservé."; $("l-msg").className = "form-msg err"; }
+    $("login-view").hidden = !!ok; $("dash").hidden = !ok; $("userbox").hidden = !ok;
+    if (!ok) return;
     if (location.hash.includes("access_token")) history.replaceState(null, "", location.pathname);
     $("who").textContent = email;
     await load();
   }
 
   async function load() {
-    const [e, c] = await Promise.all([
+    const [e, r, c] = await Promise.all([
       sb.from("expenses").select("*").order("sort").order("created_at"),
+      sb.from("revenues").select("*").order("received_on", { ascending: false }),
       sb.from("expense_changes").select("*").order("created_at", { ascending: false }).limit(100),
     ]);
-    if (e.error || c.error) { $("groups").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc((e.error || c.error).message) + "</p>"; return; }
-    rows = e.data; changes = c.data; render();
+    const err = e.error || r.error || c.error;
+    if (err) { $("exp-blocks").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc(err.message) + "</p>"; return; }
+    rows = e.data; revenues = r.data; changes = c.data; render();
   }
 
-  // Sommes min/max par type de dépense ; les optionnelles et montants inconnus sont exclus
+  // Sommes min/max des dépenses à venir (optionnelles et montants inconnus exclus)
   function sums() {
     const t = { paid: 0, paidUnknown: 0, once: [0, 0], fixed: [0, 0], match: [0, 0] };
     for (const r of rows) {
@@ -276,48 +325,73 @@ body{background:var(--bg)}
   }
   const month = (t, n) => [t.fixed[0] + t.match[0] * n, t.fixed[1] + t.match[1] * n];
 
-  function render() {
-    const n = Number($("n").value), t = sums(), m = month(t, n);
-    $("n-val").textContent = n;
-    $("k-paid").textContent = eur0.format(t.paid);
-    $("k-paid-n").textContent = t.paidUnknown ? t.paidUnknown + " montant(s) à compléter" : "factures réglées";
-    $("k-once").textContent = rng(...t.once);
-    $("k-fixed").textContent = rng(...t.fixed);
-    $("k-match").textContent = rng(...t.match, eur);
-    $("k-month").textContent = rng(...m);
-    $("k-month-d").textContent = "avec " + n + " matchs par mois";
-    $("k-year").textContent = rng(t.once[0] + m[0] * 12, t.once[1] + m[1] * 12);
-
-    $("groups").innerHTML = Object.entries(PHASES).map(([ph, label]) => {
-      const list = rows.filter((r) => r.phase === ph);
-      if (!list.length) return "";
-      return `<div class="adm-group"><h3>${label}</h3><table class="adm-table"><thead><tr><th>Dépense</th><th>Catégorie</th><th class="num">Montant</th><th>Statut</th></tr></thead><tbody>${list.map((r) => `
-        <tr data-id="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
-          <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.provider)}${r.note ? " · " + esc(r.note) : ""}</small></td>
-          <td data-l="Catégorie">${esc(r.category)}</td>
-          <td class="num" data-l="Montant">${amount(r)} <span class="muted">${BILLING[r.billing]}</span></td>
-          <td data-l="Statut"><span class="pill ${r.status}">${STATUS[r.status]}</span></td>
-        </tr>`).join("")}</tbody></table></div>`;
-    }).join("");
-
-    $("detail").innerHTML = rows.map((r) => `
-      <li data-id="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
-        <span class="amt">${amount(r)} ${BILLING[r.billing]}</span>
-        <span class="who">${esc(r.provider || "")}${r.provider ? " · " : ""}${esc(r.name)}${r.status === "optional" ? " (optionnel)" : ""}</span>
-        ${r.explanation ? `<p>${esc(r.explanation)}</p>` : ""}
-      </li>`).join("");
-
-    $("fore").innerHTML = [...new Set([...SCENARIOS, n])].sort((a, b) => a - b).map((s) => {
-      const mm = month(t, s);
-      const avg = s ? rng(mm[0] / s, mm[1] / s, eur) : "–";
-      return `<tr class="${s === n ? "cur" : ""}"><td>${s}${s === n ? " (curseur)" : ""}</td><td class="num">${rng(...mm)}</td><td class="num">${rng(mm[0] * 12, mm[1] * 12)}</td><td class="num">${avg}</td></tr>`;
-    }).join("");
-
-    $("log").innerHTML = changes.length ? changes.map((c) => `
-      <li><time>${dateFmt.format(new Date(c.created_at))}</time><b>${esc(c.title)}</b>${c.detail ? `<p>${esc(c.detail)}</p>` : ""}</li>`).join("") : '<li><b>Aucune mise à jour pour l\'instant.</b></li>';
+  function blockTotal(key, list) {
+    if (key === "extra") return "";
+    let lo = 0, hi = 0, unknown = 0;
+    for (const r of list) {
+      const a = num(r.amount_min), b = num(r.amount_max) ?? a;
+      if (a === null) { unknown++; continue; }
+      const div = key !== "paid" && r.billing === "yearly" ? 12 : 1;
+      lo += a / div; hi += b / div;
+    }
+    const unit = BLOCKS.find((b) => b.key === key).unit;
+    return (key === "match" ? rng(lo, hi, eur) : rng(lo, hi)) + (unit ? " " + unit : "") + (unknown ? ` <small class="unk">+ ${unknown} à compléter</small>` : "");
   }
 
-  function openEdit(r) {
+  function render() {
+    const t = sums(), n = Number($("n").value), m = month(t, n);
+    const earned = revenues.reduce((s, r) => s + Number(r.amount), 0);
+
+    // En bref
+    $("k-spent").textContent = eur0.format(t.paid);
+    $("k-spent-d").innerHTML = t.paidUnknown ? `<span class="unk">${t.paidUnknown} montant à compléter</span>` : "factures réglées";
+    $("k-earned").textContent = eur0.format(earned);
+    $("k-earned-d").textContent = revenues.length ? revenues.length + " paiement(s) reçu(s)" : "aucun client payant pour l'instant";
+    const res = earned - t.paid;
+    $("k-result").innerHTML = `<span class="${res > 0 ? "pos" : res < 0 ? "neg" : ""}">${res > 0 ? "+" : ""}${eur0.format(res)}</span>`;
+
+    // 1. Dépenses
+    $("exp-blocks").innerHTML = ORDER.map((key) => {
+      const b = BLOCKS.find((x) => x.key === key);
+      const list = rows.filter((r) => blockOf(r) === key);
+      if (!list.length) return "";
+      return `<div class="blk"><div class="blk-head"><h3>${b.title}<small>${b.sub}</small></h3><span class="blk-total">${blockTotal(key, list)}</span></div>
+        <ul>${list.map((r) => `
+          <li data-exp="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
+            <span class="nm"><b>${esc(r.name)}</b><small>${esc(r.provider || "")}${r.explanation ? " — " + esc(r.explanation) : ""}${r.status === "optional" ? " (optionnel)" : ""}</small></span>
+            <span class="amt">${amountText(r)}<small>${BILLING[r.billing]}</small></span>
+          </li>`).join("")}</ul></div>`;
+    }).join("");
+
+    // 2. Recettes
+    $("rev-blocks").innerHTML = Object.entries(SOURCES).map(([src, title]) => {
+      const list = revenues.filter((r) => r.source === src);
+      const tot = list.reduce((s, r) => s + Number(r.amount), 0);
+      return `<div class="blk"><div class="blk-head"><h3>${title}</h3><span class="blk-total">${eur0.format(tot)}</span></div>
+        ${list.length ? `<ul>${list.map((r) => `
+          <li data-rev="${r.id}"><span class="nm"><b>${esc(r.client || "Client")}</b><small>${dayFmt.format(new Date(r.received_on))}${r.description ? " — " + esc(r.description) : ""}${r.matches ? " — " + r.matches + " match(s)" : ""}</small></span>
+          <span class="amt">${eur.format(r.amount)}</span></li>`).join("")}</ul>` : `<p class="blk-empty">Aucune recette pour l'instant. Elles apparaîtront ici dès le premier club payant.</p>`}</div>`;
+    }).join("");
+
+    // 3. Prévisions
+    $("n-val").textContent = n;
+    $("sentence").innerHTML = `Je dépenserai environ <b>${rng(...m)} par mois</b>, soit <b>${rng(m[0] * 12, m[1] * 12)} par an</b>.` +
+      (n ? ` Pour ne pas perdre d'argent, chaque match devra rapporter au moins <b>${rng(m[0] / n, m[1] / n, eur)}</b>.` : "");
+    $("fore").innerHTML = [...new Set([...SCENARIOS, n])].sort((a, b) => a - b).map((s) => {
+      const mm = month(t, s);
+      return `<tr class="${s === n ? "cur" : ""}"><td>${s}</td><td class="num">${rng(...mm)}</td><td class="num">${rng(mm[0] * 12, mm[1] * 12)}</td><td class="num">${s ? rng(mm[0] / s, mm[1] / s, eur) : "–"}</td></tr>`;
+    }).join("");
+
+    // 4. Historique
+    $("log").innerHTML = changes.length ? changes.map((c) => `
+      <li><time>${dateFmt.format(new Date(c.created_at))}</time><b>${esc(c.title)}</b>${c.detail ? `<p>${esc(c.detail)}</p>` : ""}</li>`).join("") : "<li><b>Aucun changement pour l'instant.</b></li>";
+  }
+
+  const logChange = (title, detail) => sb.from("expense_changes").insert({ title, detail });
+  const fail = (id, error) => { $(id).textContent = "Erreur : " + error.message; $(id).className = "form-msg err"; };
+
+  // ----- Dépenses -----
+  function openExp(r) {
     editing = r || null;
     $("dlg-title").textContent = r ? "Modifier la dépense" : "Nouvelle dépense";
     $("e-name").value = r?.name || ""; $("e-provider").value = r?.provider || ""; $("e-category").value = r?.category || "Autre";
@@ -328,46 +402,65 @@ body{background:var(--bg)}
     $("e-del").hidden = !r; $("e-msg").textContent = "";
     $("dlg").showModal();
   }
-
-  const label = (r) => (r.amount_min === null && r.amount_max === null ? "à compléter" : (r.amount_min === r.amount_max || r.amount_max === null ? eur.format(r.amount_min ?? r.amount_max) : eur.format(r.amount_min ?? 0) + " – " + eur.format(r.amount_max))) + " " + BILLING[r.billing];
-
-  async function logChange(title, detail) { await sb.from("expense_changes").insert({ title, detail }); }
-
-  async function save() {
+  async function saveExp() {
     const name = $("e-name").value.trim();
     if (!name) { $("e-msg").textContent = "Le nom est obligatoire."; $("e-msg").className = "form-msg err"; return; }
     const min = num($("e-min").value), max = num($("e-max").value);
     const rec = {
       name, provider: $("e-provider").value.trim() || null, category: $("e-category").value.trim() || "Autre",
-      phase: $("e-phase").value, billing: $("e-billing").value,
-      amount_min: min ?? max, amount_max: max ?? min,
+      phase: $("e-phase").value, billing: $("e-billing").value, amount_min: min ?? max, amount_max: max ?? min,
       status: $("e-status").value, url: $("e-url").value.trim() || null,
-      explanation: $("e-expl").value.trim() || null, note: $("e-note").value.trim() || null,
-      updated_at: new Date().toISOString(),
+      explanation: $("e-expl").value.trim() || null, note: $("e-note").value.trim() || null, updated_at: new Date().toISOString(),
     };
     $("e-save").disabled = true;
     const { error } = editing ? await sb.from("expenses").update(rec).eq("id", editing.id) : await sb.from("expenses").insert({ ...rec, sort: 500 });
     $("e-save").disabled = false;
-    if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
+    if (error) return fail("e-msg", error);
     if (editing) {
-      const before = label({ ...editing, amount_min: num(editing.amount_min), amount_max: num(editing.amount_max) }), after = label(rec);
       const bits = [];
-      if (before !== after) bits.push(before + " → " + after);
+      if (plain(editing) !== plain(rec)) bits.push(plain(editing) + " → " + plain(rec));
       if (editing.status !== rec.status) bits.push(STATUS[editing.status] + " → " + STATUS[rec.status]);
       if ((editing.provider || "") !== (rec.provider || "")) bits.push("fournisseur : " + (editing.provider || "aucun") + " → " + (rec.provider || "aucun"));
-      await logChange("Modifié : " + name, bits.join(" · ") || "Texte mis à jour.");
-    } else {
-      await logChange("Ajouté : " + name, label(rec));
-    }
+      await logChange("Dépense modifiée : " + name, bits.join(" · ") || "Texte mis à jour.");
+    } else await logChange("Dépense ajoutée : " + name, plain(rec));
+    $("dlg").close(); await load();
+  }
+  async function delExp() {
+    if (!editing || !confirm("Supprimer « " + editing.name + " » ?")) return;
+    const { error } = await sb.from("expenses").delete().eq("id", editing.id);
+    if (error) return fail("e-msg", error);
+    await logChange("Dépense supprimée : " + editing.name, plain(editing));
     $("dlg").close(); await load();
   }
 
-  async function del() {
-    if (!editing || !confirm("Supprimer « " + editing.name + " » ?")) return;
-    const { error } = await sb.from("expenses").delete().eq("id", editing.id);
-    if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
-    await logChange("Supprimé : " + editing.name, label({ ...editing, amount_min: num(editing.amount_min), amount_max: num(editing.amount_max) }));
-    $("dlg").close(); await load();
+  // ----- Recettes -----
+  function openRev(r) {
+    editingRev = r || null;
+    $("rdlg-title").textContent = r ? "Modifier la recette" : "Nouvelle recette";
+    $("r-date").value = r?.received_on || new Date().toISOString().slice(0, 10);
+    $("r-source").value = r?.source || "subscription"; $("r-client").value = r?.client || "";
+    $("r-amount").value = r?.amount ?? ""; $("r-matches").value = r?.matches ?? ""; $("r-desc").value = r?.description || "";
+    $("r-del").hidden = !r; $("r-msg").textContent = "";
+    $("rdlg").showModal();
+  }
+  async function saveRev() {
+    const amount = num($("r-amount").value);
+    if (amount === null || !$("r-date").value) { $("r-msg").textContent = "La date et le montant sont obligatoires."; $("r-msg").className = "form-msg err"; return; }
+    const rec = { received_on: $("r-date").value, source: $("r-source").value, client: $("r-client").value.trim() || null,
+      amount, matches: num($("r-matches").value), description: $("r-desc").value.trim() || null };
+    $("r-save").disabled = true;
+    const { error } = editingRev ? await sb.from("revenues").update(rec).eq("id", editingRev.id) : await sb.from("revenues").insert(rec);
+    $("r-save").disabled = false;
+    if (error) return fail("r-msg", error);
+    await logChange((editingRev ? "Recette modifiée : " : "Recette ajoutée : ") + (rec.client || SOURCES[rec.source]), eur.format(amount) + " le " + dayFmt.format(new Date(rec.received_on)));
+    $("rdlg").close(); await load();
+  }
+  async function delRev() {
+    if (!editingRev || !confirm("Supprimer cette recette ?")) return;
+    const { error } = await sb.from("revenues").delete().eq("id", editingRev.id);
+    if (error) return fail("r-msg", error);
+    await logChange("Recette supprimée : " + (editingRev.client || SOURCES[editingRev.source]), eur.format(editingRev.amount));
+    $("rdlg").close(); await load();
   }
 
   $("login").addEventListener("submit", async (e) => {
@@ -376,17 +469,19 @@ body{background:var(--bg)}
     if (email !== ADMIN_EMAIL) { msg.textContent = "Accès réservé."; msg.className = "form-msg err"; return; }
     msg.textContent = "Envoi…"; msg.className = "form-msg";
     const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + "/admin" } });
-    if (error) { msg.textContent = "Erreur : " + error.message; msg.className = "form-msg err"; return; }
+    if (error) return fail("l-msg", error);
     msg.textContent = "Lien envoyé. Ouvre l'e-mail et clique sur le lien."; msg.className = "form-msg ok";
   });
   $("logout").addEventListener("click", async () => { await sb.auth.signOut(); show(); });
-  $("add").addEventListener("click", () => openEdit(null));
-  $("e-save").addEventListener("click", save);
-  $("e-del").addEventListener("click", del);
+  $("add-exp").addEventListener("click", () => openExp(null));
+  $("add-rev").addEventListener("click", () => openRev(null));
+  $("e-save").addEventListener("click", saveExp);
+  $("e-del").addEventListener("click", delExp);
+  $("r-save").addEventListener("click", saveRev);
+  $("r-del").addEventListener("click", delRev);
   $("n").addEventListener("input", render);
-  const pick = (e) => { const el = e.target.closest("[data-id]"); if (el) openEdit(rows.find((r) => r.id === el.dataset.id)); };
-  $("groups").addEventListener("click", pick);
-  $("detail").addEventListener("click", pick);
+  $("exp-blocks").addEventListener("click", (e) => { const li = e.target.closest("[data-exp]"); if (li) openExp(rows.find((r) => r.id === li.dataset.exp)); });
+  $("rev-blocks").addEventListener("click", (e) => { const li = e.target.closest("[data-rev]"); if (li) openRev(revenues.find((r) => r.id === li.dataset.rev)); });
   sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT") show(); });
   show();
 })();
