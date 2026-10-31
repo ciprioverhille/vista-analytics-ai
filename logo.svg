@@ -1,15 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Vista Analytics">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="ciprio">
   <rect width="64" height="64" rx="12" fill="#0b0d0c"/>
   <!-- terrain -->
-  <g fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="1.5">
-    <rect x="13" y="9" width="38" height="46" rx="1.5"/>
-    <line x1="13" y1="32" x2="51" y2="32"/>
-    <circle cx="32" cy="32" r="6"/>
+  <g fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="1.5">
+    <rect x="11" y="9" width="42" height="46" rx="1.5"/>
+    <line x1="11" y1="32" x2="53" y2="32"/>
   </g>
-  <!-- triangle de passes -->
-  <path d="M21.5 42 L43 37 L30 20 Z" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round"/>
-  <circle cx="21.5" cy="42" r="3.6" fill="#ffffff"/>
-  <circle cx="43" cy="37" r="3.6" fill="#ffffff"/>
-  <!-- joueur analysé -->
-  <circle cx="30" cy="20" r="4.2" fill="#12a150"/>
+  <!-- le "c" : rond central ouvert -->
+  <path d="M39.78 24.22 A11 11 0 1 0 39.78 39.78" fill="none" stroke="#ffffff" stroke-width="4.6" stroke-linecap="round"/>
+  <!-- joueur / ballon analysé -->
+  <circle cx="44" cy="32" r="3.6" fill="#12a150"/>
 </svg>

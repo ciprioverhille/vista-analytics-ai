@@ -1,6 +1,6 @@
-# Vista Analytics
+# ciprio
 
-Site de Vista Analytics : analyse vidéo pour les staffs de football.
+Site de ciprio (en anglais) : analyse vidéo pour les staffs de football.
 
 - `index.html` : la page (HTML, CSS et JS inclus, aucune compilation).
 - `logo.svg` : le logo, aussi utilisé comme icône d'onglet.

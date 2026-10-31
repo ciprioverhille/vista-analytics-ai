@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Vista Analytics</title>
-<meta name="description" content="Vista Analytics confronte la vidéo intégrale de vos matchs à votre plan de jeu et livre un rapport tactique, collectif et individuel.">
+<title>ciprio</title>
+<meta name="description" content="ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,14 +73,12 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:64px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
 .brand svg{width:28px;height:28px;flex:none}
-.brand b{font-weight:600;font-size:1.02rem;letter-spacing:-.02em}
-.brand span{font-family:var(--f-mono);font-size:.7rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding-left:10px;border-left:1px solid var(--line)}
+.brand b{font-weight:600;font-size:1.12rem;letter-spacing:-.035em}
 .nav ul{display:flex;gap:32px;list-style:none;margin:0;padding:0;font-size:.9rem;color:var(--ink-2)}
 .nav ul a{text-decoration:none}
 .nav ul a:hover{color:var(--ink)}
 .nav .btn{height:36px;padding:0 14px;font-size:.86rem}
 @media (max-width:900px){.nav ul{display:none}}
-@media (max-width:440px){.brand span{display:none}}
 
 /* hero */
 .hero{background:var(--surface);padding-block:clamp(64px,9vw,112px) 0}
@@ -155,7 +153,7 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 .sheet-top{display:flex;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);font-size:.86rem}
 .sheet-top b{font-weight:600}
 .tpanel{padding:4px 20px 16px;min-height:340px}
-.cmp-head,.cmp{display:grid;grid-template-columns:1fr 1.2fr 84px;gap:16px}
+.cmp-head,.cmp{display:grid;grid-template-columns:1fr 1.2fr 100px;gap:16px}
 .cmp-head{padding:14px 0 8px}
 .cmp{padding:13px 0;border-top:1px solid var(--line);font-size:.86rem;line-height:1.4;align-items:start}
 .cmp .ask{font-weight:500}
@@ -228,7 +226,6 @@ tr.focus td{background:color-mix(in srgb,var(--accent) 6%,transparent)}
 footer{background:var(--dark);color:var(--dark-muted);font-size:.82rem;border-top:1px solid var(--dark-line)}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:24px}
 footer .brand{color:#e9eeeb}
-footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
 </style>
 </head>
 <body>
@@ -236,24 +233,23 @@ footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="logo" viewBox="0 0 64 64">
     <rect width="64" height="64" rx="12" fill="#0b0d0c"/>
-    <g fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="1.5">
-      <rect x="13" y="9" width="38" height="46" rx="1.5"/><line x1="13" y1="32" x2="51" y2="32"/><circle cx="32" cy="32" r="6"/>
+    <g fill="none" stroke="#ffffff" stroke-opacity=".2" stroke-width="1.5">
+      <rect x="11" y="9" width="42" height="46" rx="1.5"/><line x1="11" y1="32" x2="53" y2="32"/>
     </g>
-    <path d="M21.5 42 L43 37 L30 20 Z" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linejoin="round"/>
-    <circle cx="21.5" cy="42" r="3.6" fill="#ffffff"/><circle cx="43" cy="37" r="3.6" fill="#ffffff"/>
-    <circle cx="30" cy="20" r="4.2" fill="#12a150"/>
+    <path d="M39.78 24.22 A11 11 0 1 0 39.78 39.78" fill="none" stroke="#ffffff" stroke-width="4.6" stroke-linecap="round"/>
+    <circle cx="44" cy="32" r="3.6" fill="#12a150"/>
   </symbol>
 </svg>
 
-<nav class="nav" aria-label="Navigation principale">
+<nav class="nav" aria-label="Main navigation">
   <div class="wrap">
-    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><b>Vista</b><span>Analytics</span></a>
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg><b>ciprio</b></a>
     <ul>
-      <li><a href="#methode">Méthode</a></li>
-      <li><a href="#rapport">Rapport</a></li>
-      <li><a href="#benefices">Bénéfices</a></li>
+      <li><a href="#method">Method</a></li>
+      <li><a href="#report">Report</a></li>
+      <li><a href="#benefits">Benefits</a></li>
     </ul>
-    <a class="btn btn-ink" href="#acces">Demander un accès</a>
+    <a class="btn btn-ink" href="#access">Request access</a>
   </div>
 </nav>
 
@@ -261,27 +257,27 @@ footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
   <div class="wrap">
     <div class="hero-top">
       <div>
-        <p class="label">Analyse vidéo · Football</p>
-        <h1>Votre plan de jeu, <span>mesuré sur le terrain.</span></h1>
+        <p class="label">Video analysis · Football</p>
+        <h1>Your game plan, <span>measured on the pitch.</span></h1>
       </div>
       <div class="side">
-        <p class="lead">Vista Analytics confronte la vidéo intégrale de vos matchs à vos consignes d'avant-match, et livre un rapport tactique, collectif et individuel.</p>
+        <p class="lead">ciprio compares full-match footage with your pre-match instructions and delivers a tactical report at team and player level.</p>
         <div class="ctas">
-          <a class="btn btn-ink" href="#acces">Demander un accès <span class="arrow">→</span></a>
-          <a class="btn btn-line" href="#rapport">Voir un rapport</a>
+          <a class="btn btn-ink" href="#access">Request access <span class="arrow">→</span></a>
+          <a class="btn btn-line" href="#report">See a report</a>
         </div>
       </div>
     </div>
 
-    <figure class="board" style="margin:0" aria-label="Exemple d'analyse : pressing après perte et respect du plan de jeu">
+    <figure class="board" style="margin:0" aria-label="Sample analysis: counter-press and game plan compliance">
       <div class="board-bar">
-        <span><b>J12 · US Vallée 2–1 FC Rivière</b></span>
-        <span class="live"><i></i>Séquence 63:12 · Pressing après perte</span>
-        <span>Données d'illustration</span>
+        <span><b>MD12 · Northfield FC 2–1 Riverside United</b></span>
+        <span class="live"><i></i>Sequence 63:12 · Counter-press</span>
+        <span>Illustrative data</span>
       </div>
       <div class="board-grid">
         <div class="pitch">
-          <svg viewBox="-2 -2 109 72" role="img" aria-label="Terrain vu de dessus avec positions des joueurs et zone de pressing">
+          <svg viewBox="-2 -2 109 72" role="img" aria-label="Top-down pitch with player positions and pressing zone">
             <g fill="none" stroke="rgba(255,255,255,.18)" stroke-width=".35">
               <rect x="0" y="0" width="105" height="68"/>
               <line x1="52.5" y1="0" x2="52.5" y2="68"/>
@@ -314,21 +310,21 @@ footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
             <!-- ballon + n°7 -->
             <circle cx="82.6" cy="29.6" r=".8" fill="#fff" stroke="#0c100e" stroke-width=".25"/>
             <circle cx="68" cy="18" r="3.2" fill="none" stroke="#e9eeeb" stroke-width=".3" stroke-dasharray=".8 .6"/>
-            <text x="64.4" y="13" text-anchor="end" font-family="Geist Mono, monospace" font-size="2.2" fill="#e9eeeb">n°7 Lucas</text>
-            <text x="92" y="12" text-anchor="end" font-family="Geist Mono, monospace" font-size="2" fill="#12a150">récupération en 4,2 s</text>
+            <text x="64.4" y="13" text-anchor="end" font-family="Geist Mono, monospace" font-size="2.2" fill="#e9eeeb">#7 Lucas</text>
+            <text x="92" y="12" text-anchor="end" font-family="Geist Mono, monospace" font-size="2" fill="#12a150">ball won in 4.2 s</text>
           </svg>
           <div class="legend">
-            <span><i style="background:#e9eeeb"></i>US Vallée</span>
-            <span><i style="background:#6c7570"></i>FC Rivière</span>
-            <span><i style="background:#12a150"></i>Courses de pressing</span>
+            <span><i style="background:#e9eeeb"></i>Northfield FC</span>
+            <span><i style="background:#6c7570"></i>Riverside United</span>
+            <span><i style="background:#12a150"></i>Pressing runs</span>
           </div>
         </div>
         <div class="plan">
-          <h4>Plan de jeu · consignes vs réalité</h4>
-          <div class="rule"><div class="top"><span>Pressing dans les 5 s après la perte</span><b>18/29</b></div><div class="bar"><i class="mid" style="width:62%"></i></div><p class="note">Partiel · baisse d'intensité après la 65e</p></div>
-          <div class="rule"><div class="top"><span>Relance courte depuis le gardien</span><b>11/29</b></div><div class="bar"><i class="bad" style="width:38%"></i></div><p class="note">Non suivi · 18 dégagements longs</p></div>
-          <div class="rule"><div class="top"><span>Bloc compact, 30 m maximum</span><b>81 %</b></div><div class="bar"><i style="width:81%"></i></div><p class="note">Respecté · écart moyen 28 m</p></div>
-          <div class="rule"><div class="top"><span>n°7 présent dans la surface</span><b>4/9</b></div><div class="bar"><i class="mid" style="width:44%"></i></div><p class="note">Partiel · attaques placées côté gauche</p></div>
+          <h4>Game plan · instructions vs reality</h4>
+          <div class="rule"><div class="top"><span>Press within 5 s of losing the ball</span><b>18/29</b></div><div class="bar"><i class="mid" style="width:62%"></i></div><p class="note">Partial · intensity dropped after 65'</p></div>
+          <div class="rule"><div class="top"><span>Play out short from the goalkeeper</span><b>11/29</b></div><div class="bar"><i class="bad" style="width:38%"></i></div><p class="note">Not followed · 18 long clearances</p></div>
+          <div class="rule"><div class="top"><span>Compact block, 30 m max</span><b>81%</b></div><div class="bar"><i style="width:81%"></i></div><p class="note">Followed · 28 m average distance</p></div>
+          <div class="rule"><div class="top"><span>#7 present in the box</span><b>4/9</b></div><div class="bar"><i class="mid" style="width:44%"></i></div><p class="note">Partial · set attacks down the left</p></div>
         </div>
       </div>
     </figure>
@@ -336,145 +332,145 @@ footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
 </header>
 
 <div class="facts">
-  <div class="fact"><b>90 min</b><span>de match analysées, sans découpage</span></div>
-  <div class="fact"><b>3 niveaux</b><span>plan de jeu, collectif, individuel</span></div>
-  <div class="fact"><b>Chaque joueur</b><span>suivi, noté et commenté</span></div>
-  <div class="fact"><b>Séquences</b><span>horodatées pour chaque constat</span></div>
+  <div class="fact"><b>90 min</b><span>of footage analysed, no editing</span></div>
+  <div class="fact"><b>3 levels</b><span>game plan, team, individual</span></div>
+  <div class="fact"><b>Every player</b><span>tracked, rated and reviewed</span></div>
+  <div class="fact"><b>Timestamped</b><span>clips behind every finding</span></div>
 </div>
 
 <main>
-<section id="pourquoi">
+<section id="context">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="label">01 — Contexte</p>
+      <p class="label">01 — Context</p>
       <div class="body">
-        <h2>Le niveau d'une cellule vidéo professionnelle. Pour chaque staff.</h2>
-        <p class="lead">Dans le football professionnel, chaque match est décortiqué par des analystes. Ailleurs, le staff filme mais n'a ni le temps ni les outils pour exploiter 90 minutes de jeu. Vista Analytics apporte cette lecture précise et chiffrée à tous les clubs.</p>
+        <h2>Pro-level video analysis. For every coaching staff.</h2>
+        <p class="lead">In professional football, every match is broken down by a team of analysts. Elsewhere, staff film their games but lack the time and tools to make use of 90 minutes of play. ciprio brings that precise, data-driven reading to every club.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="methode">
+<section id="method">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="label">02 — Méthode</p>
+      <p class="label">02 — Method</p>
       <div class="body">
-        <h2>Quatre étapes, du coup de sifflet final au rapport.</h2>
+        <h2>Four steps, from final whistle to report.</h2>
       </div>
     </div>
     <ol class="steps reveal">
-      <li class="step"><span class="n">Étape 1</span><h3>Import de la vidéo</h3><p>Le match complet, filmé en tribune ou au bord du terrain. Aucun montage préalable.</p></li>
-      <li class="step"><span class="n">Étape 2</span><h3>Plan de jeu</h3><p>Système, principes et consignes particulières, rédigés librement comme dans le vestiaire.</p></li>
-      <li class="step"><span class="n">Étape 3</span><h3>Identification de l'effectif</h3><p>Couleur de l'équipe et prénom derrière chaque numéro, remplaçants compris. En cas de doute sur un joueur ou un changement, le modèle demande confirmation au staff.</p>
-        <div class="validate"><div><span class="q">n°14 entré à 63:00 — Karim ?</span><span class="k">Confirmé</span></div><div><span class="q">n°7 repositionné à droite à 70:00 ?</span><span class="k">Confirmé</span></div></div></li>
-      <li class="step"><span class="n">Étape 4</span><h3>Rapport</h3><p>Plan de jeu, collectif et individuel, chaque constat relié à ses séquences vidéo.</p></li>
+      <li class="step"><span class="n">Step 1</span><h3>Video upload</h3><p>The full match, filmed from the stand or the touchline. No editing required.</p></li>
+      <li class="step"><span class="n">Step 2</span><h3>Game plan</h3><p>Formation, principles and specific instructions, written freely, the way you would brief the dressing room.</p></li>
+      <li class="step"><span class="n">Step 3</span><h3>Squad identification</h3><p>Your team colour and the name behind every number, substitutes included. When a player or substitution is unclear, the model asks your staff to confirm.</p>
+        <div class="validate"><div><span class="q">#14 on at 63:00 — Karim?</span><span class="k">Confirmed</span></div><div><span class="q">#7 moved to the right at 70:00?</span><span class="k">Confirmed</span></div></div></li>
+      <li class="step"><span class="n">Step 4</span><h3>Report</h3><p>Game plan, team and individual, with every finding linked to its video clips.</p></li>
     </ol>
   </div>
 </section>
 
-<section id="rapport">
+<section id="report">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="label">03 — Rapport</p>
+      <p class="label">03 — Report</p>
       <div class="body">
-        <h2>Trois niveaux de lecture, un seul rapport.</h2>
+        <h2>Three levels of analysis, one report.</h2>
       </div>
     </div>
     <div class="report-wrap reveal">
-      <div class="cats" role="tablist" aria-label="Niveaux d'analyse">
-        <button class="cat" role="tab" id="tab-plan" aria-selected="true" aria-controls="p-plan"><span class="t">Plan de jeu <span class="label">A</span></span><p>Chaque consigne d'avant-match confrontée à ce qui s'est réellement passé.</p></button>
-        <button class="cat" role="tab" id="tab-coll" aria-selected="false" aria-controls="p-coll" tabindex="-1"><span class="t">Collectif <span class="label">B</span></span><p>Possession, tirs, passes, récupérations, duels, face à l'adversaire.</p></button>
-        <button class="cat" role="tab" id="tab-ind" aria-selected="false" aria-controls="p-ind" tabindex="-1"><span class="t">Individuel <span class="label">C</span></span><p>Statistiques, note et avis argumenté pour chaque joueur.</p></button>
+      <div class="cats" role="tablist" aria-label="Analysis levels">
+        <button class="cat" role="tab" id="tab-plan" aria-selected="true" aria-controls="p-plan"><span class="t">Game plan <span class="label">A</span></span><p>Every pre-match instruction checked against what actually happened.</p></button>
+        <button class="cat" role="tab" id="tab-team" aria-selected="false" aria-controls="p-team" tabindex="-1"><span class="t">Team <span class="label">B</span></span><p>Possession, shots, passing, recoveries and duels, against the opponent.</p></button>
+        <button class="cat" role="tab" id="tab-ind" aria-selected="false" aria-controls="p-ind" tabindex="-1"><span class="t">Individual <span class="label">C</span></span><p>Stats, a rating and a reasoned review for every player.</p></button>
       </div>
       <div class="sheet">
-        <div class="sheet-top"><b>US Vallée 2–1 FC Rivière</b><span class="label">Exemple</span></div>
+        <div class="sheet-top"><b>Northfield FC 2–1 Riverside United</b><span class="label">Sample</span></div>
         <div class="tpanel" id="p-plan" role="tabpanel" aria-labelledby="tab-plan">
-          <div class="cmp-head"><span class="label">Consigne</span><span class="label">Constat</span><span class="label">Statut</span></div>
-          <div class="cmp"><p class="ask">Pressing haut dans les 5 s après la perte</p><p class="real">18 pertes de balle sur 29. Intensité en baisse après la 65e.</p><span class="st mid">Partiel</span></div>
-          <div class="cmp"><p class="ask">Ressortir court depuis le gardien</p><p class="real">11 relances courtes, puis 18 dégagements longs après deux pertes dangereuses.</p><span class="st bad">Non suivi</span></div>
-          <div class="cmp"><p class="ask">Bloc compact, 30 m maximum</p><p class="real">Écart moyen entre les lignes : 28 m. Tenu 81 % du temps.</p><span class="st ok">Respecté</span></div>
-          <div class="cmp"><p class="ask">n°7 plus présent dans la surface</p><p class="real">4 entrées dans la surface sur 9 attaques placées côté gauche.</p><span class="st mid">Partiel</span></div>
+          <div class="cmp-head"><span class="label">Instruction</span><span class="label">Finding</span><span class="label">Status</span></div>
+          <div class="cmp"><p class="ask">High press within 5 s of losing the ball</p><p class="real">Applied on 18 of 29 turnovers. Intensity dropped after 65'.</p><span class="st mid">Partial</span></div>
+          <div class="cmp"><p class="ask">Play out short from the goalkeeper</p><p class="real">11 short build-ups, then 18 long clearances after two dangerous turnovers.</p><span class="st bad">Not followed</span></div>
+          <div class="cmp"><p class="ask">Compact block, 30 m max</p><p class="real">Average distance between lines: 28 m. Held 81% of the time.</p><span class="st ok">Followed</span></div>
+          <div class="cmp"><p class="ask">#7 more present in the box</p><p class="real">4 box entries out of 9 set attacks down the left.</p><span class="st mid">Partial</span></div>
         </div>
-        <div class="tpanel" id="p-coll" role="tabpanel" aria-labelledby="tab-coll" hidden>
-          <div class="vs-head"><span>US Vallée</span><span>FC Rivière</span></div>
-          <div class="vs"><b>54 %</b><span>Possession</span><b>46 %</b><i style="--a:54"></i></div>
-          <div class="vs"><b>13</b><span>Tirs (cadrés : 6 / 3)</span><b>7</b><i style="--a:65"></i></div>
-          <div class="vs"><b>82 %</b><span>Passes réussies</span><b>74 %</b><i style="--a:53"></i></div>
-          <div class="vs"><b>11</b><span>Récupérations camp adverse</span><b>4</b><i style="--a:73"></i></div>
-          <div class="vs"><b>48 %</b><span>Duels gagnés</span><b>52 %</b><i style="--a:48"></i></div>
+        <div class="tpanel" id="p-team" role="tabpanel" aria-labelledby="tab-team" hidden>
+          <div class="vs-head"><span>Northfield FC</span><span>Riverside United</span></div>
+          <div class="vs"><b>54%</b><span>Possession</span><b>46%</b><i style="--a:54"></i></div>
+          <div class="vs"><b>13</b><span>Shots (on target: 6 / 3)</span><b>7</b><i style="--a:65"></i></div>
+          <div class="vs"><b>82%</b><span>Pass accuracy</span><b>74%</b><i style="--a:53"></i></div>
+          <div class="vs"><b>11</b><span>Recoveries in opposition half</span><b>4</b><i style="--a:73"></i></div>
+          <div class="vs"><b>48%</b><span>Duels won</span><b>52%</b><i style="--a:48"></i></div>
         </div>
         <div class="tpanel" id="p-ind" role="tabpanel" aria-labelledby="tab-ind" hidden>
           <div class="tbl-wrap">
             <table>
-              <thead><tr><th>Joueur</th><th class="num">Passes</th><th class="num">Duels</th><th class="num">Pressings</th><th class="num">Note</th></tr></thead>
+              <thead><tr><th>Player</th><th class="num">Passes</th><th class="num">Duels</th><th class="num">Pressures</th><th class="num">Rating</th></tr></thead>
               <tbody>
-                <tr><td><span class="pos">8</span>Paul</td><td class="num">54/61</td><td class="num">7/10</td><td class="num">14</td><td class="num"><b class="hi">8,0</b></td></tr>
-                <tr><td><span class="pos">4</span>Samir</td><td class="num">38/42</td><td class="num">9/12</td><td class="num">6</td><td class="num"><b class="hi">7,5</b></td></tr>
-                <tr class="focus"><td><span class="pos">7</span>Lucas</td><td class="num">17/24</td><td class="num">4/11</td><td class="num">12</td><td class="num"><b>6,0</b></td></tr>
-                <tr><td><span class="pos">1</span>Nathan</td><td class="num">21/33</td><td class="num">–</td><td class="num">–</td><td class="num"><b class="lo">5,0</b></td></tr>
+                <tr><td><span class="pos">8</span>Paul</td><td class="num">54/61</td><td class="num">7/10</td><td class="num">14</td><td class="num"><b class="hi">8.0</b></td></tr>
+                <tr><td><span class="pos">4</span>Samir</td><td class="num">38/42</td><td class="num">9/12</td><td class="num">6</td><td class="num"><b class="hi">7.5</b></td></tr>
+                <tr class="focus"><td><span class="pos">7</span>Lucas</td><td class="num">17/24</td><td class="num">4/11</td><td class="num">12</td><td class="num"><b>6.0</b></td></tr>
+                <tr><td><span class="pos">1</span>Nathan</td><td class="num">21/33</td><td class="num">–</td><td class="num">–</td><td class="num"><b class="lo">5.0</b></td></tr>
               </tbody>
             </table>
           </div>
-          <p class="pnote"><b>Avis · Lucas, n°7</b>Gros volume de pressing (12 actions), mais trop de duels perdus dos au but. Séquences : 23:14, 51:02, 67:40.</p>
+          <p class="pnote"><b>Review · Lucas, #7</b>High pressing volume (12 actions), but too many duels lost with his back to goal. Clips: 23:14, 51:02, 67:40.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section id="benefices">
+<section id="benefits">
   <div class="wrap">
     <div class="sec-head reveal">
-      <p class="label">04 — Bénéfices</p>
+      <p class="label">04 — Benefits</p>
       <div class="body">
-        <h2>Moins de visionnage. Plus de coaching.</h2>
+        <h2>Less footage. More coaching.</h2>
       </div>
     </div>
     <div class="gains reveal">
-      <div class="gain"><h3>Temps</h3><p>Plus besoin de revoir 90 minutes pour préparer le débrief.</p></div>
-      <div class="gain"><h3>Précision</h3><p>Des indicateurs de niveau professionnel, match après match.</p></div>
-      <div class="gain"><h3>Décision</h3><p>Vos ressentis confirmés ou nuancés par les faits.</p></div>
-      <div class="gain"><h3>Progression</h3><p>Des séances ciblées, des joueurs qui savent quoi travailler.</p></div>
+      <div class="gain"><h3>Time</h3><p>No more rewatching 90 minutes to prepare the debrief.</p></div>
+      <div class="gain"><h3>Precision</h3><p>Professional-grade metrics, match after match.</p></div>
+      <div class="gain"><h3>Decisions</h3><p>Your instincts confirmed or challenged by the facts.</p></div>
+      <div class="gain"><h3>Progress</h3><p>Targeted sessions, and players who know what to work on.</p></div>
     </div>
     <div class="objective reveal">
-      <p class="label">Mode objectif</p>
-      <p>Une lecture du match sans vos consignes ni vos attentes, pour confronter votre analyse à un regard neutre.</p>
-      <span class="toggle" aria-hidden="true"><i></i>Activé</span>
+      <p class="label">Objective mode</p>
+      <p>A reading of the match without your instructions or expectations, to test your own analysis against a neutral view.</p>
+      <span class="toggle" aria-hidden="true"><i></i>On</span>
     </div>
   </div>
 </section>
 
-<section class="access" id="acces">
+<section class="access" id="access">
   <div class="wrap">
     <div class="reveal">
-      <p class="label">Accès anticipé</p>
-      <h2 style="margin-top:16px">Rejoignez les premiers staffs équipés.</h2>
-      <p class="lead">Les accès sont ouverts progressivement. Laissez vos coordonnées pour recevoir la date d'ouverture, les tarifs et les options.</p>
+      <p class="label">Early access</p>
+      <h2 style="margin-top:16px">Join the first coaching staffs on board.</h2>
+      <p class="lead">Access opens in stages. Leave your details to receive the launch date, pricing and plans.</p>
       <ul>
-        <li>Accès prioritaire à l'ouverture</li>
-        <li>Tarif fondateur réservé aux premiers clubs</li>
-        <li>Sans engagement</li>
+        <li>Priority access at launch</li>
+        <li>Founding rate for the first clubs</li>
+        <li>No commitment</li>
       </ul>
     </div>
     <form class="form reveal" id="access-form" novalidate>
-      <div class="field"><label for="email">E-mail professionnel</label><input id="email" type="email" name="email" placeholder="prenom@club.fr" autocomplete="email" required></div>
+      <div class="field"><label for="email">Work email</label><input id="email" type="email" name="email" placeholder="name@club.com" autocomplete="email" required></div>
       <div class="row2">
-        <div class="field"><label for="club">Club</label><input id="club" type="text" name="club" placeholder="Nom du club" autocomplete="organization" maxlength="120"></div>
-        <div class="field"><label for="role">Fonction</label>
+        <div class="field"><label for="club">Club</label><input id="club" type="text" name="club" placeholder="Club name" autocomplete="organization" maxlength="120"></div>
+        <div class="field"><label for="role">Role</label>
           <select id="role" name="role">
-            <option value="">Sélectionner</option>
-            <option>Entraîneur principal</option>
-            <option>Entraîneur adjoint</option>
-            <option>Analyste vidéo</option>
-            <option>Directeur sportif</option>
-            <option>Éducateur / formation</option>
-            <option>Autre</option>
+            <option value="">Select</option>
+            <option>Head coach</option>
+            <option>Assistant coach</option>
+            <option>Video analyst</option>
+            <option>Sporting director</option>
+            <option>Youth / academy coach</option>
+            <option>Other</option>
           </select>
         </div>
       </div>
-      <label class="consent" for="consent"><input id="consent" type="checkbox" required> J'accepte de recevoir les informations sur l'ouverture, les tarifs et les options de Vista Analytics. Désinscription à tout moment.</label>
-      <button class="btn" type="submit">Demander un accès <span class="arrow">→</span></button>
+      <label class="consent" for="consent"><input id="consent" type="checkbox" required> I agree to receive updates about ciprio's launch, pricing and plans. Unsubscribe at any time.</label>
+      <button class="btn" type="submit">Request access <span class="arrow">→</span></button>
       <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -483,8 +479,8 @@ footer .brand span{border-color:var(--dark-line);color:var(--dark-muted)}
 
 <footer>
   <div class="wrap">
-    <span class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><b>Vista</b><span>Analytics</span></span>
-    <span>Analyse vidéo pour le football · © 2026 Vista Analytics</span>
+    <span class="brand"><svg aria-hidden="true"><use href="#logo"/></svg><b>ciprio</b></span>
+    <span>Video analysis for football · © 2026 ciprio</span>
   </div>
 </footer>
 
@@ -536,23 +532,23 @@ const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   form.addEventListener("submit", async e => {
     e.preventDefault();
     const value = email.value.trim();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) { say("Saisissez une adresse e-mail valide, par exemple prenom@club.fr.", "err"); email.focus(); return; }
-    if (!consent.checked) { say("Cochez la case pour accepter de recevoir nos informations.", "err"); consent.focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) { say("Enter a valid email address, e.g. name@club.com.", "err"); email.focus(); return; }
+    if (!consent.checked) { say("Tick the box to agree to receive updates.", "err"); consent.focus(); return; }
 
     btn.disabled = true;
     try {
       const res = await fetch(SUPABASE_URL + "/rest/v1/waitlist", {
         method: "POST",
         headers: { "apikey": SUPABASE_KEY, "Content-Type": "application/json", "Prefer": "return=minimal" },
-        body: JSON.stringify({ email: value, club: club.value.trim() || null, role: role.value || null, source: "acces", consent: true })
+        body: JSON.stringify({ email: value, club: club.value.trim() || null, role: role.value || null, source: "access", consent: true })
       });
       // 409 = adresse déjà enregistrée : on rassure plutôt que d'afficher une erreur.
-      if (res.status === 409) { say("Cette adresse est déjà enregistrée. Nous revenons vers vous avant l'ouverture.", "ok"); form.reset(); return; }
+      if (res.status === 409) { say("This address is already registered. We'll be in touch before launch.", "ok"); form.reset(); return; }
       if (!res.ok) throw new Error(res.status);
-      say("Demande enregistrée. Nous revenons vers vous avant l'ouverture.", "ok");
+      say("Request received. We'll be in touch before launch.", "ok");
       form.reset();
     } catch {
-      say("La demande n'a pas pu être envoyée. Vérifiez votre connexion et réessayez.", "err");
+      say("Your request couldn't be sent. Check your connection and try again.", "err");
     } finally { btn.disabled = false; }
   });
 })();
