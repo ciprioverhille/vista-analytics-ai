@@ -3,54 +3,78 @@ TITLE=Admin · Ciprio
 DESC=Private area.
 PATH=/admin
 NAV=none
+CHROME=none
 EXTRA=<meta name="robots" content="noindex,nofollow">
 ---
-<header class="page-head">
-  <div class="wrap">
-    <p class="label">Admin</p>
-    <h1>Dépenses <span>à venir.</span></h1>
-    <p class="lead" id="lead">Espace privé, réservé à Ciprio Verhille.</p>
+<header class="adm-top">
+  <div class="adm-wrap">
+    <span class="brand"><img src="/logo.svg" width="28" height="28" alt=""><b>Ciprio</b><span class="adm-tag">Admin</span></span>
+    <span class="adm-user" id="userbox" hidden><span class="muted" id="who"></span><button class="btn btn-line" id="logout" type="button">Se déconnecter</button></span>
   </div>
 </header>
 
-<main class="section">
-  <div class="wrap">
-
-    <!-- Connexion -->
-    <form id="login" class="adm-card adm-login" hidden novalidate>
-      <h2>Connexion</h2>
-      <p class="muted">Entre ton adresse e-mail : tu reçois un lien de connexion, sans mot de passe.</p>
-      <div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="email" required></div>
-      <div class="send"><button class="btn btn-ink" type="submit">Recevoir le lien →</button><p class="form-msg" id="l-msg" role="status" aria-live="polite"></p></div>
-    </form>
-
-    <!-- Tableau de bord -->
-    <div id="dash" hidden>
-      <div class="adm-bar">
-        <span class="muted" id="who"></span>
-        <span class="adm-actions"><button class="btn btn-line" id="add" type="button">+ Ajouter une dépense</button><button class="btn btn-line" id="logout" type="button">Se déconnecter</button></span>
-      </div>
-
-      <div class="adm-sim adm-card">
-        <label for="n">Matchs analysés par mois : <b id="n-val">80</b></label>
-        <input id="n" type="range" min="0" max="500" step="5" value="80">
-        <p class="muted">Exemple : 20 clubs × 4 matchs = 80. Les dépenses « optionnelles » et les montants inconnus ne sont pas comptés.</p>
-      </div>
-
-      <div class="adm-kpis">
-        <div class="adm-card"><span class="k">Déjà payé</span><b id="k-paid">–</b><small id="k-paid-n"></small></div>
-        <div class="adm-card"><span class="k">À payer une fois (lancement)</span><b id="k-once">–</b><small>création, juriste…</small></div>
-        <div class="adm-card"><span class="k">Fixe par mois au lancement</span><b id="k-fixed">–</b><small>abonnements + annuels ÷ 12</small></div>
-        <div class="adm-card"><span class="k">Coût par match</span><b id="k-match">–</b><small>calcul, stockage, rapport IA</small></div>
-        <div class="adm-card adm-dark"><span class="k">Total par mois</span><b id="k-month">–</b><small id="k-month-d"></small></div>
-        <div class="adm-card adm-dark"><span class="k">Sur 12 mois</span><b id="k-year">–</b><small>hors « déjà payé »</small></div>
-      </div>
-
-      <div id="groups"></div>
-      <p class="muted adm-foot">Montants en euros, estimations à vérifier sur le site de chaque service avant de payer. Les prix en dollars ont été convertis approximativement.</p>
-    </div>
-  </div>
+<!-- Connexion -->
+<main class="adm-wrap adm-login-wrap" id="login-view" hidden>
+  <form id="login" class="adm-card adm-login" novalidate>
+    <h1>Espace privé</h1>
+    <p class="muted">Entre ton adresse e-mail : tu reçois un lien de connexion, sans mot de passe.</p>
+    <div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" autocomplete="email" required></div>
+    <div class="send"><button class="btn btn-ink" type="submit">Recevoir le lien →</button><p class="form-msg" id="l-msg" role="status" aria-live="polite"></p></div>
+  </form>
 </main>
+
+<!-- Espace admin -->
+<div class="adm-wrap adm-shell" id="dash" hidden>
+  <nav class="adm-side" aria-label="Rubriques">
+    <a href="#depenses" aria-current="page">Dépenses à venir</a>
+  </nav>
+
+  <main id="depenses">
+    <div class="adm-head">
+      <h1>Dépenses à venir</h1>
+      <button class="btn btn-ink" id="add" type="button">+ Ajouter une dépense</button>
+    </div>
+
+    <div class="adm-sim adm-card">
+      <label for="n">Matchs analysés par mois : <b id="n-val">80</b></label>
+      <input id="n" type="range" min="0" max="500" step="5" value="80">
+      <p class="muted">Exemple : 20 clubs × 4 matchs = 80. Les dépenses « optionnelles » et les montants inconnus ne sont pas comptés.</p>
+    </div>
+
+    <div class="adm-kpis">
+      <div class="adm-card"><span class="k">Déjà payé</span><b id="k-paid">–</b><small id="k-paid-n"></small></div>
+      <div class="adm-card"><span class="k">À payer une fois</span><b id="k-once">–</b><small>au lancement</small></div>
+      <div class="adm-card"><span class="k">Fixe par mois</span><b id="k-fixed">–</b><small>abonnements + annuels ÷ 12</small></div>
+      <div class="adm-card"><span class="k">Coût par match</span><b id="k-match">–</b><small>calcul, stockage, rapport IA</small></div>
+      <div class="adm-card adm-dark"><span class="k">Total par mois</span><b id="k-month">–</b><small id="k-month-d"></small></div>
+      <div class="adm-card adm-dark"><span class="k">Sur 12 mois</span><b id="k-year">–</b><small>hors « déjà payé »</small></div>
+    </div>
+
+    <div class="adm-split">
+      <section>
+        <h2 class="adm-h2">Tableau</h2>
+        <div id="groups"></div>
+      </section>
+      <aside>
+        <h2 class="adm-h2">Ce que je paie, et pourquoi</h2>
+        <ol class="adm-detail" id="detail"></ol>
+      </aside>
+    </div>
+
+    <section class="adm-block">
+      <h2 class="adm-h2">Prévisions selon le nombre de matchs</h2>
+      <div class="adm-scroll"><table class="adm-table adm-fore"><thead><tr><th>Matchs / mois</th><th class="num">Par mois</th><th class="num">Sur 12 mois</th><th class="num">Coût moyen par match</th></tr></thead><tbody id="fore"></tbody></table></div>
+      <p class="muted adm-foot">Comprend le fixe mensuel, les annuels ÷ 12 et le coût par match. Ne comprend pas les dépenses « une fois » ni « optionnelles ».</p>
+    </section>
+
+    <section class="adm-block">
+      <h2 class="adm-h2">Historique des mises à jour</h2>
+      <ol class="adm-log" id="log"></ol>
+    </section>
+
+    <p class="muted adm-foot">Montants en euros, estimations à vérifier sur le site de chaque service avant de payer. Les prix en dollars sont convertis approximativement.</p>
+  </main>
+</div>
 
 <dialog id="dlg" class="adm-dlg">
   <form id="edit" method="dialog" novalidate>
@@ -73,7 +97,8 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
       <div class="field"><label for="e-status">Statut</label><select id="e-status"><option value="planned">Prévu</option><option value="active">En cours</option><option value="paid">Payé</option><option value="optional">Optionnel</option></select></div>
       <div class="field"><label for="e-url">Lien</label><input id="e-url" type="url" maxlength="300"></div>
     </div>
-    <div class="field"><label for="e-note">Note</label><textarea id="e-note" maxlength="1000"></textarea></div>
+    <div class="field"><label for="e-expl">Explication (pourquoi cette dépense)</label><textarea id="e-expl" maxlength="1000"></textarea></div>
+    <div class="field"><label for="e-note">Note (prix, conditions)</label><textarea id="e-note" maxlength="1000"></textarea></div>
     <div class="adm-dlg-btns">
       <button class="btn btn-line adm-del" id="e-del" type="button">Supprimer</button>
       <span><button class="btn btn-line" value="cancel" formnovalidate>Annuler</button><button class="btn btn-ink" id="e-save" type="button">Enregistrer</button></span>
@@ -83,65 +108,100 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
 </dialog>
 
 <style>
-.adm-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
-.adm-login{max-width:460px;display:grid;gap:14px}
-.adm-login h2{font-size:1.3rem}
-.adm-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
-.adm-actions{display:flex;gap:8px;flex-wrap:wrap}
-.adm-sim{display:grid;gap:8px;margin-bottom:16px}
+body{background:var(--bg)}
+.adm-wrap{max-width:1320px;margin-inline:auto;padding-inline:max(16px,env(safe-area-inset-left,0px))}
+.adm-top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.adm-top .adm-wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;height:60px}
+.adm-top .brand{display:flex;align-items:center;gap:10px}
+.adm-top .brand b{font-size:1.05rem;letter-spacing:-.02em}
+.adm-tag{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;padding:3px 8px;border-radius:99px;background:var(--dark);color:#fff}
+.adm-user{display:flex;align-items:center;gap:12px;font-size:.86rem}
+.adm-login-wrap{padding-block:12vh}
+.adm-login{max-width:440px;margin-inline:auto;display:grid;gap:14px}
+.adm-login h1{font-size:1.5rem;letter-spacing:-.02em}
+.adm-shell{display:grid;grid-template-columns:200px minmax(0,1fr);gap:40px;padding-block:32px 64px}
+.adm-side{position:sticky;top:92px;align-self:start;display:grid;gap:4px}
+.adm-side a{display:block;padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-size:.92rem}
+.adm-side a[aria-current="page"]{background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:500}
+.adm-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.adm-head h1{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.03em}
+.adm-card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.adm-sim{display:grid;gap:8px;margin-bottom:14px}
 .adm-sim input{width:100%;accent-color:var(--accent)}
 .adm-sim p{font-size:.85rem;margin:0}
-.adm-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:40px}
-.adm-kpis .adm-card{display:grid;gap:4px;align-content:start}
-.adm-kpis .k{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-.adm-kpis b{font-size:1.6rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.adm-kpis small{color:var(--muted);font-size:.8rem}
+.adm-kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-bottom:36px}
+.adm-kpis .adm-card{display:grid;gap:4px;align-content:start;padding:16px}
+.adm-kpis .k{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.adm-kpis b{font-size:1.3rem;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.adm-kpis small{color:var(--muted);font-size:.78rem}
 .adm-dark{background:var(--dark);border-color:var(--dark);color:#fff}
 .adm-dark .k,.adm-dark small{color:var(--dark-muted)}
-.adm-group{margin-bottom:36px}
-.adm-group h2{font-size:1.15rem;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.adm-group h2 small{font-weight:400;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.adm-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.92rem}
-.adm-table th{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:500;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
-.adm-table td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
-.adm-table tr:first-child td{border-top:0}
-.adm-table tbody tr{cursor:pointer}
-.adm-table tbody tr:hover{background:var(--bg)}
-.adm-table td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.adm-h2{font-size:1.1rem;letter-spacing:-.015em;margin-bottom:12px}
+.adm-split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:28px;align-items:start}
+.adm-block{margin-top:44px}
+.adm-group{margin-bottom:24px}
+.adm-group h3{font-size:.8rem;font-family:var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500;margin-bottom:8px}
+.adm-table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.9rem}
+.adm-table th{font-family:var(--f-mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:500;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.adm-table td{padding:11px 14px;border-top:1px solid var(--line);vertical-align:top}
+.adm-table tbody tr:first-child td{border-top:0}
+.adm-table .num,.adm-table th.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+#groups tbody tr{cursor:pointer}
+#groups tbody tr:hover{background:var(--bg)}
 .adm-table .nm b{font-weight:500}
-.adm-table .nm small{display:block;color:var(--muted);font-size:.8rem;line-height:1.45;margin-top:2px}
+.adm-table .nm small{display:block;color:var(--muted);font-size:.8rem}
 .adm-table tr.opt{opacity:.55}
-.pill{display:inline-block;font-family:var(--f-mono);font-size:.68rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
+.adm-fore tr.cur td{background:#eef8f2;font-weight:600}
+.pill{display:inline-block;font-family:var(--f-mono);font-size:.66rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);white-space:nowrap}
 .pill.paid{background:#e8f6ee;border-color:#bfe5cf;color:#0b7a3b}
 .pill.active{background:#eef3ff;border-color:#cfdcff;color:#2a4fb8}
 .pill.optional{color:var(--muted)}
 .unk{color:#a37400}
-.adm-foot{font-size:.82rem}
+.adm-detail{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.adm-detail li{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer}
+.adm-detail li:hover{border-color:#cfd3cf}
+.adm-detail li.opt{opacity:.6}
+.adm-detail .amt{display:block;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.adm-detail .who{display:block;font-size:.88rem;color:var(--ink-2)}
+.adm-detail p{margin:6px 0 0;font-size:.85rem;color:var(--muted);line-height:1.5}
+.adm-log{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);display:grid;gap:14px}
+.adm-log li{padding-left:16px;position:relative}
+.adm-log li::before{content:"";position:absolute;left:-6px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--bg)}
+.adm-log time{font-family:var(--f-mono);font-size:.72rem;color:var(--muted)}
+.adm-log b{display:block;font-weight:500}
+.adm-log p{margin:2px 0 0;font-size:.86rem;color:var(--muted)}
+.adm-scroll{overflow-x:auto}
+.adm-foot{font-size:.8rem;margin-top:10px}
 .adm-dlg{border:1px solid var(--line);border-radius:14px;padding:24px;width:min(640px,calc(100vw - 32px));background:var(--surface);color:var(--ink)}
 .adm-dlg::backdrop{background:rgba(12,16,14,.45)}
 .adm-dlg form{display:grid;gap:12px}
 .adm-dlg h2{font-size:1.2rem}
+.adm-dlg textarea{min-height:70px}
 .adm-dlg-btns{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:6px}
 .adm-dlg-btns span{display:flex;gap:8px}
 .adm-del{color:var(--bad)}
-@media (max-width:860px){.adm-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:1180px){.adm-kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.adm-split{grid-template-columns:1fr}}
+@media (max-width:860px){.adm-shell{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:16px}.adm-side{position:static;display:flex;overflow-x:auto}.adm-side a{white-space:nowrap}}
 @media (max-width:640px){
-  .adm-kpis b{font-size:1.25rem}
-  .adm-table thead{display:none}
-  .adm-table,.adm-table tbody,.adm-table tr,.adm-table td{display:block;width:100%}
-  .adm-table tr{padding:12px 14px;border-top:1px solid var(--line)}
-  .adm-table tr:first-child{border-top:0}
-  .adm-table td{border:0;padding:2px 0;text-align:left}
-  .adm-table td.num{text-align:left}
-  .adm-table td[data-l]::before{content:attr(data-l) " : ";color:var(--muted);font-size:.8rem}
+  .adm-user .muted{display:none}
+  .adm-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .adm-kpis b{font-size:1.1rem}
+  #groups thead{display:none}
+  #groups table,#groups tbody,#groups tr,#groups td{display:block;width:100%}
+  #groups tr{padding:10px 14px;border-top:1px solid var(--line)}
+  #groups tr:first-child{border-top:0}
+  #groups td{border:0;padding:2px 0;text-align:left}
+  #groups td[data-l]::before{content:attr(data-l) " : ";color:var(--muted);font-size:.8rem}
+  .adm-fore{font-size:.8rem}
+  .adm-fore td,.adm-fore th{padding:9px 8px}
 }
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <script>
 (() => {
-  /* Espace admin : connexion par lien e-mail (Supabase Auth), puis lecture et modification de la table "expenses",
-     protégée côté base : seul l'e-mail admin peut la lire ou l'écrire (RLS). */
+  /* Espace admin : connexion par lien e-mail (Supabase Auth), puis lecture et modification des tables
+     "expenses" et "expense_changes", protégées côté base : seul l'e-mail admin peut les lire ou les écrire (RLS). */
   const SUPABASE_URL = "https://pazzrgvkgmdgqmtscspl.supabase.co";
   const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   const ADMIN_EMAIL = "verhille.ciprio@gmail.com";
@@ -150,81 +210,97 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
   const $ = (id) => document.getElementById(id);
   const eur = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 2 });
   const eur0 = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+  const dateFmt = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" });
   const PHASES = { now: "Maintenant", launch: "Au lancement commercial", later: "Plus tard" };
   const BILLING = { once: "une fois", monthly: "/ mois", yearly: "/ an", per_match: "/ match" };
   const STATUS = { planned: "Prévu", active: "En cours", paid: "Payé", optional: "Optionnel" };
-  let rows = [], editing = null;
+  const SCENARIOS = [0, 20, 50, 100, 250, 500];
+  let rows = [], changes = [], editing = null;
 
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const num = (v) => (v === null || v === undefined || v === "" ? null : Number(v));
-  const range = (a, b, f = eur) => (a === null && b === null ? '<span class="unk">à compléter</span>' : a === b || b === null ? f.format(a ?? b) : f.format(a ?? 0) + " – " + f.format(b));
+  const amount = (r) => {
+    const a = num(r.amount_min), b = num(r.amount_max);
+    if (a === null && b === null) return '<span class="unk">à compléter</span>';
+    return (a === b || b === null ? eur.format(a ?? b) : eur.format(a ?? 0) + " – " + eur.format(b));
+  };
   const rng = (lo, hi, f = eur0) => (Math.round(lo * 100) === Math.round(hi * 100) ? f.format(lo) : f.format(lo) + " – " + f.format(hi));
 
   async function show() {
     const { data: { session } } = await sb.auth.getSession();
     const email = session?.user?.email || "";
-    if (!session) { $("login").hidden = false; $("dash").hidden = true; return; }
-    if (email.toLowerCase() !== ADMIN_EMAIL) {
-      await sb.auth.signOut();
-      $("login").hidden = false; $("dash").hidden = true;
-      $("l-msg").textContent = "Accès réservé."; $("l-msg").className = "form-msg err";
-      return;
-    }
+    const loggedIn = session && email.toLowerCase() === ADMIN_EMAIL;
+    if (session && !loggedIn) { await sb.auth.signOut(); $("l-msg").textContent = "Accès réservé."; $("l-msg").className = "form-msg err"; }
+    $("login-view").hidden = !!loggedIn; $("dash").hidden = !loggedIn; $("userbox").hidden = !loggedIn;
+    if (!loggedIn) return;
     if (location.hash.includes("access_token")) history.replaceState(null, "", location.pathname);
-    $("login").hidden = true; $("dash").hidden = false;
-    $("who").textContent = "Connecté : " + email;
+    $("who").textContent = email;
     await load();
   }
 
   async function load() {
-    const { data, error } = await sb.from("expenses").select("*").order("sort").order("created_at");
-    if (error) { $("groups").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc(error.message) + "</p>"; return; }
-    rows = data; render();
+    const [e, c] = await Promise.all([
+      sb.from("expenses").select("*").order("sort").order("created_at"),
+      sb.from("expense_changes").select("*").order("created_at", { ascending: false }).limit(100),
+    ]);
+    if (e.error || c.error) { $("groups").innerHTML = '<p class="form-msg err">Erreur de chargement : ' + esc((e.error || c.error).message) + "</p>"; return; }
+    rows = e.data; changes = c.data; render();
   }
 
-  function totals() {
-    const n = Number($("n").value);
+  // Sommes min/max par type de dépense ; les optionnelles et montants inconnus sont exclus
+  function sums() {
     const t = { paid: 0, paidUnknown: 0, once: [0, 0], fixed: [0, 0], match: [0, 0] };
     for (const r of rows) {
       const lo = num(r.amount_min), hi = num(r.amount_max) ?? lo;
       if (r.status === "paid") { if (lo === null) t.paidUnknown++; else t.paid += hi; continue; }
       if (r.status === "optional" || lo === null) continue;
-      if (r.phase === "now" && r.billing !== "per_match" && lo === 0 && hi === 0) continue;
       const k = r.billing === "once" ? "once" : r.billing === "per_match" ? "match" : "fixed";
       const div = r.billing === "yearly" ? 12 : 1;
       t[k][0] += lo / div; t[k][1] += hi / div;
     }
-    t.month = [t.fixed[0] + t.match[0] * n, t.fixed[1] + t.match[1] * n];
-    t.year = [t.once[0] + t.month[0] * 12, t.once[1] + t.month[1] * 12];
-    t.n = n;
     return t;
   }
+  const month = (t, n) => [t.fixed[0] + t.match[0] * n, t.fixed[1] + t.match[1] * n];
 
   function render() {
-    const t = totals();
-    $("n-val").textContent = t.n;
+    const n = Number($("n").value), t = sums(), m = month(t, n);
+    $("n-val").textContent = n;
     $("k-paid").textContent = eur0.format(t.paid);
     $("k-paid-n").textContent = t.paidUnknown ? t.paidUnknown + " montant(s) à compléter" : "factures réglées";
     $("k-once").textContent = rng(...t.once);
     $("k-fixed").textContent = rng(...t.fixed);
     $("k-match").textContent = rng(...t.match, eur);
-    $("k-month").textContent = rng(...t.month);
-    $("k-month-d").textContent = "avec " + t.n + " matchs par mois";
-    $("k-year").textContent = rng(...t.year);
+    $("k-month").textContent = rng(...m);
+    $("k-month-d").textContent = "avec " + n + " matchs par mois";
+    $("k-year").textContent = rng(t.once[0] + m[0] * 12, t.once[1] + m[1] * 12);
 
     $("groups").innerHTML = Object.entries(PHASES).map(([ph, label]) => {
       const list = rows.filter((r) => r.phase === ph);
       if (!list.length) return "";
-      const body = list.map((r) => `
+      return `<div class="adm-group"><h3>${label}</h3><table class="adm-table"><thead><tr><th>Dépense</th><th>Catégorie</th><th class="num">Montant</th><th>Statut</th></tr></thead><tbody>${list.map((r) => `
         <tr data-id="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
           <td class="nm"><b>${esc(r.name)}</b><small>${esc(r.provider)}${r.note ? " · " + esc(r.note) : ""}</small></td>
           <td data-l="Catégorie">${esc(r.category)}</td>
-          <td class="num" data-l="Montant">${range(num(r.amount_min), num(r.amount_max))} <span class="muted">${BILLING[r.billing]}</span></td>
+          <td class="num" data-l="Montant">${amount(r)} <span class="muted">${BILLING[r.billing]}</span></td>
           <td data-l="Statut"><span class="pill ${r.status}">${STATUS[r.status]}</span></td>
-        </tr>`).join("");
-      return `<section class="adm-group"><h2>${label} <small>${list.length} ligne(s)</small></h2>
-        <table class="adm-table"><thead><tr><th>Dépense</th><th>Catégorie</th><th style="text-align:right">Montant</th><th>Statut</th></tr></thead><tbody>${body}</tbody></table></section>`;
+        </tr>`).join("")}</tbody></table></div>`;
     }).join("");
+
+    $("detail").innerHTML = rows.map((r) => `
+      <li data-id="${r.id}" class="${r.status === "optional" ? "opt" : ""}">
+        <span class="amt">${amount(r)} ${BILLING[r.billing]}</span>
+        <span class="who">${esc(r.provider || "")}${r.provider ? " · " : ""}${esc(r.name)}${r.status === "optional" ? " (optionnel)" : ""}</span>
+        ${r.explanation ? `<p>${esc(r.explanation)}</p>` : ""}
+      </li>`).join("");
+
+    $("fore").innerHTML = [...new Set([...SCENARIOS, n])].sort((a, b) => a - b).map((s) => {
+      const mm = month(t, s);
+      const avg = s ? rng(mm[0] / s, mm[1] / s, eur) : "–";
+      return `<tr class="${s === n ? "cur" : ""}"><td>${s}${s === n ? " (curseur)" : ""}</td><td class="num">${rng(...mm)}</td><td class="num">${rng(mm[0] * 12, mm[1] * 12)}</td><td class="num">${avg}</td></tr>`;
+    }).join("");
+
+    $("log").innerHTML = changes.length ? changes.map((c) => `
+      <li><time>${dateFmt.format(new Date(c.created_at))}</time><b>${esc(c.title)}</b>${c.detail ? `<p>${esc(c.detail)}</p>` : ""}</li>`).join("") : '<li><b>Aucune mise à jour pour l\'instant.</b></li>';
   }
 
   function openEdit(r) {
@@ -233,10 +309,15 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
     $("e-name").value = r?.name || ""; $("e-provider").value = r?.provider || ""; $("e-category").value = r?.category || "Autre";
     $("e-phase").value = r?.phase || "launch"; $("e-billing").value = r?.billing || "monthly";
     $("e-min").value = r?.amount_min ?? ""; $("e-max").value = r?.amount_max ?? "";
-    $("e-status").value = r?.status || "planned"; $("e-url").value = r?.url || ""; $("e-note").value = r?.note || "";
+    $("e-status").value = r?.status || "planned"; $("e-url").value = r?.url || "";
+    $("e-expl").value = r?.explanation || ""; $("e-note").value = r?.note || "";
     $("e-del").hidden = !r; $("e-msg").textContent = "";
     $("dlg").showModal();
   }
+
+  const label = (r) => (r.amount_min === null && r.amount_max === null ? "à compléter" : (r.amount_min === r.amount_max || r.amount_max === null ? eur.format(r.amount_min ?? r.amount_max) : eur.format(r.amount_min ?? 0) + " – " + eur.format(r.amount_max))) + " " + BILLING[r.billing];
+
+  async function logChange(title, detail) { await sb.from("expense_changes").insert({ title, detail }); }
 
   async function save() {
     const name = $("e-name").value.trim();
@@ -246,14 +327,24 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
       name, provider: $("e-provider").value.trim() || null, category: $("e-category").value.trim() || "Autre",
       phase: $("e-phase").value, billing: $("e-billing").value,
       amount_min: min ?? max, amount_max: max ?? min,
-      status: $("e-status").value, url: $("e-url").value.trim() || null, note: $("e-note").value.trim() || null,
+      status: $("e-status").value, url: $("e-url").value.trim() || null,
+      explanation: $("e-expl").value.trim() || null, note: $("e-note").value.trim() || null,
       updated_at: new Date().toISOString(),
     };
     $("e-save").disabled = true;
-    const q = editing ? sb.from("expenses").update(rec).eq("id", editing.id) : sb.from("expenses").insert({ ...rec, sort: 500 });
-    const { error } = await q;
+    const { error } = editing ? await sb.from("expenses").update(rec).eq("id", editing.id) : await sb.from("expenses").insert({ ...rec, sort: 500 });
     $("e-save").disabled = false;
     if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
+    if (editing) {
+      const before = label({ ...editing, amount_min: num(editing.amount_min), amount_max: num(editing.amount_max) }), after = label(rec);
+      const bits = [];
+      if (before !== after) bits.push(before + " → " + after);
+      if (editing.status !== rec.status) bits.push(STATUS[editing.status] + " → " + STATUS[rec.status]);
+      if ((editing.provider || "") !== (rec.provider || "")) bits.push("fournisseur : " + (editing.provider || "aucun") + " → " + (rec.provider || "aucun"));
+      await logChange("Modifié : " + name, bits.join(" · ") || "Texte mis à jour.");
+    } else {
+      await logChange("Ajouté : " + name, label(rec));
+    }
     $("dlg").close(); await load();
   }
 
@@ -261,6 +352,7 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
     if (!editing || !confirm("Supprimer « " + editing.name + " » ?")) return;
     const { error } = await sb.from("expenses").delete().eq("id", editing.id);
     if (error) { $("e-msg").textContent = "Erreur : " + error.message; $("e-msg").className = "form-msg err"; return; }
+    await logChange("Supprimé : " + editing.name, label({ ...editing, amount_min: num(editing.amount_min), amount_max: num(editing.amount_max) }));
     $("dlg").close(); await load();
   }
 
@@ -271,14 +363,16 @@ EXTRA=<meta name="robots" content="noindex,nofollow">
     msg.textContent = "Envoi…"; msg.className = "form-msg";
     const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.origin + "/admin" } });
     if (error) { msg.textContent = "Erreur : " + error.message; msg.className = "form-msg err"; return; }
-    msg.textContent = "Lien envoyé. Ouvre l'e-mail « Magic Link » et clique sur le lien."; msg.className = "form-msg ok";
+    msg.textContent = "Lien envoyé. Ouvre l'e-mail et clique sur le lien."; msg.className = "form-msg ok";
   });
   $("logout").addEventListener("click", async () => { await sb.auth.signOut(); show(); });
   $("add").addEventListener("click", () => openEdit(null));
   $("e-save").addEventListener("click", save);
   $("e-del").addEventListener("click", del);
   $("n").addEventListener("input", render);
-  $("groups").addEventListener("click", (e) => { const tr = e.target.closest("tr[data-id]"); if (tr) openEdit(rows.find((r) => r.id === tr.dataset.id)); });
+  const pick = (e) => { const el = e.target.closest("[data-id]"); if (el) openEdit(rows.find((r) => r.id === el.dataset.id)); };
+  $("groups").addEventListener("click", pick);
+  $("detail").addEventListener("click", pick);
   sb.auth.onAuthStateChange((ev) => { if (ev === "SIGNED_IN" || ev === "SIGNED_OUT") show(); });
   show();
 })();

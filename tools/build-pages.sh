@@ -12,7 +12,7 @@ for src in src/pages/*.html src/pages/blog/*.html; do
   meta=$(sed '/^---$/q' "$src" | sed '$d')
   body=$(sed '1,/^---$/d' "$src")
   get() { printf '%s\n' "$meta" | sed -n "s/^$1=//p" | head -1; }
-  out=$(get OUT); title=$(get TITLE); desc=$(get DESC); path=$(get PATH); cur=$(get NAV); ogtype=$(get OGTYPE)
+  out=$(get OUT); title=$(get TITLE); desc=$(get DESC); path=$(get PATH); cur=$(get NAV); ogtype=$(get OGTYPE); chrome=$(get CHROME)
   extra=$(printf '%s\n' "$meta" | sed -n 's/^EXTRA=//p')
   [ -n "$ogtype" ] || ogtype="website"
 
@@ -35,9 +35,9 @@ for src in src/pages/*.html src/pages/blog/*.html; do
   mkdir -p "$(dirname "$out")"
   {
     fill src/partials/head.html
-    fill src/partials/nav.html
+    [ "$chrome" = "none" ] || fill src/partials/nav.html
     printf '%s\n' "$body"
-    fill src/partials/footer.html
+    [ "$chrome" = "none" ] || fill src/partials/footer.html
     printf '</body>\n</html>\n'
   } > "$out"
   echo "built $out"
