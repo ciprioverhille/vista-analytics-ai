@@ -1637,7 +1637,7 @@ const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   function solve(A, b) { const n = b.length; for (let i = 0; i < n; i++) { let p = i; for (let r = i + 1; r < n; r++) if (Math.abs(A[r][i]) > Math.abs(A[p][i])) p = r; [A[i], A[p]] = [A[p], A[i]]; [b[i], b[p]] = [b[p], b[i]]; for (let r = i + 1; r < n; r++) { const f = A[r][i] / A[i][i]; for (let c = i; c < n; c++) A[r][c] -= f * A[i][c]; b[r] -= f * b[i]; } } const x = []; for (let i = n - 1; i >= 0; i--) { let v = b[i]; for (let c = i + 1; c < n; c++) v -= A[i][c] * x[c]; x[i] = v / A[i][i]; } return x; }
   function homog(src, dst) { const A = [], b = []; src.forEach(([x, y], i) => { const [u, v] = dst[i]; A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u); A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v); }); const h = solve(A, b); return ([x, y]) => { const z = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / z, (h[3] * x + h[4] * y + h[5]) / z]; }; }
   // vue « caméra Veo » : posée en hauteur au bord du terrain, vers la ligne médiane, regard de trois quarts vers le but de gauche
-  const P = homog([[0, 0], [52.5, 0], [52.5, 68], [0, 68]], [[96, 92], [318, 84], [462, 214], [-46, 202]]);
+  const P = homog([[0, 0], [52.5, 0], [52.5, 68], [0, 68]], [[92, 90], [318, 90], [468, 214], [-58, 214]]);
   const path = (pts) => "M" + pts.map((q) => P(q).map((v) => v.toFixed(1)).join(" ")).join(" L");
   const arc = (cx, cy, r, a0, a1) => { const pts = []; for (let k = 0; k <= 40; k++) { const t = a0 + (a1 - a0) * k / 40; pts.push([cx + r * Math.cos(t), cy + r * Math.sin(t)]); } return pts; };
 
@@ -1646,14 +1646,14 @@ const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   const g = el("linearGradient", { id: "ps-sky", x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
   el("stop", { offset: 0, "stop-color": "#0d1622" }, g); el("stop", { offset: 1, "stop-color": "#2a3b4c" }, g);
   el("rect", { width: 360, height: 210, fill: "url(#ps-sky)" }, view);
-  el("path", { d: "M0 70 Q20 62 38 67 Q58 58 80 66 Q104 60 126 66 L250 66 Q270 59 292 65 Q316 58 338 64 Q350 61 360 63 L360 80 L0 80Z", fill: "#16211c" }, view);
+  el("path", { d: "M0 68 Q20 61 40 66 Q60 58 82 65 Q104 60 126 66 L250 66 Q272 59 294 65 Q316 58 338 64 Q350 61 360 66 L360 86 L0 86Z", fill: "#16211c" }, view);
   // tribune : toit, gradins, poteaux
-  el("path", { d: "M96 50 L262 47 L266 53 L92 56Z", fill: "#3b4148" }, view);
-  el("path", { d: "M98 56 L260 53 L262 74 L96 77Z", fill: "#59616a" }, view);
-  for (let k = 1; k < 4; k++) { const f = k / 4; el("line", { x1: 97 + f * -1, y1: 56 + f * 21, x2: 260 + f * 2, y2: 53 + f * 21, stroke: "#6f7780", "stroke-width": .8 }, view); }
-  for (const x of [104, 150, 200, 252]) el("line", { x1: x, y1: 52, x2: x, y2: 76, stroke: "#30353b", "stroke-width": 1.2 }, view);
+  el("path", { d: "M96 49 L264 49 L270 55 L90 55Z", fill: "#3b4148" }, view);
+  el("path", { d: "M96 55 L264 55 L264 77 L96 77Z", fill: "#59616a" }, view);
+  for (let k = 1; k < 4; k++) { const y = 55 + k * 5.5; el("line", { x1: 96, y1: y, x2: 264, y2: y, stroke: "#6f7780", "stroke-width": .8 }, view); }
+  for (const x of [104, 152, 208, 256]) el("line", { x1: x, y1: 52, x2: x, y2: 77, stroke: "#30353b", "stroke-width": 1.2 }, view);
   // projecteurs
-  for (const [x, y0] of [[30, 82], [330, 76]]) { el("line", { x1: x, y1: y0, x2: x, y2: 22, stroke: "#9aa3ab", "stroke-width": 1.2 }, view); el("rect", { x: x - 6, y: 17, width: 12, height: 6, rx: 1, fill: "#e9eef2" }, view); el("circle", { cx: x, cy: 20, r: 9, fill: "rgba(255,250,220,.12)" }, view); }
+  for (const [x, y0] of [[30, 84], [330, 84]]) { el("line", { x1: x, y1: y0, x2: x, y2: 22, stroke: "#9aa3ab", "stroke-width": 1.2 }, view); el("rect", { x: x - 6, y: 17, width: 12, height: 6, rx: 1, fill: "#e9eef2" }, view); el("circle", { cx: x, cy: 20, r: 9, fill: "rgba(255,250,220,.12)" }, view); }
   // pelouse tondue en bandes (avec la bande derrière la ligne de touche du fond)
   el("path", { d: path([[-30, -6], [90, -6], [90, 90], [-30, 90]]) + "Z", fill: "#1f6436" }, view);
   for (let k = -6; k < 18; k++) if (k % 2 === 0) el("path", { d: path([[k * 5.5, -6], [(k + 1) * 5.5, -6], [(k + 1) * 5.5, 90], [k * 5.5, 90]]) + "Z", fill: "#277a42" }, view);
