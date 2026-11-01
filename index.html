@@ -211,6 +211,8 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
 .up-prog i{display:block;height:100%;width:0;background:var(--accent);transition:width 1.6s ease .2s}
 .is-active .up-prog i{width:100%}
 .checks{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.ps{padding:14px;display:grid;gap:12px}
+.ps svg{display:block;width:100%;height:auto;border-radius:8px}
 .checks span,.gp-list li{display:inline-flex;align-items:center;gap:7px}
 .checks span{font-size:.74rem;padding:5px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 9%,transparent);color:#0d7a3d}
 .checks span::before,.gp-list li::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3.2 6.2l1.8 1.8 3.8-3.8' fill='none' stroke='white' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat;flex:none}
@@ -608,14 +610,14 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
     <div class="sec-head reveal">
       <p class="label">02 — Method</p>
       <div class="body">
-        <h2>Five steps, from final whistle to debrief.</h2>
+        <h2>Six steps, from final whistle to debrief.</h2>
         <p class="lead">Follow a match through Ciprio, step by step.</p>
       </div>
     </div>
     <div class="journey reveal" id="journey" aria-roledescription="carousel" aria-label="How Ciprio works">
       <div class="j-track">
 
-        <article class="j-slide is-active" aria-roledescription="slide" aria-label="Step 1 of 5">
+        <article class="j-slide is-active" aria-roledescription="slide" aria-label="Step 1 of 6">
           <div class="j-text">
             <div class="j-meta"><span class="j-num">01</span><span class="kind">Input</span></div>
             <h3>Upload the match</h3>
@@ -636,9 +638,42 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
           </div>
         </article>
 
-        <article class="j-slide" aria-roledescription="slide" aria-label="Step 2 of 5">
+        <article class="j-slide" aria-roledescription="slide" aria-label="Step 2 of 6">
           <div class="j-text">
             <div class="j-meta"><span class="j-num">02</span><span class="kind">Input</span></div>
+            <h3>Set up your pitch</h3>
+            <p>First match only: click a few clearly visible markings on a handful of images. Ciprio draws your pitch so you can check it, then recognises your ground on its own.</p>
+            <dl class="j-facts"><div><dt>When</dt><dd>First match only</dd></div><div><dt>Your time</dt><dd>Under 5 minutes</dd></div><div><dt>After that</dt><dd>Automatic</dd></div></dl>
+          </div>
+          <div class="j-visual">
+            <div class="mock">
+              <div class="mock-bar"><span class="mdots"><i></i><i></i><i></i></span><span>Pitch setup · Image 2 of 4</span></div>
+              <div class="ps">
+                <svg viewBox="0 0 320 170" role="img" aria-label="Pitch markings clicked on a match image, with the pitch drawn over the real lines">
+                  <defs><linearGradient id="ps-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2f7d45"/><stop offset="1" stop-color="#1f6a37"/></linearGradient></defs>
+                  <rect width="320" height="170" fill="url(#ps-g)"/>
+                  <path d="M0 52 L320 52 L320 66 L0 66Z M0 92 L320 92 L320 112 L0 112Z M0 140 L320 140 L320 170 L0 170Z" fill="rgba(255,255,255,.05)"/>
+                  <g fill="none" stroke="rgba(255,255,255,.85)" stroke-width="1.6">
+                    <path d="M8 36 L312 32"/><path d="M62 35 L10 170"/><path d="M52 62 L146 59 L122 128 L24 132"/>
+                    <path d="M57 79 L86 78 L78 104 L44 106"/><path d="M284 32 L300 170"/>
+                    <path d="M248 88 Q292 70 318 80"/><path d="M146 80 Q160 94 136 108"/>
+                  </g>
+                  <g fill="none" stroke="#ff2bd6" stroke-width="1.4" stroke-dasharray="4 3" opacity=".9">
+                    <path d="M8 36 L312 32"/><path d="M62 35 L10 170"/><path d="M52 62 L146 59 L122 128 L24 132"/>
+                    <path d="M57 79 L86 78 L78 104 L44 106"/><path d="M284 32 L300 170"/>
+                  </g>
+                  <g stroke="#fff" stroke-width="1.6" fill="#12a150"><circle cx="52" cy="62" r="4.5"/><circle cx="146" cy="59" r="4.5"/><circle cx="122" cy="128" r="4.5"/><circle cx="24" cy="132" r="4.5"/></g>
+                  <g font-family="ui-monospace,Consolas,monospace" font-size="7.5" fill="#fff"><text x="150" y="55">Box corner</text><text x="126" y="140">Box corner</text></g>
+                </svg>
+                <div class="checks"><span>4 markings placed</span><span>Lines match</span><span>Saved for this ground</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="j-slide" aria-roledescription="slide" aria-label="Step 3 of 6">
+          <div class="j-text">
+            <div class="j-meta"><span class="j-num">03</span><span class="kind">Input</span></div>
             <h3>Set the game plan</h3>
             <p>Brief Ciprio the way you brief your squad: the plan, the principles, and what you expect from each player.</p>
             <dl class="j-facts"><div><dt>Team</dt><dd>Formation and principles</dd></div><div><dt>Players</dt><dd>Individual instructions</dd></div><div><dt>Format</dt><dd>Plain language</dd></div></dl>
@@ -657,9 +692,9 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
           </div>
         </article>
 
-        <article class="j-slide" aria-roledescription="slide" aria-label="Step 3 of 5">
+        <article class="j-slide" aria-roledescription="slide" aria-label="Step 4 of 6">
           <div class="j-text">
-            <div class="j-meta"><span class="j-num">03</span><span class="kind green">Analysis</span></div>
+            <div class="j-meta"><span class="j-num">04</span><span class="kind green">Analysis</span></div>
             <h3>Ciprio analyses</h3>
             <p>Every player and the ball are tracked over the whole match, and every instruction is checked. If something is unclear, Ciprio asks you.</p>
             <dl class="j-facts"><div><dt>Tracking</dt><dd>22 players and the ball</dd></div><div><dt>Checks</dt><dd>Every instruction</dd></div><div><dt>Duration</dt><dd>A few minutes</dd></div></dl>
@@ -684,9 +719,9 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
           </div>
         </article>
 
-        <article class="j-slide" aria-roledescription="slide" aria-label="Step 4 of 5">
+        <article class="j-slide" aria-roledescription="slide" aria-label="Step 5 of 6">
           <div class="j-text">
-            <div class="j-meta"><span class="j-num">04</span><span class="kind dark">Report</span></div>
+            <div class="j-meta"><span class="j-num">05</span><span class="kind dark">Report</span></div>
             <h3>Game plan and team</h3>
             <p>What worked, what didn't, and how closely the team applied each instruction, with the clips to show it.</p>
             <dl class="j-facts"><div><dt>Game plan</dt><dd>What worked, what didn't</dd></div><div><dt>Team</dt><dd>Compliance per instruction</dd></div><div><dt>Evidence</dt><dd>Timestamped clips</dd></div></dl>
@@ -705,9 +740,9 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
           </div>
         </article>
 
-        <article class="j-slide" aria-roledescription="slide" aria-label="Step 5 of 5">
+        <article class="j-slide" aria-roledescription="slide" aria-label="Step 6 of 6">
           <div class="j-text">
-            <div class="j-meta"><span class="j-num">05</span><span class="kind dark">Report</span></div>
+            <div class="j-meta"><span class="j-num">06</span><span class="kind dark">Report</span></div>
             <h3>Every player</h3>
             <p>Each player gets two scores: his overall match rating, and how closely he followed the instructions you gave him.</p>
             <dl class="j-facts"><div><dt>Match</dt><dd>Rating out of 10</dd></div><div><dt>Instructions</dt><dd>Score per player</dd></div><div><dt>Detail</dt><dd>Succeeded, fell short</dd></div></dl>
@@ -746,10 +781,11 @@ section{padding-block:clamp(80px,10vw,128px);border-top:1px solid var(--line)}
         <button type="button" class="j-arrow" id="j-prev" aria-label="Previous step"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
         <ol class="j-progress" id="j-progress">
           <li><button type="button" aria-label="Step 1: Upload"><i></i><span>Upload</span></button></li>
-          <li><button type="button" aria-label="Step 2: Game plan"><i></i><span>Game plan</span></button></li>
-          <li><button type="button" aria-label="Step 3: Analysis"><i></i><span>Analysis</span></button></li>
-          <li><button type="button" aria-label="Step 4: Team report"><i></i><span>Team report</span></button></li>
-          <li><button type="button" aria-label="Step 5: Player report"><i></i><span>Player report</span></button></li>
+          <li><button type="button" aria-label="Step 2: Pitch setup"><i></i><span>Pitch setup</span></button></li>
+          <li><button type="button" aria-label="Step 3: Game plan"><i></i><span>Game plan</span></button></li>
+          <li><button type="button" aria-label="Step 4: Analysis"><i></i><span>Analysis</span></button></li>
+          <li><button type="button" aria-label="Step 5: Team report"><i></i><span>Team report</span></button></li>
+          <li><button type="button" aria-label="Step 6: Player report"><i></i><span>Player report</span></button></li>
           <li><button type="button" aria-label="Full time"><i></i><span>Full time</span></button></li>
         </ol>
         <button type="button" class="j-arrow next" id="j-next" aria-label="Next step"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
