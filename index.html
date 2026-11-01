@@ -1654,11 +1654,26 @@ const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   for (const x of [104, 152, 208, 256]) el("line", { x1: x, y1: 52, x2: x, y2: 77, stroke: "#30353b", "stroke-width": 1.2 }, view);
   // projecteurs
   for (const [x, y0] of [[30, 84], [330, 84]]) { el("line", { x1: x, y1: y0, x2: x, y2: 22, stroke: "#9aa3ab", "stroke-width": 1.2 }, view); el("rect", { x: x - 6, y: 17, width: 12, height: 6, rx: 1, fill: "#e9eef2" }, view); el("circle", { cx: x, cy: 20, r: 9, fill: "rgba(255,250,220,.12)" }, view); }
-  // pelouse tondue en bandes (avec la bande derrière la ligne de touche du fond)
-  el("path", { d: path([[-30, -6], [90, -6], [90, 90], [-30, 90]]) + "Z", fill: "#1f6436" }, view);
-  for (let k = -6; k < 18; k++) if (k % 2 === 0) el("path", { d: path([[k * 5.5, -6], [(k + 1) * 5.5, -6], [(k + 1) * 5.5, 90], [k * 5.5, 90]]) + "Z", fill: "#277a42" }, view);
-  // main courante derrière la ligne de touche du fond
-  el("path", { d: path([[-20, -4], [80, -4]]), stroke: "#c9cfd4", "stroke-width": 1, fill: "none" }, view);
+  // sol sombre autour de l'enceinte, puis pelouse (terrain + 4 m de dégagement) tondue en bandes
+  el("rect", { x: 0, y: 78, width: 360, height: 132, fill: "#171b19" }, view);
+  const RX0 = -4, RY0 = -4, RX1 = 109, RY1 = 72;
+  el("path", { d: path([[RX0, RY0], [RX1, RY0], [RX1, RY1], [RX0, RY1]]) + "Z", fill: "#1f6436" }, view);
+  for (let k = 0; k < 20; k++) if (k % 2 === 0) el("path", { d: path([[Math.max(RX0, k * 5.5), RY0], [(k + 1) * 5.5, RY0], [(k + 1) * 5.5, RY1], [Math.max(RX0, k * 5.5), RY1]]) + "Z", fill: "#277a42" }, view);
+  // barrières autour de l'enceinte : lisse haute + poteaux, sur le côté du fond et derrière le but
+  const fence = el("g", { stroke: "#b9c1c8", fill: "none" }, view);
+  const rail = (a, b) => {
+    const n = Math.round(Math.hypot(b[0] - a[0], b[1] - a[1]) / 3);
+    const top = [];
+    for (let i = 0; i <= n; i++) {
+      const q = [a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n], [x, y] = P(q);
+      const hgt = 4.2 * (y - 40) / 60;   // plus haut quand la barrière est plus proche de la caméra
+      el("line", { x1: x, y1: y, x2: x, y2: y - hgt, "stroke-width": .7 }, fence);
+      top.push([x, y - hgt]);
+    }
+    el("path", { d: "M" + top.map((t) => t.map((v) => v.toFixed(1)).join(" ")).join(" L"), "stroke-width": 1 }, fence);
+  };
+  rail([RX0, RY0], [RX1, RY0]);
+  rail([RX0, RY1 + 8], [RX0, RY0]);
 
   // lignes du terrain (moitié gauche)
   const cy = 34, segs = [
