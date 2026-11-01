@@ -1647,13 +1647,13 @@ const SUPABASE_KEY = "sb_publishable_dkQEIR4jjdhUVmG1pU7eIw_qhpf2NoG";
   el("stop", { offset: 0, "stop-color": "#0d1622" }, g); el("stop", { offset: 1, "stop-color": "#2a3b4c" }, g);
   el("rect", { width: 360, height: 210, fill: "url(#ps-sky)" }, view);
   el("path", { d: "M0 68 Q20 61 40 66 Q60 58 82 65 Q104 60 126 66 L250 66 Q272 59 294 65 Q316 58 338 64 Q350 61 360 66 L360 86 L0 86Z", fill: "#16211c" }, view);
-  // tribune : toit, gradins, poteaux
-  el("path", { d: "M96 49 L264 49 L270 55 L90 55Z", fill: "#3b4148" }, view);
-  el("path", { d: "M96 55 L264 55 L264 77 L96 77Z", fill: "#59616a" }, view);
-  for (let k = 1; k < 4; k++) { const y = 55 + k * 5.5; el("line", { x1: 96, y1: y, x2: 264, y2: y, stroke: "#6f7780", "stroke-width": .8 }, view); }
-  for (const x of [104, 152, 208, 256]) el("line", { x1: x, y1: 52, x2: x, y2: 77, stroke: "#30353b", "stroke-width": 1.2 }, view);
+  // tribune : toit, gradins, poteaux (centrée derrière la ligne médiane, on en voit environ les trois quarts)
+  el("path", { d: "M240 49 L408 49 L414 55 L234 55Z", fill: "#3b4148" }, view);
+  el("path", { d: "M240 55 L408 55 L408 77 L240 77Z", fill: "#59616a" }, view);
+  for (let k = 1; k < 4; k++) { const y = 55 + k * 5.5; el("line", { x1: 240, y1: y, x2: 408, y2: y, stroke: "#6f7780", "stroke-width": .8 }, view); }
+  for (const x of [248, 296, 352, 400]) el("line", { x1: x, y1: 52, x2: x, y2: 77, stroke: "#30353b", "stroke-width": 1.2 }, view);
   // projecteurs
-  for (const [x, y0] of [[30, 84], [330, 84]]) { el("line", { x1: x, y1: y0, x2: x, y2: 22, stroke: "#9aa3ab", "stroke-width": 1.2 }, view); el("rect", { x: x - 6, y: 17, width: 12, height: 6, rx: 1, fill: "#e9eef2" }, view); el("circle", { cx: x, cy: 20, r: 9, fill: "rgba(255,250,220,.12)" }, view); }
+  for (const [x, y0] of [[174, 84]]) { el("line", { x1: x, y1: y0, x2: x, y2: 22, stroke: "#9aa3ab", "stroke-width": 1.2 }, view); el("rect", { x: x - 6, y: 17, width: 12, height: 6, rx: 1, fill: "#e9eef2" }, view); el("circle", { cx: x, cy: 20, r: 9, fill: "rgba(255,250,220,.12)" }, view); }
   // sol sombre autour de l'enceinte, puis pelouse (terrain + 4 m de dégagement) tondue en bandes
   el("rect", { x: 0, y: 78, width: 360, height: 132, fill: "#171b19" }, view);
   const RX0 = -4, RY0 = -4, RX1 = 109, RY1 = 72;
